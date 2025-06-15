@@ -1,8 +1,8 @@
 {
   "root": "public/",
   "routes": {
-    "/ads.txt": "public/ads.txt",
-    "/robots.txt": "public/robots.txt",
-    "/sitemap.xml": "public/sitemap.xml"
+    "/ads.txt": "ads.txt",
+    "/robots.txt": "robots.txt",
+    "/sitemap.xml": "sitemap.xml"
   }
 }
