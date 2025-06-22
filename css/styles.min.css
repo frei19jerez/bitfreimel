@@ -1,1 +1,54 @@
-body{font-family:Arial,sans-serif;display:flex;justify-content:center;align-items:center;min-height:100vh;margin:0;background-image:url('../imagenes/bitfreimel1.webp');background-size:cover;background-position:center;background-repeat:no-repeat;background-attachment:fixed}.container{text-align:center;background:rgba(255,255,255,0.85);padding:30px;border-radius:12px;box-shadow:0 8px 16px rgba(0,0,0,0.3);max-width:500px;width:90%;backdrop-filter:blur(8px)}h1{font-size:28px;color:#111;margin-bottom:20px}p{font-size:18px;color:#222;margin:10px 0;line-height:1.4}@media(max-width:600px){.container{padding:20px;max-width:95%}h1{font-size:22px}p{font-size:16px}}@media(max-width:400px){h1{font-size:20px}p{font-size:15px}.container{padding:15px;width:100%;border-radius:0;box-shadow:none}}
+/* Contenedor para centrar en toda pantalla */
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px; /* Para evitar que toque los bordes */
+  box-sizing: border-box;
+}
+
+/* Asegura que el body use el fondo correctamente */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-image: url('../imagenes/bitfreimel1.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+/* Ajusta la caja */
+.container {
+  background: rgba(255, 255, 255, 0.85);
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  max-width: 500px;
+  text-align: center;
+  backdrop-filter: blur(8px);
+}
+
+.adsense-box {
+  margin-top: 20px;
+  width: 100%;
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  .container {
+    border-radius: 0;
+    box-shadow: none;
+    padding: 20px 10px;
+  }
+
+  h1 {
+    font-size: 20px;
+  }
+
+  p {
+    font-size: 15px;
+  }
+}
