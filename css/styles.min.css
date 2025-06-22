@@ -1,14 +1,14 @@
-/* Contenedor para centrar en toda pantalla */
+/* Contenedor principal centrado */
 .wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  padding: 20px; /* Para evitar que toque los bordes */
+  padding: 20px;
   box-sizing: border-box;
 }
 
-/* Asegura que el body use el fondo correctamente */
+/* Fondo general */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
@@ -19,7 +19,7 @@ body {
   background-attachment: fixed;
 }
 
-/* Ajusta la caja */
+/* Caja de contenido */
 .container {
   background: rgba(255, 255, 255, 0.85);
   padding: 30px;
@@ -29,14 +29,37 @@ body {
   max-width: 500px;
   text-align: center;
   backdrop-filter: blur(8px);
+  margin-bottom: 80px; /* espacio para el footer fijo */
 }
 
-.adsense-box {
-  margin-top: 20px;
+/* Footer fijo abajo */
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
   width: 100%;
   text-align: center;
+  z-index: 1000;
+  font-size: 14px;
+  color: white;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 8px 0;
+  backdrop-filter: blur(5px);
 }
 
+/* Enlaces del footer */
+footer a {
+  color: #00ccff;
+  text-decoration: none;
+  margin: 0 10px;
+  font-weight: bold;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive para móviles */
 @media (max-width: 480px) {
   .container {
     border-radius: 0;
@@ -50,5 +73,10 @@ body {
 
   p {
     font-size: 15px;
+  }
+
+  footer {
+    font-size: 12px;
+    padding: 6px 0;
   }
 }
