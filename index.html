@@ -72,8 +72,10 @@
   </footer>
 
   <!-- Banner simple de cookies -->
-  <div id="cookie-banner" style="position: fixed; bottom: 0; background: #222; color: white; width: 100%; padding: 10px; text-align: center; z-index: 999;">
-    Este sitio utiliza cookies de terceros. <button onclick="document.getElementById('cookie-banner').style.display='none'">Aceptar</button>
-  </div>
+ <div class="cookie-banner">
+  Este sitio usa cookies para mejorar tu experiencia. Al continuar, aceptas su uso.
+  <button onclick="this.parentElement.style.display='none'">Aceptar</button>
+</div>
+
 </body>
 </html>
