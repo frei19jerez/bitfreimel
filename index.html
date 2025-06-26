@@ -15,7 +15,7 @@
   <!-- Script principal -->
   <script src="/script/script.js" defer></script>
 
-  <!-- Google AdSense (ID Real) -->
+  <!-- Google AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4933331274738462" crossorigin="anonymous"></script>
 
   <!-- SEO: Schema.org JSON-LD -->
@@ -23,13 +23,13 @@
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": "Predicción de Precios de Bitcoin",
+    "name": "freimeljerezcom.online",
     "url": "https://freimeljerezcom.online/",
     "author": {
       "@type": "Person",
       "name": "Freimel Jerez"
     },
-    "description": "Consulta en tiempo real predicciones de precios de Bitcoin usando inteligencia artificial.",
+    "description": "Predicción de precios de Bitcoin en tiempo real utilizando modelos de inteligencia artificial y datos de mercado.",
     "inLanguage": "es"
   }
   </script>
@@ -38,63 +38,79 @@
 <body>
 
   <!-- Menú de navegación -->
-<nav class="navbar">
-  <div class="navbar-container">
-    <a href="/" class="logo">Freimel Jerez</a>
-    <button class="hamburger" id="hamburger">&#9776;</button>
-    <ul class="nav-links" id="nav-links">
-      <li><a href="/">Inicio</a></li>
-      <li><a href="/blog/index.html">Blog</a></li>
-      <li><a href="/contacto.html">Contacto</a></li>
-      <li><a href="/privacidad.html">Privacidad</a></li>
-      <li><a href="/acerca.html">Acerca de</a></li>
-      <li><a href="/terminos-condiciones.html">Términos</a></li>
-    </ul>
-  </div>
-</nav>
+  <nav class="navbar">
+    <div class="navbar-container">
+      <a href="/" class="logo">Freimel Jerez</a>
+      <button class="hamburger" id="hamburger">&#9776;</button>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="/">Inicio</a></li>
+        <li><a href="/blog/index.html">Blog</a></li>
+        <li><a href="/acerca.html">Acerca de</a></li>
+      </ul>
+    </div>
+  </nav>
 
-
+  <!-- Contenido principal -->
   <main class="wrapper">
     <div class="container">
-      <h1>Predicción de Precios de Bitcoin</h1>
 
-      <div id="future-price-container">
-        <p id="future-price">Precio Futuro (estimado): Cargando...</p>
-      </div>
+      <section class="intro">
+        <h1>Predicción de Precios de Bitcoin</h1>
+        <p>Bienvenido a <strong>freimeljerezcom.online</strong>, una aplicación educativa que utiliza inteligencia artificial para mostrarte predicciones en tiempo real sobre el comportamiento del precio del Bitcoin.</p>
+      </section>
 
-      <div id="price-container">
+      <section class="como-funciona">
+        <h2>¿Cómo funciona?</h2>
+        <p>Conectamos con APIs de Binance y CoinMarketCap para analizar datos históricos y actuales. Nuestra IA evalúa tendencias y patrones para estimar precios futuros.</p>
+      </section>
+
+      <section class="porque-confiar">
+        <h2>¿Por qué usar esta aplicación?</h2>
+        <ul>
+          <li>✔️ Predicciones automáticas con IA</li>
+          <li>✔️ Actualizaciones en vivo cada 8 segundos</li>
+          <li>✔️ Totalmente gratis y sin necesidad de registro</li>
+          <li>✔️ Desarrollado por un apasionado programador colombiano</li>
+        </ul>
+      </section>
+
+      <section class="panel-predicciones">
+        <h2>Panel de Predicción en Tiempo Real</h2>
+        <p id="future-price">IA: Precio Futuro (estimado): Cargando...</p>
         <p>Precio Actual de BTC: <span id="btc-price">Cargando...</span></p>
-        <p id="btc-price-timer">Tiempo desde la última actualización de BTC: 0 segundos</p>
+        <p id="btc-price-timer">IA: Tiempo desde la última actualización de BTC: 0 segundos</p>
+        <p id="trend-indicator">IA: Tendencia: Cargando...</p>
+        <p id="timer">IA: Tiempo desde la última actualización: 0 segundos</p>
+      </section>
+
+      <section class="cta">
+        <h2>Explora Más</h2>
+        <p>Lee nuestros artículos en el <a href="/blog/">blog</a> sobre análisis de mercado, predicción con IA y mucho más.</p>
+      </section>
+
+      <!-- Bloques de anuncios -->
+      <div class="ads-section">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-4933331274738462"
+             data-ad-slot="9479478115"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+          (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+
+        <ins class="adsbygoogle"
+             style="display:block; margin-top: 40px;"
+             data-ad-client="ca-pub-4933331274738462"
+             data-ad-slot="9479478115"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+          (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
       </div>
 
-      <div id="trend-container">
-        <p id="trend-indicator">Tendencia: Cargando...</p>
-      </div>
-
-      <div id="general-timer-container">
-        <p id="timer">Tiempo desde la última actualización: 0 segundos</p>
-      </div>
-
-      <!-- Anuncios Google -->
-      <ins class="adsbygoogle"
-           style="display:block"
-           data-ad-client="ca-pub-4933331274738462"
-           data-ad-slot="9479478115"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
-      <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-      </script>
-
-      <ins class="adsbygoogle"
-           style="display:block; margin-top: 40px;"
-           data-ad-client="ca-pub-4933331274738462"
-           data-ad-slot="9479478115"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
-      <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-      </script>
     </div>
   </main>
 
@@ -106,9 +122,9 @@
     <a href="/acerca.html">Acerca de</a>
   </footer>
 
-  <!-- Cookies -->
+  <!-- Banner de Cookies -->
   <div class="cookie-banner">
-    Este sitio usa cookies para mejorar tu experiencia. Al continuar, aceptas su uso.
+    Este sitio usa cookies de Google para mostrar anuncios personalizados y analizar el tráfico. Al continuar navegando, aceptas su uso.
     <button onclick="this.parentElement.style.display='none'">Aceptar</button>
   </div>
 

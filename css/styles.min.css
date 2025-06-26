@@ -21,15 +21,15 @@ body {
 
 /* Caja de contenido */
 .container {
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(8px);
   padding: 30px;
-  border-radius: 12px;
+  border-radius: 14px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
   width: 100%;
   max-width: 500px;
   text-align: center;
-  backdrop-filter: blur(8px);
-  margin-bottom: 80px; /* espacio para el footer fijo */
+  margin-bottom: 100px; /* espacio para footer */
 }
 
 /* Footer fijo abajo */
@@ -42,16 +42,14 @@ footer {
   z-index: 1000;
   font-size: 14px;
   color: white;
-  background: rgba(0, 0, 0, 0.4);
-  padding: 8px 0;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 10px 0;
   backdrop-filter: blur(5px);
 }
-
-/* Enlaces del footer */
 footer a {
   color: #00ccff;
   text-decoration: none;
-  margin: 0 10px;
+  margin: 0 12px;
   font-weight: bold;
 }
 footer a:hover {
@@ -64,9 +62,9 @@ footer a:hover {
   bottom: 0;
   left: 0;
   width: 100%;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.75);
   color: #fff;
-  padding: 10px;
+  padding: 12px;
   text-align: center;
   z-index: 1100;
   font-size: 14px;
@@ -77,15 +75,16 @@ footer a:hover {
   background: #00ccff;
   border: none;
   color: white;
-  padding: 5px 10px;
-  border-radius: 4px;
+  padding: 6px 12px;
+  border-radius: 6px;
   cursor: pointer;
 }
 
-/* Menú navbar */
+/* Navbar mejorado */
 .navbar {
   background-color: #111;
   padding: 10px 0;
+  position: relative;
   box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 .navbar-container {
@@ -99,70 +98,46 @@ footer a:hover {
 .logo {
   color: #fff;
   font-weight: bold;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   text-decoration: none;
 }
 .nav-links {
   list-style: none;
   display: flex;
   gap: 15px;
+  margin: 0;
+  padding: 0;
 }
-.nav-links a {
+.nav-links li a {
   color: #fff;
-  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 6px;
   font-weight: 500;
-  transition: color 0.3s;
+  font-size: 14px;
+  text-decoration: none;
+  transition: background 0.3s;
+  border: 1px solid transparent;
 }
-.nav-links a:hover {
-  color: #00d0ff;
-}
-
-/* Responsive para móviles */
-@media (max-width: 480px) {
-  body {
-    background-attachment: scroll;
-  }
-
-  .container {
-    border-radius: 0;
-    box-shadow: none;
-    padding: 20px 10px;
-  }
-
-  h1 {
-    font-size: 20px;
-  }
-
-  p {
-    font-size: 15px;
-  }
-
-  footer {
-    font-size: 12px;
-    padding: 6px 0;
-  }
-
-  .navbar-container {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .nav-links {
-    flex-direction: column;
-    gap: 8px;
-    padding-left: 0;
-  }
+.nav-links li a:hover {
+  background: #00d0ff;
+  color: #000;
+  border-color: #00d0ff;
 }
 
+/* Botón hamburguesa */
 .hamburger {
   display: none;
-  font-size: 24px;
+  font-size: 26px;
   background: none;
   border: none;
   color: white;
   cursor: pointer;
+  position: absolute;
+  top: 14px;
+  right: 20px;
 }
 
+/* Responsive */
 @media (max-width: 768px) {
   .hamburger {
     display: block;
@@ -187,4 +162,64 @@ footer a:hover {
     padding: 10px 0;
     text-align: center;
   }
+
+  .navbar-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    background-attachment: scroll;
+  }
+
+  .container {
+    border-radius: 8px;
+    box-shadow: none;
+    padding: 20px 15px;
+  }
+
+  h1 {
+    font-size: 20px;
+  }
+
+  p {
+    font-size: 15px;
+    line-height: 1.4;
+  }
+
+  footer {
+    font-size: 12px;
+    padding: 8px 0;
+  }
+
+  .nav-links {
+    gap: 10px;
+  }
+}
+
+/* Estilo para artículos del blog */
+ul li {
+  padding: 1.5rem;
+  border: 1px solid #333;
+  margin-bottom: 1.5rem;
+  border-radius: 10px;
+  background-color: black;
+  color: white;
+  box-shadow: 0 4px 15px rgba(0, 204, 255, 0.3);
+  transition: transform 0.2s, box-shadow 0.3s;
+}
+ul li:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0, 204, 255, 0.5);
+}
+ul li a {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #1a73e8;
+}
+ul li p {
+  margin-top: 0.5rem;
+  color: #ddd;
 }
