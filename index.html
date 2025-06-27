@@ -9,35 +9,23 @@
   <meta name="robots" content="index, follow">
   <title>Predicción de Precios de Bitcoin - Freimel Jerez</title>
 
+  <!-- Manifest para PWA -->
+  <link rel="manifest" href="/manifest.json">
+
   <!-- Estilos -->
   <link rel="stylesheet" href="/css/styles.min.css" />
+  <link rel="stylesheet" href="/css/instalacion.css" /> <!-- Estilo solo para el botón -->
 
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-  <!-- Script principal -->
+  <!-- Scripts -->
   <script src="/script/script.js" defer></script>
+  <script src="/script/descargar.js" defer></script>
 
   <!-- Google AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4933331274738462" crossorigin="anonymous"></script>
-
-  <!-- SEO: Schema.org JSON-LD -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "freimeljerezcom.online",
-    "url": "https://freimeljerezcom.online/",
-    "author": {
-      "@type": "Person",
-      "name": "Freimel Jerez"
-    },
-    "description": "Predicción de precios de Bitcoin en tiempo real utilizando modelos de inteligencia artificial y datos de mercado.",
-    "inLanguage": "es"
-  }
-  </script>
 </head>
-
 <body>
 
   <!-- Menú de navegación -->
@@ -92,6 +80,18 @@
         <p>Lee nuestros artículos en el <a href="/blog/">blog</a> sobre análisis de mercado, predicción con IA y mucho más.</p>
       </section>
 
+       <!-- Botón de instalación -->
+    <div class="install-container">
+       <button id="installBtn">📲 Instalar App</button>
+      <div id="mensajeExito" class="mensaje-exito oculto">¡Aplicación instalada con éxito!</div>
+    </div>
+
+
+  <!-- Mensaje de agradecimiento -->
+  <div id="mensajeExito" class="mensaje-exito oculto">
+    🙌 Gracias por instalar la app. Ya puedes usarla desde tu pantalla de inicio.
+  </div>
+
       <!-- Bloques de anuncios -->
       <div class="ads-section">
         <ins class="adsbygoogle"
@@ -100,9 +100,7 @@
              data-ad-slot="9479478115"
              data-ad-format="auto"
              data-full-width-responsive="true"></ins>
-        <script>
-          (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 
         <ins class="adsbygoogle"
              style="display:block; margin-top: 40px;"
@@ -110,9 +108,7 @@
              data-ad-slot="9479478115"
              data-ad-format="auto"
              data-full-width-responsive="true"></ins>
-        <script>
-          (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
       </div>
 
     </div>
@@ -128,9 +124,17 @@
 
   <!-- Banner de Cookies -->
   <div class="cookie-banner">
-    Este sitio usa cookies de Google para mostrar anuncios personalizados y analizar el tráfico. Al continuar navegando, aceptas su uso.
+    Este sitio usa cookies para mostrar anuncios personalizados y analizar el tráfico.
     <button onclick="this.parentElement.style.display='none'">Aceptar</button>
   </div>
 
+  <!-- Registro del Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/script/service-worker.js')
+        .then(() => console.log('✅ Service Worker registrado.'))
+        .catch(error => console.error('❌ Error al registrar SW:', error));
+    }
+  </script>
 </body>
 </html>
