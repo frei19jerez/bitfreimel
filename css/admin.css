@@ -1,0 +1,20 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+  background-color: #f4f4f4;
+}
+
+h1 {
+  color: #333;
+}
+
+#contador {
+  font-size: 80px;
+  color: #28a745;
+  margin-top: 20px;
+}

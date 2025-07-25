@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Herramienta educativa para aprender gestión de riesgo en inversiones cripto.">
+  <meta name="author" content="Freimel Jerez">
+  <title>⚖️ Gestión de Riesgo - FJ</title>
+  <link rel="stylesheet" href="/interactivos/css/gestion-riesgo.css" />
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="navbar">
+  <div class="navbar-container">
+    <a href="/" class="logo">Freimel Jerez</a>
+    <ul class="nav-links">
+      <li><a href="/">Inicio</a></li>
+      <li><a href="/blog/index.html">Blog</a></li>
+      <li><a href="/interactivos/index.html">Interactivos</a></li>
+      <li><a href="/ia-prediccion.html">IA-predicción</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- CONTENIDO -->
+<main class="wrapper">
+  <div class="container">
+    <h1>⚖️ Gestión de Riesgo - FJ</h1>
+    <p>Simula una inversión en Bitcoin y elige cuánto arriesgarías. Aprende qué decisión es más responsable.</p>
+
+    <label for="inversion">Monto de inversión (USD):</label>
+    <input type="number" id="inversion" placeholder="Ej. 500" />
+
+    <label for="riesgo">Porcentaje de riesgo:</label>
+    <select id="riesgo">
+      <option value="1">1%</option>
+      <option value="3">3%</option>
+      <option value="5">5%</option>
+      <option value="10">10%</option>
+      <option value="20">20%</option>
+    </select>
+
+    <button onclick="calcularRiesgo()">Calcular</button>
+
+    <p id="resultado"></p>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <a href="/privacidad.html">Privacidad</a> |
+  <a href="/contacto.html">Contacto</a> |
+  <a href="/terminos-condiciones.html">Términos</a> |
+  <a href="/acerca.html">Acerca de</a>
+</footer>
+
+<script src="/interactivos/js/gestion-riesgo.js"></script>
+</body>
+</html>

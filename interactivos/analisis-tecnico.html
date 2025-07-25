@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Simulador de análisis técnico FJ para interpretar velas japonesas.">
+  <meta name="author" content="Freimel Jerez">
+  <title>📊 Simulador Análisis Técnico - FJ</title>
+  <link rel="stylesheet" href="/interactivos/css/analisis-tecnico.css" />
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="navbar">
+  <div class="navbar-container">
+    <a href="/" class="logo">Freimel Jerez</a>
+    <button class="hamburger" id="hamburger">&#9776;</button>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="/">Inicio</a></li>
+      <li><a href="/blog/index.html">Blog</a></li>
+      <li><a href="/interactivos/index.html">Interactivos</a></li>
+      <li><a href="/ia-prediccion.html">IA-predicción</a></li>
+    </ul>
+  </div>
+</nav>
+
+
+<!-- CONTENIDO -->
+<main class="wrapper">
+  <div class="container">
+    <h1>📊 Simulador de Análisis Técnico - FJ</h1>
+    <p>¿Puedes identificar qué patrón de velas representa esta imagen?</p>
+    <img id="grafico" src="/imagenes/patron1.png" alt="Gráfico de velas" class="grafico-img" />
+    
+    <div class="opciones">
+      <button onclick="responder('Martillo')">Martillo</button>
+      <button onclick="responder('Doji')">Doji</button>
+      <button onclick="responder('Envolvente')">Envolvente</button>
+      <button onclick="responder('Estrella Fugaz')">Estrella Fugaz</button>
+    </div>
+    
+    <p id="respuesta"></p>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <a href="/privacidad.html">Privacidad</a> |
+  <a href="/contacto.html">Contacto</a> |
+  <a href="/terminos-condiciones.html">Términos</a> |
+  <a href="/acerca.html">Acerca de</a>
+</footer>
+
+<script src="/interactivos/js/analisis-tecnico.js"></script>
+</body>
+</html>

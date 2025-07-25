@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Panel de Administración - Usuarios Conectados</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f4f4f4;
+    }
+    h1 {
+      color: #333;
+    }
+    #contador {
+      font-size: 80px;
+      color: #28a745;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Usuarios Conectados en Tiempo Real</h1>
+  <div id="contador">0</div>
+
+  <script>
+    const socket = new WebSocket("wss://freimeljerezcom.online/ws");
+    socket.onmessage = (event) => {
+      document.getElementById("contador").innerText = event.data;
+    };
+  </script>
+</body>
+</html>

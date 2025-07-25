@@ -7,41 +7,52 @@
   <meta name="keywords" content="Bitcoin, predicción bitcoin, precios criptomonedas, IA Bitcoin, Freimel Jerez, trading bitcoin">
   <meta name="author" content="Freimel Jerez">
   <meta name="robots" content="index, follow">
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <title>Predicción de Precios de Bitcoin - Freimel Jerez</title>
-
-  <!-- Manifest para PWA -->
-  <link rel="manifest" href="/manifest.json">
-
-  <!-- Estilos -->
+  <link rel="manifest" href="/manifest.json" />
   <link rel="stylesheet" href="/css/styles.min.css" />
-  <link rel="stylesheet" href="/css/instalacion.css" /> <!-- Estilo solo para el botón -->
-
-  <!-- Chart.js -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-  <!-- Scripts -->
-  <script src="/script/script.js" defer></script>
-  <script src="/script/descargar.js" defer></script>
-
-  <!-- Google AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4933331274738462" crossorigin="anonymous"></script>
+
+  <!-- JSON-LD para SEO estructurado -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "EducationalApplication",
+    "name": "Predicción de Precios de Bitcoin - Freimel Jerez",
+    "url": "https://freimeljerezcom.online",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "All",
+    "author": {
+      "@type": "Person",
+      "name": "Freimel Jerez"
+    },
+    "description": "Aplicación educativa con IA para predecir precios de Bitcoin en tiempo real.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+  </script>
 </head>
 <body>
 
-  <!-- Menú de navegación -->
-  <nav class="navbar">
+  <!-- NAV -->
+  <nav class="navbar" aria-label="Menú principal">
     <div class="navbar-container">
       <a href="/" class="logo">Freimel Jerez</a>
-      <button class="hamburger" id="hamburger">&#9776;</button>
+      <button class="hamburger" id="hamburger" aria-label="Menú de navegación">&#9776;</button>
       <ul class="nav-links" id="nav-links">
         <li><a href="/">Inicio</a></li>
         <li><a href="/blog/index.html">Blog</a></li>
-        <li><a href="/acerca.html">Acerca de</a></li>
+        <li><a href="/interactivos/index.html">Interactivos</a></li>
+        <li><a href="/ia-prediccion.html">IA-predicción</a></li>
       </ul>
     </div>
   </nav>
 
-  <!-- Contenido principal -->
+  <!-- MAIN -->
   <main class="wrapper">
     <div class="container">
 
@@ -50,91 +61,63 @@
         <p>Bienvenido a <strong>freimeljerezcom.online</strong>, una aplicación educativa que utiliza inteligencia artificial para mostrarte predicciones en tiempo real sobre el comportamiento del precio del Bitcoin.</p>
       </section>
 
-      <section class="como-funciona">
-        <h2>¿Cómo funciona?</h2>
-        <p>Conectamos con APIs de Binance y CoinMarketCap para analizar datos históricos y actuales. Nuestra IA evalúa tendencias y patrones para estimar precios futuros.</p>
-      </section>
-
-      <section class="porque-confiar">
-        <h2>¿Por qué usar esta aplicación?</h2>
-        <ul>
-          <li>✔️ Predicciones automáticas con IA</li>
-          <li>✔️ Actualizaciones en vivo cada 8 segundos</li>
-          <li>✔️ Totalmente gratis y sin necesidad de registro</li>
-          <li>✔️ Desarrollado por un apasionado programador colombiano</li>
-        </ul>
-      </section>
-
       <section class="panel-predicciones">
-        <h2>Panel de Predicción en Tiempo Real</h2>
+        <h2>Panel en Tiempo Real</h2>
         <p id="future-price">IA: Precio Futuro (estimado): Cargando...</p>
-        <p>Precio Actual de BTC: <span id="btc-price">Cargando...</span></p>
-        <p id="btc-price-timer">IA: Tiempo desde la última actualización de BTC: 0 segundos</p>
+        <p>Precio <span id="token-label">BTC</span>: <span id="btc-price">Cargando...</span></p>
+        <p id="btc-price-timer">IA: Última actualización de BTC: 0s</p>
         <p id="trend-indicator">IA: Tendencia: Cargando...</p>
-        <p id="timer">IA: Tiempo desde la última actualización: 0 segundos</p>
+        <p id="timer">IA: Tiempo desde actualización: 0s</p>
         <canvas id="btcChart" width="600" height="300"></canvas>
       </section>
 
-      <section class="cta">
-        <h2>Explora Más</h2>
-        <p>Lee nuestros artículos en el <a href="/blog/">blog</a> sobre análisis de mercado, predicción con IA y mucho más.</p>
-      </section>
+      <div class="controles">
+        <select id="token">
+          <option value="BTCUSDT">BTC</option>
+          <option value="ETHUSDT">ETH</option>
+          <option value="ETCUSDT">ETC</option>
+          <option value="SOLUSDT">SOL</option>
+        </select>
 
-       <!-- Botón de instalación -->
-    <div class="install-container">
-       <button id="installBtn">📲 Instalar App</button>
-      <div id="mensajeExito" class="mensaje-exito oculto">¡Aplicación instalada con éxito!</div>
-    </div>
+        <select id="intervalo">
+          <option value="1m">1m</option>
+          <option value="5m">5m</option>
+          <option value="15m">15m</option>
+          <option value="1h">1h</option>
+        </select>
 
-
-  <!-- Mensaje de agradecimiento -->
-  <div id="mensajeExito" class="mensaje-exito oculto">
-    🙌 Gracias por instalar la app. Ya puedes usarla desde tu pantalla de inicio.
-  </div>
-
-      <!-- Bloques de anuncios -->
-      <div class="ads-section">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-4933331274738462"
-             data-ad-slot="9479478115"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-
-        <ins class="adsbygoogle"
-             style="display:block; margin-top: 40px;"
-             data-ad-client="ca-pub-4933331274738462"
-             data-ad-slot="9479478115"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        <button id="updateBtn" onclick="obtenerDatos()">🔄 Actualizar</button>
       </div>
+
+      <!-- Botón de instalación -->
+      <div class="install-container">
+        <button id="installBtn" style="display:none;">📲 Instalar App</button>
+        <div id="mensajeInstalacion" class="mensaje-exito oculto">¡App instalada!</div>
+      </div>
+
+      <!-- Gracias -->
+      <div id="mensajeGracias" class="mensaje-exito oculto">🙌 Gracias por instalar la app.</div>
 
     </div>
   </main>
 
   <!-- Footer -->
   <footer>
-    <a href="/privacidad.html">Política de Privacidad</a> |
-    <a href="/contacto.html">Contacto</a> |
-    <a href="/terminos-condiciones.html">Términos y Condiciones</a> |
-    <a href="/acerca.html">Acerca de</a>
+    <a href="/privacidad.html" rel="nofollow">Política de Privacidad</a> |
+    <a href="/contacto.html" rel="nofollow">Contacto</a> |
+    <a href="/terminos-condiciones.html" rel="nofollow">Términos y Condiciones</a> |
+    <a href="/acerca.html" rel="nofollow">Acerca de</a>
   </footer>
 
-  <!-- Banner de Cookies -->
+  <!-- Cookies -->
   <div class="cookie-banner">
-    Este sitio usa cookies para mostrar anuncios personalizados y analizar el tráfico.
+    Este sitio usa cookies para mostrar anuncios personalizados.
     <button onclick="this.parentElement.style.display='none'">Aceptar</button>
   </div>
 
-  <!-- Registro del Service Worker -->
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/script/service-worker.js')
-        .then(() => console.log('✅ Service Worker registrado.'))
-        .catch(error => console.error('❌ Error al registrar SW:', error));
-    }
-  </script>
+  <!-- Scripts -->
+  <script src="/script/script.js" defer></script>
+  <script src="/script/descargar.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 </html>
