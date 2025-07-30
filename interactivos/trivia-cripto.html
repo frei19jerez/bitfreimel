@@ -2,45 +2,62 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Juego Trivia Cripto FJ para aprender sobre Bitcoin, IA y blockchain.">
-  <meta name="author" content="Freimel Jerez">
-  <title>🧠 Trivia Cripto - FJ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Trivia sobre Bitcoin, IA y Blockchain. Aprende jugando con preguntas explicadas." />
+  <title>Trivia Cripto - Freimel Jerez</title>
+
+  <!-- Estilos -->
   <link rel="stylesheet" href="/interactivos/css/trivia-cripto.css" />
 </head>
 <body>
+  <main class="wrapper">
+    <div class="container" role="main">
+      <h1>🧠 Trivia Cripto</h1>
 
-<!-- NAV -->
-<nav class="navbar">
-  <div class="navbar-container">
-    <a href="/" class="logo">Freimel Jerez</a>
-    <ul class="nav-links">
-      <li><a href="/">Inicio</a></li>
-      <li><a href="/blog/index.html">Blog</a></li>
-      <li><a href="/interactivos/index.html">Interactivos</a></li>
-      <li><a href="/ia-prediccion.html">IA-predicción</a></li>
-    </ul>
-  </div>
-</nav>
+      <section class="intro" role="note" aria-label="Descripción de la trivia">
+        <p>
+          Pon a prueba tus conocimientos sobre Bitcoin, blockchain e inteligencia artificial.
+          Al terminar verás las respuestas correctas con una breve explicación para aprender de cada pregunta.
+          ¡Intenta superar tu mejor puntaje!
+        </p>
+      </section>
 
-<!-- CONTENIDO -->
-<main class="wrapper">
-  <div class="container">
-    <h1>🧠 Trivia Cripto - FJ</h1>
-    <p id="pregunta">Cargando pregunta...</p>
-    <div id="respuestas"></div>
-    <p id="resultado"></p>
-  </div>
-</main>
+      <!-- Progreso -->
+      <div id="progreso" class="progreso" aria-label="Progreso de respuestas" aria-live="polite">
+        <span id="progresoBarra"></span>
+      </div>
 
-<!-- FOOTER -->
-<footer>
-  <a href="/privacidad.html">Privacidad</a> |
-  <a href="/contacto.html">Contacto</a> |
-  <a href="/terminos-condiciones.html">Términos</a> |
-  <a href="/acerca.html">Acerca de</a>
-</footer>
+      <!-- Contenedor dinámico de preguntas -->
+      <form id="contenedorTrivia" class="trivia" autocomplete="off" novalidate aria-describedby="ayudaTeclado">
+        <!-- Las preguntas se renderizan con JS -->
+      </form>
+      <p id="ayudaTeclado" class="ayuda">
+        Consejo: puedes moverte con <kbd>Tab</kbd>, seleccionar con <kbd>Espacio</kbd> y enviar con <kbd>Enter</kbd>.
+      </p>
 
-<script src="/interactivos/js/trivia-cripto.js"></script>
+      <!-- Acciones -->
+      <div class="acciones">
+        <button id="botonResultado" class="btn sube" type="button">Ver resultado</button>
+        <button id="botonLimpiar" class="btn secundario" type="button">Limpiar selección</button>
+        <button id="botonReiniciar" class="btn peligro" type="button" hidden>Volver a jugar</button>
+      </div>
+
+      <!-- Resultados -->
+      <section id="resultadoFinal" class="resultado" aria-live="polite"></section>
+      <p id="mejorPuntaje" class="mejor">Mejor puntaje histórico: 0</p>
+
+      <hr class="divisor" />
+
+      <section aria-labelledby="revTitle" class="revision-wrap">
+        <h2 id="revTitle">Revisión de respuestas</h2>
+        <ol id="revision" class="revision"></ol>
+      </section>
+
+      <p class="volver"><a href="/interactivos/index.html">← Volver a Zona Interactiva</a></p>
+    </div>
+  </main>
+
+  <!-- Lógica -->
+  <script src="/interactivos/js/trivia-cripto.js" defer></script>
 </body>
 </html>

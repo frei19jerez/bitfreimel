@@ -116,8 +116,19 @@
   </div>
 
   <!-- Scripts -->
-  <script src="/script/script.js" defer></script>
-  <script src="/script/descargar.js" defer></script>
+  <!-- 1) Chart.js + Financial + Date‐Adapter (sin defer) -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+
+  <!-- 2) Descarga / PWA prompt -->
+  <script src="/script/descargar.js" defer></script>
+
+  <!-- 3) Lógica global: menú hamburguesa, PWA, panel IA -->
+  <script src="/script/script.js" defer></script>
+
+  <!-- 4) Juego interactivo: predicción, velas, balance -->
+  <script src="/interactivos/js/prediccion-btc.js" defer></script>
+
 </body>
 </html>
