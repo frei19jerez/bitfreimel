@@ -124,7 +124,11 @@ async function renderCandleChart(symbol, interval) {
         },
         y: {
           position: 'right', // Precios a la derecha
-          ticks: { color: "white" },
+          offset: true,      // Esto añade espacio para separar los números del borde
+          ticks: { 
+            color: "white",
+            padding: 10      // Espacio extra a la derecha de las etiquetas
+          },
           grid: { color: "rgba(255,255,255,0.1)" }
         }
       },
