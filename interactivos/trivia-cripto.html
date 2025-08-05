@@ -5,8 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="Trivia sobre Bitcoin, IA y Blockchain. Aprende jugando con preguntas explicadas." />
   <title>Trivia Cripto - Freimel Jerez</title>
-
-  <!-- Estilos -->
+  <link rel="icon" href="/favicon.ico" />
   <link rel="stylesheet" href="/interactivos/css/trivia-cripto.css" />
 </head>
 <body>
@@ -28,7 +27,7 @@
       </div>
 
       <!-- Contenedor dinámico de preguntas -->
-      <form id="contenedorTrivia" class="trivia" autocomplete="off" novalidate aria-describedby="ayudaTeclado">
+      <form id="contenedorTrivia" class="trivia" autocomplete="off" novalidate role="presentation" aria-describedby="ayudaTeclado">
         <!-- Las preguntas se renderizan con JS -->
       </form>
       <p id="ayudaTeclado" class="ayuda">
@@ -37,9 +36,9 @@
 
       <!-- Acciones -->
       <div class="acciones">
-        <button id="botonResultado" class="btn sube" type="button">Ver resultado</button>
-        <button id="botonLimpiar" class="btn secundario" type="button">Limpiar selección</button>
-        <button id="botonReiniciar" class="btn peligro" type="button" hidden>Volver a jugar</button>
+        <button id="botonResultado" class="btn sube" type="button" aria-label="Ver el resultado de la trivia">Ver resultado</button>
+        <button id="botonLimpiar" class="btn secundario" type="button" aria-label="Limpiar respuestas seleccionadas">Limpiar selección</button>
+        <button id="botonReiniciar" class="btn peligro" type="button" hidden aria-label="Reiniciar trivia y volver a jugar">Volver a jugar</button>
       </div>
 
       <!-- Resultados -->
@@ -53,11 +52,14 @@
         <ol id="revision" class="revision"></ol>
       </section>
 
-      <p class="volver"><a href="/interactivos/index.html">← Volver a Zona Interactiva</a></p>
+      <p class="volver">
+        <a href="/interactivos/index.html" rel="prev">← Volver a Zona Interactiva</a>
+        &nbsp;&nbsp;
+        <a href="#">⬆ Ir al inicio</a>
+      </p>
     </div>
   </main>
 
-  <!-- Lógica -->
   <script src="/interactivos/js/trivia-cripto.js" defer></script>
 </body>
 </html>

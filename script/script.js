@@ -1,21 +1,22 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // === LÓGICA GLOBAL (todo OK en todas las páginas) ===
+  // Menú hamburguesa accesible
   const hamburger = document.getElementById("hamburger");
-  const navLinks  = document.getElementById("nav-links");
-
+  const navLinks = document.getElementById("nav-links");
   if (hamburger && navLinks) {
     hamburger.addEventListener("click", () => {
       navLinks.classList.toggle("active");
+      const expanded = hamburger.getAttribute("aria-expanded") === "true";
+      hamburger.setAttribute("aria-expanded", String(!expanded));
     });
   }
 
-  // PWA instalación (global)
+  // PWA instalación
   let deferredPrompt;
   const installBtn = document.getElementById("installBtn");
   window.addEventListener("beforeinstallprompt", (e) => {
     e.preventDefault();
     deferredPrompt = e;
-    installBtn?.style && (installBtn.style.display = "inline-block");
+    if (installBtn) installBtn.style.display = "inline-block";
   });
   installBtn?.addEventListener("click", () => {
     deferredPrompt?.prompt();
@@ -25,121 +26,155 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // === LÓGICA ESPECÍFICA DE PÁGINA (solo si existe #btcChart) ===
+  // Comprobar que existe el canvas para el gráfico
   if (document.getElementById("btcChart")) {
     const tokenSelect = document.getElementById("token");
-    const updateBtn   = document.getElementById("updateBtn");
+    const intervaloSelect = document.getElementById("intervalo");
+    const updateBtn = document.getElementById("updateBtn");
 
-    initChart();
-    let selectedToken = tokenSelect?.value || "BTCUSDT";
-    fetchBTCPriceIA(selectedToken);
-    setInterval(() => fetchBTCPriceIA(selectedToken), 60000);
+    // Función para actualizar datos y gráfico
+    async function actualizarDatos() {
+      const token = tokenSelect.value;
+      const intervalo = intervaloSelect.value;
+      await renderCandleChart(token, intervalo);
+      await fetchBinancePriceUI(token);
+    }
 
-    tokenSelect?.addEventListener("change", () => {
-      selectedToken = tokenSelect.value;
-      document.getElementById("token-label").textContent =
-        tokenSelect.options[tokenSelect.selectedIndex].text;
-      fetchBTCPriceIA(selectedToken);
-    });
+    // Ejecutar la primera carga de datos
+    actualizarDatos();
+
+    // Evitar múltiples intervalos, limpiar si ya hay uno
+    if (window.actualizarIntervalo) clearInterval(window.actualizarIntervalo);
+    window.actualizarIntervalo = setInterval(actualizarDatos, 60000);
+
+    // Eventos para actualizar al cambiar selección o click en botón
+    tokenSelect.addEventListener("change", actualizarDatos);
+    intervaloSelect.addEventListener("change", actualizarDatos);
+    updateBtn.addEventListener("click", actualizarDatos);
   }
 });
 
-// --- VARIABLES GLOBALES PARA GRÁFICA ---
-const chartLabels = [],
-  chartData = [];
-let btcChart = null;
+// Variables globales para gráfico y estados
+let candleChart = null;
 let previousPrice = null;
-let timerInterval,
-  priceTimerInterval;
+let timerInterval, priceTimerInterval;
 
-// --- UTIL: Mapea símbolo a Coingecko ---
-function getAPIUrl(token) {
-  const map = {
-    BTCUSDT: "bitcoin",
-    ETHUSDT: "ethereum",
-    ETCUSDT: "ethereum-classic",
-    SOLUSDT: "solana",
-  };
-  return `https://api.coingecko.com/api/v3/simple/price?ids=${map[token]}&vs_currencies=usd`;
+// Obtener velas OHLC desde Binance con manejo de errores
+async function fetchCandles(symbol = "BTCUSDT", interval = "1m", limit = 50) {
+  try {
+    const url = `https://fapi.binance.com/fapi/v1/klines?symbol=${symbol}&interval=${interval}&limit=${limit}`;
+    const response = await fetch(url);
+    if (!response.ok) throw new Error("Error API Binance OHLC");
+    const data = await response.json();
+    return data.map(candle => ({
+      x: new Date(candle[0]),
+      o: parseFloat(candle[1]),
+      h: parseFloat(candle[2]),
+      l: parseFloat(candle[3]),
+      c: parseFloat(candle[4]),
+    }));
+  } catch (error) {
+    console.error("Error obteniendo velas:", error);
+    return [];
+  }
 }
 
-// --- FETCH + ACTUALIZACIÓN UI ---
-async function fetchBTCPriceIA(token = "BTCUSDT") {
+// Renderizar gráfico de velas con Chart.js
+async function renderCandleChart(symbol, interval) {
+  const candles = await fetchCandles(symbol, interval);
+
+  if (!candles.length) {
+    console.warn("No hay datos de velas para mostrar");
+    return;
+  }
+
+  const ctx = document.getElementById("btcChart").getContext("2d");
+
+  if (candleChart) {
+    candleChart.destroy();
+  }
+
+  candleChart = new Chart(ctx, {
+    type: "candlestick",
+    data: {
+      datasets: [{
+        label: symbol,
+        data: candles,
+        borderColor: "#00ff00",
+        borderWidth: 1,
+        color: {
+          up: "#4caf50",
+          down: "#f44336",
+          unchanged: "#999"
+        },
+        barPercentage: 0.2,
+        categoryPercentage: 0.1,
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        x: {
+          type: "time",
+          time: { unit: "minute" },
+          ticks: { color: "white" },
+          grid: { color: "rgba(255,255,255,0.1)" },
+          min: new Date(candles[0].x.getTime() - 60000),
+          max: new Date(candles[candles.length - 1].x.getTime() + 60000),
+        },
+        y: {
+          position: 'right', // Precios a la derecha
+          ticks: { color: "white" },
+          grid: { color: "rgba(255,255,255,0.1)" }
+        }
+      },
+      plugins: {
+        legend: { labels: { color: "white" } }
+      }
+    }
+  });
+}
+
+// Obtener precio actual y actualizar UI
+async function fetchBinancePriceUI(symbol = "BTCUSDT") {
   try {
-    const response = await fetch(getAPIUrl(token));
+    const url = `https://fapi.binance.com/fapi/v1/ticker/price?symbol=${symbol}`;
+    const response = await fetch(url);
+    if (!response.ok) throw new Error("API Binance fallo");
     const data = await response.json();
-    const name = getAPIUrl(token).split("=")[1].split("&")[0];
-    const price = data[name]?.usd;
-    if (price === undefined) throw new Error("Datos no disponibles");
+    const price = parseFloat(data.price);
 
     const priceEl = document.getElementById("btc-price");
     const trendEl = document.getElementById("trend-indicator");
     const futureEl = document.getElementById("future-price");
 
     if (priceEl) {
-      priceEl.textContent = `$${price.toFixed(2)}`;
-      if (previousPrice !== null) {
-        const arrow =
-          price > previousPrice
-            ? "🔼"
-            : price < previousPrice
-            ? "🔽"
-            : "➡️";
-        priceEl.textContent += ` ${arrow}`;
-        priceEl.style.color =
-          price > previousPrice ? "lime" : price < previousPrice ? "red" : "gray";
-        trendEl.textContent =
-          price > previousPrice
-            ? "IA: Vela Alta 🔼"
-            : price < previousPrice
-            ? "IA: Vela Baja 🔽"
-            : "IA: Tendencia Estable ➡️";
-      }
+      const arrow = previousPrice !== null
+        ? (price > previousPrice ? "🔼" : price < previousPrice ? "🔽" : "➡️")
+        : "";
+      priceEl.textContent = `$${price.toFixed(2)} ${arrow}`;
+      priceEl.style.color = price > previousPrice ? "lime" : price < previousPrice ? "red" : "gray";
+      trendEl.textContent = price > previousPrice ? "IA: Vela Alta 🔼" : price < previousPrice ? "IA: Vela Baja 🔽" : "IA: Tendencia Estable ➡️";
+      previousPrice = price;
     }
 
     if (futureEl) {
       const change = price * (Math.random() * 0.1 - 0.05);
       const future = price + change;
-      futureEl.textContent = `IA: Precio Futuro (estimado): $${future.toFixed(
-        2
-      )} ${change >= 0 ? "🔼" : "🔽"}`;
+      futureEl.textContent = `IA: Precio Futuro (estimado): $${future.toFixed(2)} ${change >= 0 ? "🔼" : "🔽"}`;
     }
 
-    previousPrice = price;
     resetTimer();
     resetPriceTimer();
 
-    const now = new Date().toLocaleTimeString();
-    chartLabels.push(now);
-    chartData.push(price);
-    if (chartLabels.length > 20) {
-      chartLabels.shift();
-      chartData.shift();
-    }
-    btcChart?.update();
-    if (navigator.vibrate) navigator.vibrate(100);
-  } catch (err) {
-    console.error("Error al obtener precio:", err);
+  } catch (e) {
+    console.error("Error obteniendo precio Binance:", e);
     document.getElementById("btc-price").textContent = "Error.";
     document.getElementById("future-price").textContent = "Error predicción.";
   }
 }
 
-// --- BOTÓN “Actualizar” ---
-function obtenerDatos() {
-  const btn = document.getElementById("updateBtn");
-  const token = document.getElementById("token")?.value || "BTCUSDT";
-  if (btn) {
-    btn.disabled = true;
-    btn.textContent = "⏳ Cargando...";
-    fetchBTCPriceIA(token).finally(() => {
-      btn.disabled = false;
-      btn.textContent = "🔄 Actualizar";
-    });
-  }
-}
-
-// --- CRONÓMETROS ---
+// Cronómetros para tiempo desde última actualización
 function resetTimer() {
   let s = 0;
   const el = document.getElementById("timer");
@@ -157,33 +192,4 @@ function resetPriceTimer() {
     s++;
     el.textContent = `IA: Tiempo desde la última actualización de BTC: ${s} segundos`;
   }, 1000);
-}
-
-// --- INICIALIZA GRÁFICA LINEAL ---
-function initChart() {
-  const ctx = document.getElementById("btcChart").getContext("2d");
-  btcChart = new Chart(ctx, {
-    type: "line",
-    data: {
-      labels: chartLabels,
-      datasets: [
-        {
-          label: "Precio USD",
-          data: chartData,
-          borderWidth: 2,
-          borderColor: "lime",
-          fill: false,
-          tension: 0.2,
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      plugins: { legend: { labels: { color: "white" } } },
-      scales: {
-        x: { ticks: { color: "white" }, title: { display: true, text: "Hora", color: "white" } },
-        y: { ticks: { color: "white" }, title: { display: true, text: "Precio (USD)", color: "white" } },
-      },
-    },
-  });
 }

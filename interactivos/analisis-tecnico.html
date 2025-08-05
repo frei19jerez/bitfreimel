@@ -2,55 +2,66 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Simulador de análisis técnico FJ para interpretar velas japonesas.">
-  <meta name="author" content="Freimel Jerez">
-  <title>📊 Simulador Análisis Técnico - FJ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Simulador de Análisis Técnico</title>
   <link rel="stylesheet" href="/interactivos/css/analisis-tecnico.css" />
 </head>
 <body>
+  <main class="container">
+    <h1>📈 <span>Simulador de Análisis Técnico</span></h1>
+    <p class="descripcion">
+      Observa el gráfico en tiempo real y responde si el próximo movimiento será
+      <strong>Alcista</strong> o <strong>Bajista</strong>.
+    </p>
 
-<!-- NAV -->
-<nav class="navbar">
-  <div class="navbar-container">
-    <a href="/" class="logo">Freimel Jerez</a>
-    <button class="hamburger" id="hamburger">&#9776;</button>
-    <ul class="nav-links" id="nav-links">
-      <li><a href="/">Inicio</a></li>
-      <li><a href="/blog/index.html">Blog</a></li>
-      <li><a href="/interactivos/index.html">Interactivos</a></li>
-      <li><a href="/ia-prediccion.html">IA-predicción</a></li>
-    </ul>
-  </div>
-</nav>
+    <div id="saldoDemo" style="font-weight:bold; font-size:24px; color:limegreen; margin:20px 0;"></div>
+
+     <label for="inputApuesta" style="color:limegreen; font-weight:bold;">Apuesta:</label>
+     <input type="number" id="inputApuesta" min="100" max="10000" step="100" value="1000" style="font-size:18px; width:120px; margin-left:10px;" />
 
 
-<!-- CONTENIDO -->
-<main class="wrapper">
-  <div class="container">
-    <h1>📊 Simulador de Análisis Técnico - FJ</h1>
-    <p>¿Puedes identificar qué patrón de velas representa esta imagen?</p>
-    <img id="grafico" src="/imagenes/patron1.png" alt="Gráfico de velas" class="grafico-img" />
-    
-    <div class="opciones">
-      <button onclick="responder('Martillo')">Martillo</button>
-      <button onclick="responder('Doji')">Doji</button>
-      <button onclick="responder('Envolvente')">Envolvente</button>
-      <button onclick="responder('Estrella Fugaz')">Estrella Fugaz</button>
+
+    <div class="chart-wrap">
+      <canvas id="candlestickChart"></canvas>
     </div>
-    
-    <p id="respuesta"></p>
-  </div>
-</main>
 
-<!-- FOOTER -->
-<footer>
-  <a href="/privacidad.html">Privacidad</a> |
-  <a href="/contacto.html">Contacto</a> |
-  <a href="/terminos-condiciones.html">Términos</a> |
-  <a href="/acerca.html">Acerca de</a>
-</footer>
+    <div class="opciones">
+      <button id="alcistaBtn">📈 Alcista</button>
+      <button id="bajistaBtn">📉 Bajista</button>
+    </div>
 
-<script src="/interactivos/js/analisis-tecnico.js"></script>
+    <div class="token-selector">
+      <label for="token">Token:</label>
+      <select id="token">
+        <option value="BTCUSDT" selected>BTC</option>
+        <option value="ETHUSDT">ETH</option>
+        <option value="ETCUSDT">ETC</option>
+        <option value="BNBUSDT">BNB</option>
+        <option value="XRPUSDT">XRP</option>
+      </select>
+    </div>
+
+    <div class="interval-selector">
+      <label for="intervalo">Intervalo:</label>
+      <select id="intervalo">
+        <option value="1m" selected>1 Minuto</option>
+        <option value="5m">5 Minutos</option>
+        <option value="15m">15 Minutos</option>
+        <option value="30m">30 Minutos</option>
+      </select>
+    </div>
+
+    <p id="resultado" class="resultado"></p>
+    <p id="timer">⏳ Próximo movimiento en: <span id="tiempoRestante">60</span> segundos</p>
+    <p class="volver">
+      <a href="/interactivos/index.html">← Volver a Zona Interactiva</a>
+    </p>
+  </main>
+
+  <!-- Librerías necesarias -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+  <script src="/interactivos/js/analisis-tecnico.js" defer></script>
 </body>
 </html>

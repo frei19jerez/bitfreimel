@@ -7,19 +7,10 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  color: black;
+  color: #0f0; /* Verde neón para texto que contraste con fondo oscuro */
 }
 
 /* ==== Contenedor General ==== */
-.wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  padding: 20px;
-  box-sizing: border-box;
-}
-
 .container {
   background: #000 !important; /* fondo negro sólido */
   color: #0f0;
@@ -29,20 +20,30 @@ body {
   width: 100%;
   max-width: 800px;
   text-align: center;
-  margin-bottom: 100px;
+  margin: 0 auto 100px auto;
 }
 
-
-/* ==== Estilo para el Canvas de Chart.js ==== */
-#graficoBTC,
-#velasBTC {
+/* ==== Canvas para gráfico ==== */
+#btcChart {
   margin-top: 30px;
   width: 100% !important;
   max-height: 400px;
-  background-color: #000 !important; /* Fondo negro sólido */
+  background-color: #111 !important; /* Fondo negro menos intenso para separar */
   border-radius: 12px;
   padding: 10px;
   box-shadow: 0 0 20px rgba(0, 255, 0, 0.4);
+}
+
+/* ==== Textos panel de precios y tiempos ==== */
+#future-price,
+#btc-price,
+#btc-price-timer,
+#trend-indicator,
+#timer {
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin: 8px 0;
+  color: #0f0;
 }
 
 /* ==== Footer ==== */
@@ -54,13 +55,13 @@ footer {
   text-align: center;
   z-index: 1000;
   font-size: 14px;
-  color: white;
-  background: rgba(0, 0, 0, 0.5);
+  color: #0f0;
+  background: rgba(0, 0, 0, 0.75);
   padding: 10px 0;
   backdrop-filter: blur(5px);
 }
 footer a {
-  color: #00ccff;
+  color: #0f0;
   text-decoration: none;
   margin: 0 12px;
   font-weight: bold;
@@ -326,6 +327,8 @@ ul li p {
   background-color: #f6465d;
   color: #fff;
 }
+
+/* ==== Canvas general ==== */
 canvas {
   background-color: #111 !important;
   border-radius: 10px;

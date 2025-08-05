@@ -42,7 +42,7 @@
   <nav class="navbar" aria-label="Menú principal">
     <div class="navbar-container">
       <a href="/" class="logo">Freimel Jerez</a>
-      <button class="hamburger" id="hamburger" aria-label="Menú de navegación">&#9776;</button>
+      <button class="hamburger" id="hamburger" aria-label="Menú de navegación" aria-expanded="false">&#9776;</button>
       <ul class="nav-links" id="nav-links">
         <li><a href="/">Inicio</a></li>
         <li><a href="/blog/index.html">Blog</a></li>
@@ -64,7 +64,7 @@
       <section class="panel-predicciones">
         <h2>Panel en Tiempo Real</h2>
         <p id="future-price">IA: Precio Futuro (estimado): Cargando...</p>
-        <p>Precio <span id="token-label">BTC</span>: <span id="btc-price">Cargando...</span></p>
+        <p>Precio <span id="token-label">BTCUSDT</span>: <span id="btc-price">Cargando...</span></p>
         <p id="btc-price-timer">IA: Última actualización de BTC: 0s</p>
         <p id="trend-indicator">IA: Tendencia: Cargando...</p>
         <p id="timer">IA: Tiempo desde actualización: 0s</p>
@@ -73,10 +73,28 @@
 
       <div class="controles">
         <select id="token">
-          <option value="BTCUSDT">BTC</option>
-          <option value="ETHUSDT">ETH</option>
-          <option value="ETCUSDT">ETC</option>
-          <option value="SOLUSDT">SOL</option>
+          <option value="BTCUSDT">BTCUSDT</option>
+          <option value="ETHUSDT">ETHUSDT</option>
+          <option value="BNBUSDT">BNBUSDT</option>
+          <option value="XRPUSDT">XRPUSDT</option>
+          <option value="ADAUSDT">ADAUSDT</option>
+          <option value="DOGEUSDT">DOGEUSDT</option>
+          <option value="DOTUSDT">DOTUSDT</option>
+          <option value="SOLUSDT">SOLUSDT</option>
+          <option value="LTCUSDT">LTCUSDT</option>
+          <option value="LINKUSDT">LINKUSDT</option>
+          <option value="MATICUSDT">MATICUSDT</option>
+          <option value="BCHUSDT">BCHUSDT</option>
+          <option value="XLMUSDT">XLMUSDT</option>
+          <option value="ETCUSDT">ETCUSDT</option>
+          <option value="TRXUSDT">TRXUSDT</option>
+          <option value="FILUSDT">FILUSDT</option>
+          <option value="EOSUSDT">EOSUSDT</option>
+          <option value="AAVEUSDT">AAVEUSDT</option>
+          <option value="NEOUSDT">NEOUSDT</option>
+          <option value="VETUSDT">VETUSDT</option>
+          <option value="ATOMUSDT">ATOMUSDT</option>
+          <option value="ALGOUSDT">ALGOUSDT</option>
         </select>
 
         <select id="intervalo">
@@ -86,7 +104,7 @@
           <option value="1h">1h</option>
         </select>
 
-        <button id="updateBtn" onclick="obtenerDatos()">🔄 Actualizar</button>
+        <button id="updateBtn">🔄 Actualizar</button>
       </div>
 
       <!-- Botón de instalación -->
@@ -116,19 +134,11 @@
   </div>
 
   <!-- Scripts -->
-  <!-- 1) Chart.js + Financial + Date‐Adapter (sin defer) -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
 
-  <!-- 2) Descarga / PWA prompt -->
-  <script src="/script/descargar.js" defer></script>
-
-  <!-- 3) Lógica global: menú hamburguesa, PWA, panel IA -->
   <script src="/script/script.js" defer></script>
-
-  <!-- 4) Juego interactivo: predicción, velas, balance -->
-  <script src="/interactivos/js/prediccion-btc.js" defer></script>
 
 </body>
 </html>

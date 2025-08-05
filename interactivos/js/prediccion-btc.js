@@ -43,35 +43,32 @@ const modalCerrar = $("modalCerrar");
 // Estado
 let precioActual = null;
 let precioInicialRonda = null;
-let prediccion = null;  // "sube" | "baja"
+let prediccion = null;
 let temporizador = null;
 let segundosRestantes = 0;
 let preciosSpark = [];
 let rondaEnCurso = false;
 
-// Stats (persistencia)
+// Stats
 let rondas = parseInt(localStorage.getItem("sb_rondas") || "0", 10);
 let aciertos = parseInt(localStorage.getItem("sb_aciertos") || "0", 10);
 let racha = parseInt(localStorage.getItem("sb_racha") || "0", 10);
 let mejorRacha = parseInt(localStorage.getItem("sb_mejor_racha") || "0", 10);
 
-// Banca DEMO
+// Banca
 const SALDO_INICIAL = 1000;
-const APUESTA_MAX   = 500;
+const APUESTA_MAX = 500;
 
-// Carga robusta
 function safeInt(v, def) { const n = parseInt(v, 10); return Number.isFinite(n) ? n : def; }
-let saldo   = safeInt(localStorage.getItem("sb_saldo"), SALDO_INICIAL);
+let saldo = safeInt(localStorage.getItem("sb_saldo"), SALDO_INICIAL);
 let apuesta = safeInt(localStorage.getItem("sb_apuesta"), 10);
 if (saldo < 0) saldo = SALDO_INICIAL;
 if (apuesta < 1) apuesta = 10;
 if (apuesta > APUESTA_MAX) apuesta = APUESTA_MAX;
 
-// Multiplicador (riesgo) y bono por racha
-function getMultiplier() { return parseFloat(elRiesgo?.value || "1.5"); } // default 1.5x
-function getStreakBonus() { return Math.min(0.5, racha * 0.05); } // +5% por acierto, tope +50%
+function getMultiplier() { return parseFloat(elRiesgo?.value || "1.5"); }
+function getStreakBonus() { return Math.min(0.5, racha * 0.05); }
 
-// ---------- Utilidades ----------
 const fmt = (n) => Number(n).toLocaleString("en-US", { maximumFractionDigits: 2 });
 const porcentaje = (a, b) => (b ? Math.round((a / b) * 100) : 0) + "%";
 
@@ -88,7 +85,6 @@ function pintarStats() {
   elRacha.textContent = racha;
   elMejorRacha.textContent = mejorRacha;
 }
-
 function guardarBanca() {
   localStorage.setItem("sb_saldo", String(saldo));
   localStorage.setItem("sb_apuesta", String(apuesta));
@@ -96,7 +92,6 @@ function guardarBanca() {
 function pintarBanca() {
   elSaldo.textContent = saldo.toLocaleString("en-US");
   elApuesta.value = apuesta;
-
   const sinSaldo = saldo <= 0;
   btnSube.disabled = sinSaldo;
   btnBaja.disabled = sinSaldo;
@@ -105,7 +100,6 @@ function pintarBanca() {
   }
 }
 
-// ---------- Fetch robusto ----------
 async function fetchConFallback() {
   const intento = async (url, parseFn, reintentos = 2) => {
     let espera = 300;
@@ -125,7 +119,6 @@ async function fetchConFallback() {
       }
     }
   };
-
   try {
     return await intento(BINANCE, d => parseFloat(d.price), 2);
   } catch (_) {
@@ -139,8 +132,7 @@ async function fetchPrecio() {
     actualizarPrecio(p);
     elVariacion.style.color = "";
   } catch (e) {
-    console.error(e);
-    elVariacion.textContent = "No se pudo obtener precio (verifica AdBlock/Internet).";
+    elVariacion.textContent = "No se pudo obtener precio.";
     elVariacion.style.color = "#ff6b6b";
   }
 }
@@ -149,18 +141,16 @@ function actualizarPrecio(p) {
   const anterior = precioActual;
   precioActual = p;
   elPrecio.textContent = "$ " + fmt(precioActual);
-
   if (anterior != null) {
     const diff = precioActual - anterior;
     const sign = diff === 0 ? "" : diff > 0 ? "↑" : "↓";
     const pct = (diff / (anterior || 1)) * 100;
-    elVariacion.textContent = `${sign} ${diff > 0 ? "+" : ""}${pct.toFixed(3)}% vs último tick`;
+    elVariacion.textContent = `${sign} ${diff > 0 ? "+" : ""}${pct.toFixed(3)}%`;
     elVariacion.style.color = diff >= 0 ? "#7aff7a" : "#ff6b6b";
   } else {
     elVariacion.textContent = "Esperando siguiente tick…";
     elVariacion.style.color = "#bdbdbd";
   }
-
   preciosSpark.push(precioActual);
   if (preciosSpark.length > 10) preciosSpark.shift();
   dibujarSparkline();
@@ -183,41 +173,32 @@ function dibujarSparkline() {
   preciosSpark.forEach((val, i) => {
     const x = pad + i * xStep;
     const y = pad + (1 - (val - min) / (max - min || 1)) * (h - pad * 2);
-    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
   });
   ctx.lineWidth = 2;
   ctx.strokeStyle = "#7aff7a";
   ctx.stroke();
 }
 
-// ---------- Juego ----------
 function iniciarRonda(sentido) {
-  if (rondaEnCurso) return; // evita dobles inicios
+  if (rondaEnCurso) return;
   if (precioActual == null) {
-    elEstado.textContent = "Esperando precio inicial… (pulsa ‘Actualizar precio’ si tarda)";
+    elEstado.textContent = "Esperando precio inicial…";
     return;
   }
-  // normaliza apuesta frente a saldo y límites
-  if (apuesta > APUESTA_MAX) apuesta = APUESTA_MAX;
-  if (apuesta < 1) apuesta = 1;
   if (apuesta > saldo) {
-    elEstado.textContent = "La apuesta supera tu saldo disponible. Ajusta la apuesta.";
-    pintarBanca();
-    return;
-  }
-  if (saldo < apuesta) {
-    elEstado.textContent = "Saldo insuficiente para iniciar la ronda. Ajusta la apuesta o recarga.";
-    abrirModal();
+    elEstado.textContent = "Apuesta mayor al saldo.";
     return;
   }
 
-  prediccion = sentido; // "sube" | "baja"
+  prediccion = sentido;
   precioInicialRonda = precioActual;
   segundosRestantes = parseInt(elIntervalo.value, 10);
-  elEstado.innerHTML = `Predicción fijada: <strong>${sentido.toUpperCase()}</strong>. ` +
-                       `Precio inicial: $${fmt(precioInicialRonda)}.`;
   elContador.style.display = "block";
-  btnSube.disabled = true; btnBaja.disabled = true; btnCancelar.disabled = false;
+  elEstado.innerHTML = `Predicción: <strong>${sentido.toUpperCase()}</strong> a $${fmt(precioInicialRonda)}.`;
+  btnSube.disabled = true;
+  btnBaja.disabled = true;
+  btnCancelar.disabled = false;
   rondaEnCurso = true;
 
   tickTemporizador();
@@ -233,137 +214,146 @@ function tickTemporizador() {
 }
 
 function cancelarRonda() {
-  if (temporizador) clearInterval(temporizador);
-  prediccion = null; precioInicialRonda = null;
+  clearInterval(temporizador);
   elContador.style.display = "none";
-  elEstado.textContent = "Ronda cancelada. Haz una nueva predicción.";
-  btnSube.disabled = false; btnBaja.disabled = false; btnCancelar.disabled = true;
+  elEstado.textContent = "Ronda cancelada.";
+  btnSube.disabled = false;
+  btnBaja.disabled = false;
+  btnCancelar.disabled = true;
   rondaEnCurso = false;
+  prediccion = null;
 }
 
 async function finalizarRonda() {
-  if (temporizador) clearInterval(temporizador);
+  clearInterval(temporizador);
   elContador.style.display = "none";
 
-  // Usar el precio que quedó al terminar la cuenta atrás (no pedir otro)
   let final = precioActual;
-
-  // Respaldo por si final es null
-  if (final == null) {
-    try { await fetchPrecio(); final = precioActual; } catch (e) {}
-  }
-  if (final == null) {
-    elEstado.textContent = "No se pudo obtener precio final. Intenta de nuevo.";
-    btnSube.disabled = false; btnBaja.disabled = false; btnCancelar.disabled = true;
-    prediccion = null; precioInicialRonda = null;
-    rondaEnCurso = false;
-    return;
-  }
+  if (final == null) try { await fetchPrecio(); final = precioActual; } catch {}
 
   const subio = final > precioInicialRonda;
-  const bajo  = final < precioInicialRonda;
-  const sinMovimiento = final === precioInicialRonda;
-
+  const bajo = final < precioInicialRonda;
   const acierto = (prediccion === "sube" && subio) || (prediccion === "baja" && bajo);
 
-  // Stats
   rondas++;
-  if (acierto) { aciertos++; racha++; if (racha > mejorRacha) mejorRacha = racha; }
+  if (acierto) { aciertos++; racha++; mejorRacha = Math.max(racha, mejorRacha); }
   else { racha = 0; }
-  guardarStats(); pintarStats();
 
-  // Cálculo de ganancia/pérdida
   const mult = getMultiplier();
-  const bonus = getStreakBonus(); // 0..0.5
-  const ganancia = Math.round(apuesta * mult * (1 + bonus)); // apuesta × multiplicador × (1+bonus)
-  let deltaTxt;
+  const bonus = getStreakBonus();
+  const ganancia = Math.round(apuesta * mult * (1 + bonus));
 
   if (acierto) {
     saldo += ganancia;
-    elSaldo.classList.add("saldo-gana");
-    deltaTxt = `+${ganancia}`;
-  } else if (!sinMovimiento) {
-    saldo = Math.max(0, saldo - apuesta); // pierdes solo lo apostado
-    elSaldo.classList.add("saldo-pierde");
-    deltaTxt = `-${apuesta}`;
+    reproducirAlertaIA();
   } else {
-    deltaTxt = "±0";
+    saldo = Math.max(0, saldo - apuesta);
   }
-  guardarBanca();
-  pintarBanca();
-  setTimeout(() => elSaldo.classList.remove("saldo-gana", "saldo-pierde"), 800);
 
-  // Historial
+  guardarStats(); pintarStats();
+  guardarBanca(); pintarBanca();
+
   const li = document.createElement("li");
   li.className = acierto ? "win" : "lose";
   const flecha = subio ? "↑" : bajo ? "↓" : "→";
-  li.textContent = `${acierto ? "✅" : "❌"} Predicción: ${prediccion.toUpperCase()} | ` +
-                   `Inicial: $${fmt(precioInicialRonda)} → Final: $${fmt(final)} (${flecha}) | Saldo: ${deltaTxt}`;
+  li.textContent = `${acierto ? "✅" : "❌"} ${prediccion.toUpperCase()} | $${fmt(precioInicialRonda)} → $${fmt(final)} (${flecha})`;
   elHistorial.prepend(li);
-  while (elHistorial.children.length > 8) elHistorial.removeChild(elHistorial.lastChild);
+  if (elHistorial.children.length > 8) elHistorial.removeChild(elHistorial.lastChild);
 
-  // Mensaje
   elEstado.innerHTML = acierto
-    ? `🎉 ¡Acertaste! De $${fmt(precioInicialRonda)} pasó a $${fmt(final)}.<br>💵 Ganancia: <strong>${ganancia}</strong> (mult ${mult}×, bonus ${Math.round(bonus*100)}%).`
-    : sinMovimiento
-      ? `😐 Sin cambios. De $${fmt(precioInicialRonda)} a $${fmt(final)}. Saldo: ±0.`
-      : `😅 No acertaste. De $${fmt(precioInicialRonda)} pasó a $${fmt(final)}. 💸 Pérdida: -${apuesta}.`;
+    ? `🎉 ¡Ganaste! Ganancia: $${ganancia}`
+    : `😓 Fallaste. Pérdida: $${apuesta}`;
 
-  // Reset controles
-  btnSube.disabled = false; btnBaja.disabled = false; btnCancelar.disabled = true;
-  prediccion = null; precioInicialRonda = null;
   rondaEnCurso = false;
-
-  // Si se quedó sin saldo, muestra modal
-  if (saldo <= 0) abrirModal();
+  prediccion = null;
+  precioInicialRonda = null;
+  btnSube.disabled = false;
+  btnBaja.disabled = false;
+  btnCancelar.disabled = true;
 }
 
-// ---------- Modal ----------
-function abrirModal() {
-  modalOverlay.hidden = false;
-  // Focus al primer botón del modal
-  setTimeout(() => modalRecargar?.focus(), 0);
-}
+function abrirModal() { modalOverlay.hidden = false; setTimeout(() => modalRecargar?.focus(), 0); }
 function cerrarModal() { modalOverlay.hidden = true; }
+
 document.addEventListener("keydown", (e) => { if (e.key === "Escape") cerrarModal(); });
 modalOverlay.addEventListener("click", (e) => { if (e.target === modalOverlay) cerrarModal(); });
 
-// ---------- Eventos ----------
+function sugerenciaIA() {
+  if (preciosSpark.length < 3) return;
+  const diffs = [];
+  for (let i = 1; i < preciosSpark.length; i++) diffs.push(preciosSpark[i] - preciosSpark[i - 1]);
+  const subidas = diffs.filter(d => d > 0).length;
+  const bajadas = diffs.filter(d => d < 0).length;
+  const elSugerencia = $("sugerenciaIA");
+
+  if (subidas > bajadas) {
+    elSugerencia.innerText = "🤖 Sugerencia IA: Probablemente SUBA";
+    elSugerencia.style.color = "#00ff00";
+    reproducirAlertaIA();
+  } else if (bajadas > subidas) {
+    elSugerencia.innerText = "🤖 Sugerencia IA: Probablemente BAJE";
+    elSugerencia.style.color = "#ff4444";
+    reproducirAlertaIA();
+  } else {
+    elSugerencia.innerText = "🤖 Sugerencia IA: Mercado Estable";
+    elSugerencia.style.color = "#ffff00";
+  }
+}
+
+function reproducirAlertaIA() {
+  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+  const oscillator = ctx.createOscillator();
+  const gain = ctx.createGain();
+  oscillator.type = "square";
+  oscillator.frequency.setValueAtTime(880, ctx.currentTime);
+  gain.gain.setValueAtTime(0.1, ctx.currentTime);
+  oscillator.connect(gain);
+  gain.connect(ctx.destination);
+  oscillator.start();
+  oscillator.stop(ctx.currentTime + 0.25);
+}
+
+// Eventos
 btnSube.addEventListener("click", () => iniciarRonda("sube"));
 btnBaja.addEventListener("click", () => iniciarRonda("baja"));
 btnCancelar.addEventListener("click", cancelarRonda);
 btnActualizar.addEventListener("click", fetchPrecio);
 btnReiniciar.addEventListener("click", () => {
-  if (!confirm("¿Reiniciar estadísticas?")) return;
-  rondas = aciertos = racha = 0;
-  guardarStats(); pintarStats(); elHistorial.innerHTML = "";
+  if (confirm("¿Reiniciar estadísticas?")) {
+    rondas = aciertos = racha = 0;
+    guardarStats(); pintarStats(); elHistorial.innerHTML = "";
+  }
 });
-
-btnMasApuesta.addEventListener("click", () => { apuesta = Math.min(APUESTA_MAX, apuesta + 5); guardarBanca(); pintarBanca(); });
-btnMenosApuesta.addEventListener("click", () => { apuesta = Math.max(1, apuesta - 5); guardarBanca(); pintarBanca(); });
+btnMasApuesta.addEventListener("click", () => {
+  apuesta = Math.min(APUESTA_MAX, apuesta + 5);
+  guardarBanca(); pintarBanca();
+});
+btnMenosApuesta.addEventListener("click", () => {
+  apuesta = Math.max(1, apuesta - 5);
+  guardarBanca(); pintarBanca();
+});
 elApuesta.addEventListener("change", () => {
   apuesta = Math.min(APUESTA_MAX, Math.max(1, parseInt(elApuesta.value || "1", 10)));
   guardarBanca(); pintarBanca();
 });
 btnRecargar.addEventListener("click", () => {
-  if (!confirm("¿Recargar saldo al valor inicial?")) return;
-  saldo = SALDO_INICIAL; guardarBanca(); pintarBanca();
+  if (confirm("¿Recargar saldo?")) {
+    saldo = SALDO_INICIAL;
+    guardarBanca(); pintarBanca();
+  }
 });
 modalRecargar?.addEventListener("click", () => {
   saldo = SALDO_INICIAL; guardarBanca(); pintarBanca(); cerrarModal();
 });
 modalCerrar?.addEventListener("click", cerrarModal);
 elRiesgo.addEventListener("change", () => {
-  // Solo mensaje contextual
-  const m = parseFloat(elRiesgo.value);
-  elEstado.innerHTML = `Riesgo seleccionado: <strong>${m.toFixed(1)}×</strong>. Bono por racha actual: <strong>${Math.round(getStreakBonus()*100)}%</strong>.`;
+  elEstado.innerHTML = `Riesgo: <strong>${parseFloat(elRiesgo.value).toFixed(1)}×</strong>. Bono racha: <strong>${Math.round(getStreakBonus()*100)}%</strong>.`;
 });
 
-// ---------- Init ----------
 document.addEventListener("DOMContentLoaded", () => {
-  cerrarModal();           // asegúrate de iniciar cerrado
+  cerrarModal();
   pintarStats();
   pintarBanca();
   fetchPrecio();
-  setInterval(fetchPrecio, 5000); // actualiza cada 5s para sparkline
+  setInterval(fetchPrecio, 5000);
 });
