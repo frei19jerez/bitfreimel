@@ -79,6 +79,7 @@ function guardarStats() {
   localStorage.setItem("sb_mejor_racha", String(mejorRacha));
 }
 function pintarStats() {
+  if (!elRondas) return; // por si este JS se usa en otra vista
   elRondas.textContent = rondas;
   elAciertos.textContent = aciertos;
   elPrecision.textContent = porcentaje(aciertos, rondas);
@@ -90,12 +91,13 @@ function guardarBanca() {
   localStorage.setItem("sb_apuesta", String(apuesta));
 }
 function pintarBanca() {
+  if (!elSaldo) return;
   elSaldo.textContent = saldo.toLocaleString("en-US");
   elApuesta.value = apuesta;
   const sinSaldo = saldo <= 0;
-  btnSube.disabled = sinSaldo;
-  btnBaja.disabled = sinSaldo;
-  if (saldo < apuesta) {
+  if (btnSube) btnSube.disabled = sinSaldo;
+  if (btnBaja) btnBaja.disabled = sinSaldo;
+  if (saldo < apuesta && elEstado) {
     elEstado.textContent = "Saldo insuficiente: baja la apuesta o recarga.";
   }
 }
@@ -130,24 +132,26 @@ async function fetchPrecio() {
   try {
     const p = await fetchConFallback();
     actualizarPrecio(p);
-    elVariacion.style.color = "";
+    if (elVariacion) elVariacion.style.color = "";
   } catch (e) {
-    elVariacion.textContent = "No se pudo obtener precio.";
-    elVariacion.style.color = "#ff6b6b";
+    if (elVariacion) {
+      elVariacion.textContent = "No se pudo obtener precio.";
+      elVariacion.style.color = "#ff6b6b";
+    }
   }
 }
 
 function actualizarPrecio(p) {
   const anterior = precioActual;
   precioActual = p;
-  elPrecio.textContent = "$ " + fmt(precioActual);
-  if (anterior != null) {
+  if (elPrecio) elPrecio.textContent = "$ " + fmt(precioActual);
+  if (anterior != null && elVariacion) {
     const diff = precioActual - anterior;
     const sign = diff === 0 ? "" : diff > 0 ? "↑" : "↓";
     const pct = (diff / (anterior || 1)) * 100;
     elVariacion.textContent = `${sign} ${diff > 0 ? "+" : ""}${pct.toFixed(3)}%`;
     elVariacion.style.color = diff >= 0 ? "#7aff7a" : "#ff6b6b";
-  } else {
+  } else if (elVariacion) {
     elVariacion.textContent = "Esperando siguiente tick…";
     elVariacion.style.color = "#bdbdbd";
   }
@@ -183,22 +187,22 @@ function dibujarSparkline() {
 function iniciarRonda(sentido) {
   if (rondaEnCurso) return;
   if (precioActual == null) {
-    elEstado.textContent = "Esperando precio inicial…";
+    if (elEstado) elEstado.textContent = "Esperando precio inicial…";
     return;
   }
   if (apuesta > saldo) {
-    elEstado.textContent = "Apuesta mayor al saldo.";
+    if (elEstado) elEstado.textContent = "Apuesta mayor al saldo.";
     return;
   }
 
   prediccion = sentido;
   precioInicialRonda = precioActual;
-  segundosRestantes = parseInt(elIntervalo.value, 10);
-  elContador.style.display = "block";
-  elEstado.innerHTML = `Predicción: <strong>${sentido.toUpperCase()}</strong> a $${fmt(precioInicialRonda)}.`;
-  btnSube.disabled = true;
-  btnBaja.disabled = true;
-  btnCancelar.disabled = false;
+  segundosRestantes = parseInt(elIntervalo?.value || "60", 10);
+  if (elContador) elContador.style.display = "block";
+  if (elEstado) elEstado.innerHTML = `Predicción: <strong>${sentido.toUpperCase()}</strong> a $${fmt(precioInicialRonda)}.`;
+  if (btnSube) btnSube.disabled = true;
+  if (btnBaja) btnBaja.disabled = true;
+  if (btnCancelar) btnCancelar.disabled = false;
   rondaEnCurso = true;
 
   tickTemporizador();
@@ -208,25 +212,25 @@ function iniciarRonda(sentido) {
 function tickTemporizador() {
   const m = String(Math.floor(segundosRestantes / 60)).padStart(2, "0");
   const s = String(segundosRestantes % 60).padStart(2, "0");
-  elContador.textContent = `${m}:${s}`;
+  if (elContador) elContador.textContent = `${m}:${s}`;
   if (segundosRestantes <= 0) finalizarRonda();
   segundosRestantes--;
 }
 
 function cancelarRonda() {
   clearInterval(temporizador);
-  elContador.style.display = "none";
-  elEstado.textContent = "Ronda cancelada.";
-  btnSube.disabled = false;
-  btnBaja.disabled = false;
-  btnCancelar.disabled = true;
+  if (elContador) elContador.style.display = "none";
+  if (elEstado) elEstado.textContent = "Ronda cancelada.";
+  if (btnSube) btnSube.disabled = false;
+  if (btnBaja) btnBaja.disabled = false;
+  if (btnCancelar) btnCancelar.disabled = true;
   rondaEnCurso = false;
   prediccion = null;
 }
 
 async function finalizarRonda() {
   clearInterval(temporizador);
-  elContador.style.display = "none";
+  if (elContador) elContador.style.display = "none";
 
   let final = precioActual;
   if (final == null) try { await fetchPrecio(); final = precioActual; } catch {}
@@ -253,30 +257,34 @@ async function finalizarRonda() {
   guardarStats(); pintarStats();
   guardarBanca(); pintarBanca();
 
-  const li = document.createElement("li");
-  li.className = acierto ? "win" : "lose";
-  const flecha = subio ? "↑" : bajo ? "↓" : "→";
-  li.textContent = `${acierto ? "✅" : "❌"} ${prediccion.toUpperCase()} | $${fmt(precioInicialRonda)} → $${fmt(final)} (${flecha})`;
-  elHistorial.prepend(li);
-  if (elHistorial.children.length > 8) elHistorial.removeChild(elHistorial.lastChild);
+  if (elHistorial) {
+    const li = document.createElement("li");
+    li.className = acierto ? "win" : "lose";
+    const flecha = subio ? "↑" : bajo ? "↓" : "→";
+    li.textContent = `${acierto ? "✅" : "❌"} ${prediccion.toUpperCase()} | $${fmt(precioInicialRonda)} → $${fmt(final)} (${flecha})`;
+    elHistorial.prepend(li);
+    if (elHistorial.children.length > 8) elHistorial.removeChild(elHistorial.lastChild);
+  }
 
-  elEstado.innerHTML = acierto
-    ? `🎉 ¡Ganaste! Ganancia: $${ganancia}`
-    : `😓 Fallaste. Pérdida: $${apuesta}`;
+  if (elEstado) {
+    elEstado.innerHTML = acierto
+      ? `🎉 ¡Ganaste! Ganancia: $${ganancia}`
+      : `😓 Fallaste. Pérdida: $${apuesta}`;
+  }
 
   rondaEnCurso = false;
   prediccion = null;
   precioInicialRonda = null;
-  btnSube.disabled = false;
-  btnBaja.disabled = false;
-  btnCancelar.disabled = true;
+  if (btnSube) btnSube.disabled = false;
+  if (btnBaja) btnBaja.disabled = false;
+  if (btnCancelar) btnCancelar.disabled = true;
 }
 
-function abrirModal() { modalOverlay.hidden = false; setTimeout(() => modalRecargar?.focus(), 0); }
-function cerrarModal() { modalOverlay.hidden = true; }
+function abrirModal() { if (modalOverlay) { modalOverlay.hidden = false; setTimeout(() => modalRecargar?.focus(), 0); } }
+function cerrarModal() { if (modalOverlay) modalOverlay.hidden = true; }
 
 document.addEventListener("keydown", (e) => { if (e.key === "Escape") cerrarModal(); });
-modalOverlay.addEventListener("click", (e) => { if (e.target === modalOverlay) cerrarModal(); });
+modalOverlay?.addEventListener("click", (e) => { if (e.target === modalOverlay) cerrarModal(); });
 
 function sugerenciaIA() {
   if (preciosSpark.length < 3) return;
@@ -313,30 +321,148 @@ function reproducirAlertaIA() {
   oscillator.stop(ctx.currentTime + 0.25);
 }
 
+// ========= NUEVO: VELAS JAPONESAS (Chart.js Financial) =========
+let miniCandleChart = null;
+
+async function cargarVelas() {
+  const url = 'https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1m&limit=10';
+  const res = await fetch(url, { cache: 'no-store' });
+  if (!res.ok) throw new Error('Error klines ' + res.status);
+  const data = await res.json();
+
+  const velas = data.map(d => ({
+    x: new Date(d[0]),
+    o: +d[1],
+    h: +d[2],
+    l: +d[3],
+    c: +d[4],
+  }));
+
+  renderizarVelas(velas);
+}
+
+function renderizarVelas(velas) {
+  const cv = document.getElementById('miniCandlestick');
+  if (!cv) return;
+  const ctx = cv.getContext('2d');
+
+  // === Ajuste para aire a la derecha ===
+  const firstT = +velas[0].x;                       
+  const lastT  = +velas[velas.length - 1].x;
+  const prevT  = velas.length > 1 ? +velas[velas.length - 2].x : lastT - 60_000;
+  const dt     = Math.max(10_000, lastT - prevT);   
+  const padX   = Math.round(dt * 0.8);              // más aire = valor mayor
+  const xMin = new Date(firstT - dt * 0.2);         
+  const xMax = new Date(lastT  + padX);             
+
+  // calcular min/max con margen del 0.5% y redondeo
+  const lows  = velas.map(v => +v.l);
+  const highs = velas.map(v => +v.h);
+  const minL  = Math.min(...lows);
+  const maxH  = Math.max(...highs);
+  const pad   = (maxH - minL) * 0.005;
+  const minY = +(minL - pad).toFixed(2);
+  const maxY = +(maxH + pad).toFixed(2);
+
+  if (miniCandleChart) {
+    miniCandleChart.destroy();
+    miniCandleChart = null;
+  }
+
+  miniCandleChart = new Chart(ctx, {
+    type: 'candlestick',
+    data: {
+      datasets: [{
+        label: '',
+        data: velas.map(v => ({
+          ...v,
+          o: +v.o.toFixed(2),
+          h: +v.h.toFixed(2),
+          l: +v.l.toFixed(2),
+          c: +v.c.toFixed(2)
+        })),
+        upColor: '#22c55e',
+        downColor: '#ef4444',
+        unchangedColor: '#9ca3af',
+        borderUpColor: '#22c55e',
+        borderDownColor: '#ef4444',
+        borderUnchangedColor: '#9ca3af',
+        barThickness: 6,
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: false,
+      layout: { padding: { top: 6, right: 36, bottom: 8, left: 8 } },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          mode: 'index',
+          intersect: false,
+          callbacks: {
+            label: (ctx) => {
+              const v = ctx.raw;
+              return `O:${v.o}  H:${v.h}  L:${v.l}  C:${v.c}`;
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          type: 'time',
+          time: { unit: 'minute', tooltipFormat: 'HH:mm' },
+          min: xMin,     // 👈 usamos el aire calculado
+          max: xMax,     // 👈 usamos el aire calculado
+          offset: false,
+          bounds: 'ticks',
+          grid: { color: 'rgba(255,255,255,0.06)' },
+          ticks: { color: '#cbd5e1', padding: 4, maxRotation: 0, autoSkip: true }
+        },
+        y: {
+          position: 'right',
+          min: minY,
+          max: maxY,
+          grid: { color: 'rgba(255,255,255,0.06)' },
+          ticks: {
+            color: '#cbd5e1',
+            padding: 8,
+            callback: (v) => v.toLocaleString('en-US', { minimumFractionDigits: 2 })
+          },
+          afterFit: (scale) => { scale.width += 8; }
+        }
+      }
+    }
+  });
+}
+
+
+
 // Eventos
-btnSube.addEventListener("click", () => iniciarRonda("sube"));
-btnBaja.addEventListener("click", () => iniciarRonda("baja"));
-btnCancelar.addEventListener("click", cancelarRonda);
-btnActualizar.addEventListener("click", fetchPrecio);
-btnReiniciar.addEventListener("click", () => {
+btnSube?.addEventListener("click", () => iniciarRonda("sube"));
+btnBaja?.addEventListener("click", () => iniciarRonda("baja"));
+btnCancelar?.addEventListener("click", cancelarRonda);
+btnActualizar?.addEventListener("click", fetchPrecio);
+btnReiniciar?.addEventListener("click", () => {
   if (confirm("¿Reiniciar estadísticas?")) {
     rondas = aciertos = racha = 0;
-    guardarStats(); pintarStats(); elHistorial.innerHTML = "";
+    guardarStats(); pintarStats(); elHistorial && (elHistorial.innerHTML = "");
   }
 });
-btnMasApuesta.addEventListener("click", () => {
+btnMasApuesta?.addEventListener("click", () => {
   apuesta = Math.min(APUESTA_MAX, apuesta + 5);
   guardarBanca(); pintarBanca();
 });
-btnMenosApuesta.addEventListener("click", () => {
+btnMenosApuesta?.addEventListener("click", () => {
   apuesta = Math.max(1, apuesta - 5);
   guardarBanca(); pintarBanca();
 });
-elApuesta.addEventListener("change", () => {
+elApuesta?.addEventListener("change", () => {
   apuesta = Math.min(APUESTA_MAX, Math.max(1, parseInt(elApuesta.value || "1", 10)));
   guardarBanca(); pintarBanca();
 });
-btnRecargar.addEventListener("click", () => {
+btnRecargar?.addEventListener("click", () => {
   if (confirm("¿Recargar saldo?")) {
     saldo = SALDO_INICIAL;
     guardarBanca(); pintarBanca();
@@ -346,8 +472,8 @@ modalRecargar?.addEventListener("click", () => {
   saldo = SALDO_INICIAL; guardarBanca(); pintarBanca(); cerrarModal();
 });
 modalCerrar?.addEventListener("click", cerrarModal);
-elRiesgo.addEventListener("change", () => {
-  elEstado.innerHTML = `Riesgo: <strong>${parseFloat(elRiesgo.value).toFixed(1)}×</strong>. Bono racha: <strong>${Math.round(getStreakBonus()*100)}%</strong>.`;
+elRiesgo?.addEventListener("change", () => {
+  if (elEstado) elEstado.innerHTML = `Riesgo: <strong>${parseFloat(elRiesgo.value).toFixed(1)}×</strong>. Bono racha: <strong>${Math.round(getStreakBonus()*100)}%</strong>.`;
 });
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -356,4 +482,8 @@ document.addEventListener("DOMContentLoaded", () => {
   pintarBanca();
   fetchPrecio();
   setInterval(fetchPrecio, 5000);
+
+  // === Velas Mini: pintar al entrar y refrescar cada minuto ===
+  cargarVelas();
+  setInterval(cargarVelas, 60_000);
 });

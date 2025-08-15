@@ -186,7 +186,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (copiado) {
           copiado.style.display = "block";
           setTimeout(() => copiado.style.display = "none", 3000);
-        }
+        } 
       });
     });
   }

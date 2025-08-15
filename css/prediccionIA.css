@@ -1,0 +1,102 @@
+body {
+  background-color: #000;
+  color: #0f0;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar {
+  background-color: #111;
+  border-bottom: 2px solid #0f0;
+  padding: 0.5rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar .logo {
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: #0f0;
+  text-decoration: none;
+}
+
+.navbar .nav-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 1rem;
+}
+
+.navbar .nav-links li a {
+  color: #0f0;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.navbar .nav-links li a.active,
+.navbar .nav-links li a:hover {
+  text-decoration: underline;
+}
+
+.ia-box {
+  background-color: #111;
+  border: 2px solid #0f0;
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-sizing: border-box;
+  margin-top: 2rem;
+}
+
+.grafico-container {
+  background-color: #111;
+  border-radius: 8px;
+  padding: 10px;
+  margin-top: 2rem;
+  max-width: 900px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 8px;
+}
+
+.actualizar-btn {
+  background-color: #0f0;
+  border: none;
+  padding: 0.7rem 1.2rem;
+  font-weight: bold;
+  color: #000;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 0.5rem;
+  transition: background-color 0.3s ease;
+}
+
+.actualizar-btn:hover {
+  background-color: #0b0;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 2rem;
+  padding: 1rem 0;
+  background: #222;
+  color: #aaa;
+  font-size: 0.9rem;
+}
+.footer a {
+  color: #0f0;
+  text-decoration: none;
+  font-weight: bold;
+  margin: 0 0.4rem;
+}
+.footer a:hover {
+  text-decoration: underline;
+}

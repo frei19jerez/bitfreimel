@@ -2,59 +2,240 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Herramienta educativa para aprender gestión de riesgo en inversiones cripto.">
-  <meta name="author" content="Freimel Jerez">
-  <title>⚖️ Gestión de Riesgo - FJ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>⚖️ Gestión de Riesgo (Juego demo) – Freimel Jerez</title>
+  <meta name="description" content="Juego DEMO educativo para practicar gestión de riesgo con escenarios y velas reales. Elige cuánto arriesgar, calcula tamaño de posición y mejora tu puntaje." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Freimel Jerez" />
+  <meta name="theme-color" content="#0f0f0f" />
+
+  <!-- Rendimiento / red -->
+  <link rel="preconnect" href="https://api.binance.com" crossorigin />
+  <link rel="preconnect" href="https://stream.binance.com" crossorigin />
+  <link rel="dns-prefetch" href="//api.binance.com" />
+  <link rel="dns-prefetch" href="//stream.binance.com" />
+
+  <!-- Canonical + OG/Twitter -->
+  <link rel="canonical" href="https://freimeljerezcom.online/interactivos/gestion-riesgo.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="⚖️ Gestión de Riesgo (Juego demo)" />
+  <meta property="og:description" content="Aprende a gestionar el riesgo con escenarios y velas reales. ¡Suma puntos y mejora tu racha!" />
+  <meta property="og:image" content="https://freimeljerezcom.online/imagenes/og-gestion-riesgo.jpg" />
+  <meta property="og:url" content="https://freimeljerezcom.online/interactivos/gestion-riesgo.html" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="icon" href="/imagenes/favicon.png" type="image/png" />
   <link rel="stylesheet" href="/interactivos/css/gestion-riesgo.css" />
+
+  <!-- JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"EducationalGame",
+    "name":"Gestión de Riesgo (Juego demo)",
+    "applicationCategory":"EducationalApplication",
+    "operatingSystem":"Web",
+    "description":"Juego educativo para practicar gestión de riesgo con escenarios y velas reales.",
+    "author":{"@type":"Person","name":"Freimel Jerez"},
+    "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
+    "url":"https://freimeljerezcom.online/interactivos/gestion-riesgo.html"
+  }
+  </script>
 </head>
 <body>
+  <!-- NAV -->
+  <nav class="navbar" aria-label="Navegación principal">
+    <div class="navbar-container">
+      <a href="/" class="logo">Freimel Jerez</a>
+      <ul class="nav-links">
+        <li><a href="/">Inicio</a></li>
+        <li><a href="/blog/index.html">Blog</a></li>
+        <li><a href="/interactivos/index.html">Interactivos</a></li>
+        <li><a href="/ia-prediccion.html">IA-predicción</a></li>
+      </ul>
+    </div>
+  </nav>
 
-<!-- NAV -->
-<nav class="navbar">
-  <div class="navbar-container">
-    <a href="/" class="logo">Freimel Jerez</a>
-    <ul class="nav-links">
-      <li><a href="/">Inicio</a></li>
-      <li><a href="/blog/index.html">Blog</a></li>
-      <li><a href="/interactivos/index.html">Interactivos</a></li>
-      <li><a href="/ia-prediccion.html">IA-predicción</a></li>
-    </ul>
-  </div>
-</nav>
+  <!-- CONTENIDO -->
+  <main class="wrapper">
+    <div class="container">
+      <h1>⚖️ Gestión de Riesgo (Juego demo)</h1>
 
-<!-- CONTENIDO -->
-<main class="wrapper">
-  <div class="container">
-    <h1>⚖️ Gestión de Riesgo - FJ</h1>
-    <p>Simula una inversión en Bitcoin y elige cuánto arriesgarías. Aprende qué decisión es más responsable.</p>
+      <div class="demo-note" role="note" aria-label="Aviso modo demo">
+        💡 <strong>Modo demo educativo:</strong> sin dinero real, sin depósitos ni retiros. No es asesoría financiera.
+      </div>
 
-    <label for="inversion">Monto de inversión (USD):</label>
-    <input type="number" id="inversion" placeholder="Ej. 500" />
+      <div class="ads-slot" aria-label="Espacio publicitario"><!-- Anuncio --></div>
 
-    <label for="riesgo">Porcentaje de riesgo:</label>
-    <select id="riesgo">
-      <option value="1">1%</option>
-      <option value="3">3%</option>
-      <option value="5">5%</option>
-      <option value="10">10%</option>
-      <option value="20">20%</option>
-    </select>
+      <!-- Escenario -->
+      <section class="panel" aria-labelledby="titulo-escenario">
+        <h2 id="titulo-escenario">Escenario</h2>
+        <div id="escenario" class="grid grid-2"></div>
+      </section>
 
-    <button onclick="calcularRiesgo()">Calcular</button>
+      <!-- SALDO + LADO -->
+      <section class="panel" aria-label="Cuenta y lado">
+        <div class="saldo-actual" style="display:flex;gap:18px;align-items:center;flex-wrap:wrap;justify-content:space-between;">
+          <div>💰 Saldo actual: <strong id="saldoActual">$1,000.00</strong></div>
+          <div class="lado" role="group" aria-label="Elegir lado de la operación">
+            <input type="radio" name="side" id="sideLong" checked />
+            <label for="sideLong" style="margin-right:12px;">Comprar (Long)</label>
+            <input type="radio" name="side" id="sideShort" />
+            <label for="sideShort">Vender (Short)</label>
+          </div>
+        </div>
+      </section>
 
-    <p id="resultado"></p>
-  </div>
-</main>
+      <!-- Controles -->
+      <section class="panel" aria-labelledby="titulo-decision">
+        <h2 id="titulo-decision">Tu decisión</h2>
+        <div class="grid grid-2">
+          <div>
+            <label for="inversion">Capital (USD)</label>
+            <input type="number" id="inversion" min="100" step="50" value="1000" inputmode="numeric" autocomplete="off" />
+          </div>
+          <div>
+            <label for="riesgo">% de riesgo en la operación</label>
+            <select id="riesgo">
+              <option value="0.5">0.5%</option>
+              <option value="1">1%</option>
+              <option value="2" selected>2%</option>
+              <option value="3">3%</option>
+              <option value="5">5%</option>
+            </select>
+          </div>
+        </div>
 
-<!-- FOOTER -->
-<footer>
-  <a href="/privacidad.html">Privacidad</a> |
-  <a href="/contacto.html">Contacto</a> |
-  <a href="/terminos-condiciones.html">Términos</a> |
-  <a href="/acerca.html">Acerca de</a>
-</footer>
+        <div class="botones">
+          <button class="btn btn-primary" id="btnEvaluar" type="button">Evaluar decisión</button>
+          <button class="btn btn-sec" id="btnSiguiente" type="button">Siguiente escenario</button>
+          <button class="btn btn-danger" id="btnReiniciar" type="button">Reiniciar juego</button>
+        </div>
 
-<script src="/interactivos/js/gestion-riesgo.js"></script>
+        <!-- Selector de intervalos -->
+        <div class="intervalos" style="margin-top:10px;display:flex;gap:10px;align-items:center;">
+          <label for="intervalSelect">Intervalo:</label>
+          <select id="intervalSelect">
+            <option value="1m" selected>1m</option>
+            <option value="2m">2m</option>
+            <option value="3m">3m</option>
+            <option value="5m">5m</option>
+            <option value="15m">15m</option>
+            <option value="30m">30m</option>
+            <option value="1h">1h</option>
+          </select>
+        </div>
+
+        <!-- Mensajes educativos y de validación -->
+        <div id="salida" class="result" aria-live="polite"></div>
+      </section>
+
+      <!-- Resumen de la operación -->
+      <section class="panel" aria-labelledby="titulo-resumen">
+        <h2 id="titulo-resumen">Resumen de la operación</h2>
+        <div id="tradeResumen" class="result"></div>
+      </section>
+
+      <!-- Ticker de precio en vivo -->
+      <section class="panel" aria-labelledby="titulo-ticker">
+        <h2 id="titulo-ticker">Precio en vivo BTC/USDT</h2>
+        <div class="ticker">
+          <div class="ticker-row">
+            <span class="ticker-label">Último:</span>
+            <span id="precioSpot" class="ticker-price">—</span>
+            <span id="flechaSpot" class="ticker-arrow">•</span>
+          </div>
+          <div class="ticker-row">
+            <span class="ticker-label">Cambio 24h:</span>
+            <span id="cambioSpot" class="ticker-change">—</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Gráfico -->
+      <section class="panel" aria-labelledby="titulo-grafico">
+        <h2 id="titulo-grafico">Gráfico BTC/USDT (<span id="intervalLabel">1m</span>)</h2>
+        <div class="chart-wrap">
+          <div id="chartLoading" class="chart-loading" style="display:none;">
+            <div class="spinner" aria-label="Cargando gráfico"></div>
+          </div>
+          <canvas id="chartVelas"></canvas>
+        </div>
+      </section>
+
+      <!-- Estadísticas -->
+      <section class="panel" aria-labelledby="titulo-stats">
+        <h2 id="titulo-stats">Estadísticas</h2>
+        <div class="stats">
+          <div class="stat">Rondas: <span id="stRondas">0</span></div>
+          <div class="stat">Puntos: <span id="stPuntos">0</span></div>
+          <div class="stat">Racha: <span id="stRacha">0</span></div>
+          <div class="stat">Mejor racha: <span id="stMejor">0</span></div>
+
+          <!-- NUEVO: contadores agregados -->
+          <div class="stat">Ganadas: <span id="stWins">0</span></div>
+          <div class="stat">Perdidas: <span id="stLosses">0</span></div>
+          <div class="stat">Neutrales: <span id="stNeutrals">0</span></div>
+          <div class="stat">Win rate: <span id="stWinRate">—</span></div>
+        </div>
+      </section>
+
+      <!-- NUEVO: Historial de jugadas -->
+      <section class="panel" aria-labelledby="titulo-historial">
+        <h2 id="titulo-historial">Historial de jugadas</h2>
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+          <button id="btnExportHist" class="btn btn-sec" type="button">Exportar historial</button>
+          <button id="btnClearHist" class="btn btn-danger" type="button">Borrar historial</button>
+        </div>
+
+        <div class="table-wrap" style="overflow:auto">
+          <table class="tabla" style="width:100%; border-collapse:collapse; font-size:14px;">
+            <thead>
+              <tr>
+                <th style="text-align:left;padding:8px;border-bottom:1px solid #232323">Fecha</th>
+                <th style="text-align:center;padding:8px;border-bottom:1px solid #232323">Intervalo</th>
+                <th style="text-align:center;padding:8px;border-bottom:1px solid #232323">Lado</th>
+                <th style="text-align:right;padding:8px;border-bottom:1px solid #232323">Entrada</th>
+                <th style="text-align:right;padding:8px;border-bottom:1px solid #232323">TP / SL</th>
+                <th style="text-align:center;padding:8px;border-bottom:1px solid #232323">R:R</th>
+                <th style="text-align:right;padding:8px;border-bottom:1px solid #232323">Tamaño (BTC)</th>
+                <th style="text-align:right;padding:8px;border-bottom:1px solid #232323">% Riesgo</th>
+                <th style="text-align:center;padding:8px;border-bottom:1px solid #232323">Resultado</th>
+                <th style="text-align:right;padding:8px;border-bottom:1px solid #232323">P&L neto</th>
+              </tr>
+            </thead>
+            <tbody id="histBody"><!-- filas por JS --></tbody>
+          </table>
+        </div>
+      </section>
+
+      <div class="ads-slot" aria-label="Espacio publicitario"><!-- Anuncio --></div>
+
+      <p class="volver"><a href="/interactivos/index.html">← Volver a Zona Interactiva</a></p>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <a href="/privacidad.html" rel="nofollow">Privacidad</a> |
+    <a href="/contacto.html" rel="nofollow">Contacto</a> |
+    <a href="/terminos-condiciones.html" rel="nofollow">Términos</a> |
+    <a href="/acerca.html" rel="nofollow">Acerca de</a>
+  </footer>
+
+  <noscript>
+    <div class="demo-note" style="max-width:980px;margin:10px auto;">
+      ⚠️ Este juego requiere JavaScript habilitado para funcionar.
+    </div>
+  </noscript>
+
+  <!-- Librerías de gráficos (en orden) -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial"></script>
+
+  <!-- Lógica del juego -->
+  <script src="/interactivos/js/gestion-riesgo.js" defer></script>
 </body>
 </html>

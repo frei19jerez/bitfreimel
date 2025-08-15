@@ -3,14 +3,50 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Juego DEMO: predice si el precio de Bitcoin sube o baja. Aprende a leer la tendencia con estadísticas, racha y saldo ficticio.">
-  <title>¿Sube o Baja el Bitcoin? - Freimel Jerez</title>
+
+  <title>¿Sube o Baja el Bitcoin? (Demo educativo) - Freimel Jerez</title>
+  <meta name="description" content="Juego DEMO: predice si el precio de Bitcoin sube o baja. Aprende a leer la tendencia con velas reales, estadísticas, racha y saldo ficticio.">
+  <meta name="robots" content="index, follow">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://freimeljerezcom.online/interactivos/prediccion-btc-juego.html">
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="¿Sube o Baja el Bitcoin? (Demo educativo)">
+  <meta property="og:description" content="Simulador con velas BTC/USDT en tiempo real y estadísticas de aciertos.">
+  <meta property="og:image" content="https://freimeljerezcom.online/imagenes/og-prediccion-btc.jpg">
+  <meta property="og:url" content="https://freimeljerezcom.online/interactivos/prediccion-btc-juego.html">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- PWA / assets (opcional si ya los tienes globales) -->
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="manifest" href="/manifest.json" />
 
   <!-- Rendimiento: preconexión a APIs -->
   <link rel="preconnect" href="https://api.binance.com">
   <link rel="preconnect" href="https://api.coingecko.com">
 
+  <!-- Estilos -->
   <link rel="stylesheet" href="/interactivos/css/prediccion-btc.css">
+
+  <!-- JSON-LD específico de esta página -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"SoftwareApplication",
+    "name":"¿Sube o Baja el Bitcoin? (Demo)",
+    "applicationCategory":"GameApplication",
+    "operatingSystem":"Web",
+    "description":"Juego demo educativo para practicar la lectura de velas con BTC/USDT en tiempo real.",
+    "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
+    "author":{"@type":"Person","name":"Freimel Jerez"},
+    "url":"https://freimeljerezcom.online/interactivos/prediccion-btc-juego.html"
+  }
+  </script>
+
+  <!-- (Opcional) AdSense si quieres anuncios en esta página -->
+  <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXX" crossorigin="anonymous"></script> -->
 </head>
 <body>
   <main class="wrapper">
@@ -54,7 +90,7 @@
       </section>
 
       <p class="intro">
-        Elige tu predicción para el próximo intervalo. Observa la mini‑tendencia, decide y comprueba tu resultado. 
+        Elige tu predicción para el próximo intervalo. Observa la mini-tendencia, decide y comprueba tu resultado. 
         <strong>BTC/USDT</strong> en tiempo real (con respaldo CoinGecko si es necesario).
       </p>
 
@@ -65,8 +101,6 @@
           <div id="precio" class="precio">—</div>
           <div id="variacion" class="variacion">—</div>
         </div>
-
-        
 
         <div class="controles">
           <label>
@@ -102,10 +136,12 @@
         <ul id="historial"></ul>
       </section>
 
-      <!-- SPARKLINE -->
-      <section class="canvas-wrap">
+      <!-- MINI TENDENCIA -->
+      <section class="panel mini-tendencia">
         <h2>Mini tendencia (últimos 10 ticks)</h2>
-        <canvas id="sparkline" width="700" height="160"></canvas>
+        <div style="position:relative; height:320px; width:100%;">
+          <canvas id="miniCandlestick"></canvas>
+        </div>
       </section>
 
       <div class="acciones">
@@ -130,9 +166,13 @@
       </div>
     </div>
   </div>
-  
-  
 
-  <script src="/interactivos/js/prediccion-btc.js" defer></script>
+  <!-- Librerías: Chart.js + adapter + financial -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial"></script>
+
+  <!-- Script principal -->
+  <script src="/interactivos/js/prediccion-btc.js"></script>
 </body>
 </html>

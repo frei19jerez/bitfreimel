@@ -3,32 +3,64 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Simulador de Análisis Técnico</title>
-  <link rel="stylesheet" href="/interactivos/css/analisis-tecnico.css" />
+
+  <title>Simulador de Análisis Técnico - Freimel Jerez</title>
+  <meta name="description" content="Juego educativo para aprender análisis técnico con velas japonesas reales de criptomonedas en tiempo real desde Binance.">
+  <meta name="robots" content="index, follow">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://freimeljerezcom.online/interactivos/analisis-tecnico.html">
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Simulador de Análisis Técnico - Freimel Jerez">
+  <meta property="og:description" content="Practica el análisis técnico con velas reales en tiempo real. Aprende patrones, tendencias y soportes.">
+  <meta property="og:image" content="https://freimeljerezcom.online/imagenes/og-analisis-tecnico.jpg">
+  <meta property="og:url" content="https://freimeljerezcom.online/interactivos/analisis-tecnico.html">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Estilos -->
+  <link rel="stylesheet" href="/interactivos/css/analisis-tecnico.css">
+
+  <!-- JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "EducationalGame",
+    "name": "Simulador de Análisis Técnico",
+    "applicationCategory": "EducationalApplication",
+    "operatingSystem": "Web",
+    "description": "Juego interactivo para practicar análisis técnico con velas japonesas reales.",
+    "author": { "@type": "Person", "name": "Freimel Jerez" },
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "url": "https://freimeljerezcom.online/interactivos/analisis-tecnico.html"
+  }
+  </script>
 </head>
 <body>
   <main class="container">
     <h1>📈 <span>Simulador de Análisis Técnico</span></h1>
     <p class="descripcion">
       Observa el gráfico en tiempo real y responde si el próximo movimiento será
-      <strong>Alcista</strong> o <strong>Bajista</strong>.
+      <strong>📈 Alcista</strong>, <strong>📉 Bajista</strong> o <strong>➖ Neutro</strong>.
     </p>
+
 
     <div id="saldoDemo" style="font-weight:bold; font-size:24px; color:limegreen; margin:20px 0;"></div>
 
-     <label for="inputApuesta" style="color:limegreen; font-weight:bold;">Apuesta:</label>
-     <input type="number" id="inputApuesta" min="100" max="10000" step="100" value="1000" style="font-size:18px; width:120px; margin-left:10px;" />
-
-
+    <label for="inputApuesta" style="color:limegreen; font-weight:bold;">Apuesta:</label>
+    <input type="number" id="inputApuesta" min="100" max="10000" step="100" value="1000" style="font-size:18px; width:120px; margin-left:10px;" />
 
     <div class="chart-wrap">
       <canvas id="candlestickChart"></canvas>
     </div>
 
-    <div class="opciones">
-      <button id="alcistaBtn">📈 Alcista</button>
-      <button id="bajistaBtn">📉 Bajista</button>
-    </div>
+   <div class="opciones">
+  <button id="alcistaBtn">📈 Alcista</button>
+  <button id="bajistaBtn">📉 Bajista</button>
+  <button id="neutroBtn">➖ Neutro</button>
+</div>
+
 
     <div class="token-selector">
       <label for="token">Token:</label>
