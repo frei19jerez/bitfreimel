@@ -25,8 +25,11 @@
   <meta property="og:url" content="https://freimeljerezcom.online/interactivos/gestion-riesgo.html" />
   <meta name="twitter:card" content="summary_large_image" />
 
-  <link rel="icon" href="/imagenes/favicon.png" type="image/png" />
+  <link rel="icon" href="/imagenes/icon-192.png" type="image/png" />
   <link rel="stylesheet" href="/interactivos/css/gestion-riesgo.css" />
+
+  <!-- AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4933331274738462" crossorigin="anonymous"></script>
 
   <!-- JSON-LD -->
   <script type="application/ld+json">
@@ -44,20 +47,10 @@
   </script>
 </head>
 <body>
-  <!-- NAV -->
-  <nav class="navbar" aria-label="Navegación principal">
-    <div class="navbar-container">
-      <a href="/" class="logo">Freimel Jerez</a>
-      <ul class="nav-links">
-        <li><a href="/">Inicio</a></li>
-        <li><a href="/blog/index.html">Blog</a></li>
-        <li><a href="/interactivos/index.html">Interactivos</a></li>
-        <li><a href="/ia-prediccion.html">IA-predicción</a></li>
-      </ul>
-    </div>
-  </nav>
 
-  <!-- CONTENIDO -->
+  <!-- ========== NAVBAR ========== -->
+  
+  <!-- ========== CONTENIDO PRINCIPAL DEL JUEGO ========== -->
   <main class="wrapper">
     <div class="container">
       <h1>⚖️ Gestión de Riesgo (Juego demo)</h1>
@@ -66,7 +59,16 @@
         💡 <strong>Modo demo educativo:</strong> sin dinero real, sin depósitos ni retiros. No es asesoría financiera.
       </div>
 
-      <div class="ads-slot" aria-label="Espacio publicitario"><!-- Anuncio --></div>
+      <!-- ANUNCIO 1 (In-article) -->
+      <div class="ad-wrap" aria-label="Publicidad">
+        <ins class="adsbygoogle"
+             style="display:block;text-align:center"
+             data-ad-layout="in-article"
+             data-ad-format="fluid"
+             data-ad-client="ca-pub-4933331274738462"
+             data-ad-slot="7799323022"></ins>
+      </div>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 
       <!-- Escenario -->
       <section class="panel" aria-labelledby="titulo-escenario">
@@ -173,7 +175,6 @@
           <div class="stat">Racha: <span id="stRacha">0</span></div>
           <div class="stat">Mejor racha: <span id="stMejor">0</span></div>
 
-          <!-- NUEVO: contadores agregados -->
           <div class="stat">Ganadas: <span id="stWins">0</span></div>
           <div class="stat">Perdidas: <span id="stLosses">0</span></div>
           <div class="stat">Neutrales: <span id="stNeutrals">0</span></div>
@@ -181,7 +182,7 @@
         </div>
       </section>
 
-      <!-- NUEVO: Historial de jugadas -->
+      <!-- Historial de jugadas -->
       <section class="panel" aria-labelledby="titulo-historial">
         <h2 id="titulo-historial">Historial de jugadas</h2>
 
@@ -190,7 +191,7 @@
           <button id="btnClearHist" class="btn btn-danger" type="button">Borrar historial</button>
         </div>
 
-        <div class="table-wrap" style="overflow:auto">
+        <div class="table-wrap">
           <table class="tabla" style="width:100%; border-collapse:collapse; font-size:14px;">
             <thead>
               <tr>
@@ -211,12 +212,22 @@
         </div>
       </section>
 
-      <div class="ads-slot" aria-label="Espacio publicitario"><!-- Anuncio --></div>
+      <!-- ANUNCIO 2 (Gráfico responsive) -->
+      <div class="ad-wrap" aria-label="Publicidad">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-4933331274738462"
+             data-ad-slot="9479478115"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+      </div>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 
       <p class="volver"><a href="/interactivos/index.html">← Volver a Zona Interactiva</a></p>
     </div>
   </main>
 
+  <!-- FOOTER -->
   <footer class="footer">
     <a href="/privacidad.html" rel="nofollow">Privacidad</a> |
     <a href="/contacto.html" rel="nofollow">Contacto</a> |
@@ -230,12 +241,24 @@
     </div>
   </noscript>
 
+  <!-- ANUNCIO 3 (Footer - Gráfico responsive) -->
+  <div class="ad-wrap" aria-label="Publicidad">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-4933331274738462"
+         data-ad-slot="4606183476"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+  </div>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
   <!-- Librerías de gráficos (en orden) -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial" defer></script>
 
   <!-- Lógica del juego -->
   <script src="/interactivos/js/gestion-riesgo.js" defer></script>
+
 </body>
 </html>

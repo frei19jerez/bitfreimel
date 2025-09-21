@@ -2,44 +2,100 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Formulario de contacto para sugerencias, dudas o comentarios sobre freimeljerezcom.online.">
-  <meta name="keywords" content="Freimel Jerez, contacto, soporte, bitcoin, inteligencia artificial, criptomonedas">
-  <meta name="author" content="Freimel Jerez">
+
+  <title>Contacto | freimeljerezcom.online</title>
+  <meta name="description" content="Formulario de contacto para sugerencias, dudas o comentarios sobre freimeljerezcom.online. Respondo lo antes posible." />
+  <meta name="author" content="Freimel Jerez" />
   <meta name="robots" content="index, follow">
-  <title>Contacto - Freimel Jerez</title>
+  <meta name="theme-color" content="#0d0d0d">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://freimeljerezcom.online/contacto.html">
+
+  <!-- CSS -->
   <link rel="stylesheet" href="/css/styles.min.css" />
+   <link rel="icon" href="/imagenes/icon-192.png" type="image/png" />
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Contacto | freimeljerezcom.online">
+  <meta property="og:description" content="Envíame sugerencias, dudas o reportes sobre el sitio.">
+  <meta property="og:url" content="https://freimeljerezcom.online/contacto.html">
+  <meta property="og:image" content="https://freimeljerezcom.online/imagenes/bitfreimel1.webp">
+  <meta name="twitter:card" content="summary_large_image">
 </head>
 <body>
 
-  <main class="wrapper">
+  <header>
+    <nav class="navbar" aria-label="Menú principal">
+      <div class="navbar-container">
+        <a href="/" class="logo">Freimel Jerez</a>
+        <button class="hamburger" id="hamburger" aria-label="Menú de navegación" aria-expanded="false">&#9776;</button>
+        <ul class="nav-links" id="nav-links">
+          <li><a href="/">Inicio</a></li>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/interactivos/index.html">Interactivos</a></li>
+          <li><a href="/ia-prediccion.html" aria-current="page">IA-prediccion.html</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <main id="contenido" class="wrapper">
     <div class="container">
       <h1>Contáctame</h1>
 
-      <p>¿Tienes alguna sugerencia, encontraste un error o simplemente deseas saludar? Estás en el lugar correcto. A través de este formulario puedes enviarme tus comentarios, inquietudes o aportes relacionados con el sitio <strong>freimeljerezcom.online</strong>.</p>
+      <p>¿Tienes alguna sugerencia, encontraste un error o simplemente deseas saludar? Estás en el lugar correcto. A través de este formulario puedes enviarme tus comentarios, inquietudes o aportes relacionados con <strong>freimeljerezcom.online</strong>. Responderé lo antes posible 🙌</p>
 
-      <p>Responderé los mensajes lo antes posible. Agradezco tu interés y tu visita a mi proyecto. 🙌</p>
-
-      <form action="https://formsubmit.co/frei19jerez@gmail.com" method="POST">
+      <form action="https://formsubmit.co/frei19jerez@gmail.com" method="POST" novalidate aria-describedby="nota-privacidad">
+        <!-- FormSubmit config -->
         <input type="hidden" name="_captcha" value="false">
         <input type="hidden" name="_template" value="table">
         <input type="hidden" name="_next" value="https://freimeljerezcom.online/gracias.html">
+        <input type="hidden" name="_subject" value="Nuevo mensaje desde freimeljerezcom.online">
+        <input type="hidden" name="_autoresponse" value="¡Gracias por escribir! Recibí tu mensaje y te responderé a la brevedad. —Freimel">
+        <!-- Honeypot anti-spam -->
+        <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
 
-        <label for="name">Nombre:</label><br>
-        <input type="text" name="name" required><br><br>
+        <fieldset>
+          <legend class="sr-only">Formulario de contacto</legend>
 
-        <label for="email">Correo electrónico:</label><br>
-        <input type="email" name="email" required><br><br>
+          <div class="form-control">
+            <label for="name">Nombre</label>
+            <input id="name" name="name" type="text" autocomplete="name" required minlength="2" maxlength="80" placeholder="Tu nombre">
+          </div>
 
-        <label for="message">Mensaje:</label><br>
-        <textarea name="message" rows="6" required></textarea><br><br>
+          <div class="form-control">
+            <label for="email">Correo electrónico</label>
+            <input id="email" name="email" type="email" inputmode="email" autocomplete="email" required placeholder="tunombre@correo.com">
+          </div>
 
-        <button type="submit">Enviar mensaje</button>
+          <div class="form-control">
+            <label for="subject">Asunto <span class="muted">(opcional)</span></label>
+            <input id="subject" name="subject" type="text" maxlength="120" placeholder="Tema del mensaje">
+          </div>
+
+          <div class="form-control">
+            <label for="message">Mensaje</label>
+            <textarea id="message" name="message" rows="6" required minlength="10" maxlength="2000" placeholder="Cuéntame en qué puedo ayudarte"></textarea>
+          </div>
+
+          <div class="form-control">
+            <label class="checkbox">
+              <input type="checkbox" id="consent" name="consent" required>
+              Acepto el <a href="/privacidad.html">tratamiento de datos</a> y he leído los <a href="/terminos-condiciones.html">términos</a>.
+            </label>
+          </div>
+
+          <button type="submit">Enviar mensaje</button>
+        </fieldset>
+
+        <p id="nota-privacidad" class="muted" style="font-size:14px">
+          No compartas datos sensibles. Este formulario es solo para temas del sitio. Mensajes comerciales o spam no serán atendidos.
+        </p>
       </form>
-
-      <p style="font-size: 14px; color: gray;">
-        Nota: Este formulario es solo para consultas relacionadas con el funcionamiento y contenido del sitio. No se responderán mensajes de spam o solicitudes comerciales.
-      </p>
     </div>
   </main>
 
@@ -51,10 +107,44 @@
   </footer>
 
   <!-- Banner de cookies -->
-  <div class="cookie-banner">
+  <div class="cookie-banner" role="dialog" aria-live="polite">
     Este sitio usa cookies para mejorar tu experiencia. Al continuar, aceptas su uso.
-    <button onclick="this.parentElement.style.display='none'">Aceptar</button>
+    <button type="button" aria-label="Aceptar cookies" onclick="this.parentElement.style.display='none'">Aceptar</button>
   </div>
 
+  <!-- JSON-LD: ContactPage + contactPoint -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"ContactPage",
+    "name":"Contacto",
+    "url":"https://freimeljerezcom.online/contacto.html",
+    "inLanguage":"es",
+    "about":{"@type":"WebSite","name":"freimeljerezcom.online","url":"https://freimeljerezcom.online"},
+    "dateModified":"2025-09-11",
+    "contactPoint":{
+      "@type":"ContactPoint",
+      "contactType":"customer support",
+      "email":"frei19jerez@gmail.com",
+      "availableLanguage":["es"],
+      "areaServed":"CO"
+    }
+  }
+  </script>
+
+  <!-- JSON-LD: Breadcrumbs -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"BreadcrumbList",
+    "itemListElement":[
+      {"@type":"ListItem","position":1,"name":"Inicio","item":"https://freimeljerezcom.online/"},
+      {"@type":"ListItem","position":2,"name":"Contacto","item":"https://freimeljerezcom.online/contacto.html"}
+    ]
+  }
+  </script>
+
+  <!-- Si tu menú hamburguesa depende de JS global, descomenta: -->
+  <!-- <script src="/script/script.js" defer></script> -->
 </body>
 </html>

@@ -6,11 +6,6 @@ let puntos = +localStorage.getItem('gr_puntos') || 0;
 let racha  = +localStorage.getItem('gr_racha')  || 0;
 let mejor  = +localStorage.getItem('gr_mejor')  || 0;
 
-// Contadores de resultados agregados
-let wins     = +localStorage.getItem('gr_wins')     || 0;
-let losses   = +localStorage.getItem('gr_losses')   || 0;
-let neutrals = +localStorage.getItem('gr_neutrals') || 0;
-
 const $ = (id) => document.getElementById(id);
 const elEscenario   = $('escenario');
 const elSalida      = $('salida');
@@ -18,52 +13,17 @@ const elSaldoActual = $('saldoActual');
 const elTradeRes    = $('tradeResumen');
 
 function guardar() {
-  localStorage.setItem('gr_rondas',  rondas);
-  localStorage.setItem('gr_puntos',  puntos);
-  localStorage.setItem('gr_racha',   racha);
-  localStorage.setItem('gr_mejor',   mejor);
-  localStorage.setItem('gr_wins',    wins);
-  localStorage.setItem('gr_losses',  losses);
-  localStorage.setItem('gr_neutrals',neutrals);
-}
-function winRate() {
-  const t = wins + losses + neutrals;
-  return t ? ((wins / t) * 100).toFixed(1) + '%' : '—';
+  localStorage.setItem('gr_rondas', rondas);
+  localStorage.setItem('gr_puntos', puntos);
+  localStorage.setItem('gr_racha',  racha);
+  localStorage.setItem('gr_mejor',  mejor);
 }
 function pintarStats() {
-  $('stRondas')   && ( $('stRondas').textContent   = rondas );
-  $('stPuntos')   && ( $('stPuntos').textContent   = puntos );
-  $('stRacha')    && ( $('stRacha').textContent    = racha  );
-  $('stMejor')    && ( $('stMejor').textContent    = mejor  );
-  $('stWins')     && ( $('stWins').textContent     = wins   );
-  $('stLosses')   && ( $('stLosses').textContent   = losses );
-  $('stNeutrals') && ( $('stNeutrals').textContent = neutrals );
-  $('stWinRate')  && ( $('stWinRate').textContent  = winRate() );
+  $('stRondas') && ($('stRondas').textContent = rondas);
+  $('stPuntos') && ($('stPuntos').textContent = puntos);
+  $('stRacha')  && ($('stRacha').textContent  = racha);
+  $('stMejor')  && ($('stMejor').textContent  = mejor);
 }
-
-// --- Estilos para el badge/toast de resultado ---
-(function injectBadgeStyles(){
-  if (document.getElementById('gr-badge-styles')) return;
-  const css = `
-  .resultado-badge{
-    position: fixed; top: 16px; right: 16px; z-index: 9999;
-    padding: 10px 14px; border-radius: 12px; color: #fff;
-    font-weight: 700; box-shadow: 0 8px 24px rgba(0,0,0,.35);
-    opacity: 0; transform: translateY(-10px);
-    animation: gr-badge-in .18s ease-out forwards, gr-badge-out .25s ease-in 1.2s forwards;
-    pointer-events: none;
-  }
-  .resultado-badge.win{ background:#16a34a; }
-  .resultado-badge.lose{ background:#dc2626; }
-  .resultado-badge.neutral{ background:#334155; }
-  @keyframes gr-badge-in { to { opacity: 1; transform: translateY(0); } }
-  @keyframes gr-badge-out { to { opacity: 0; transform: translateY(-10px); } }
-  `;
-  const style = document.createElement('style');
-  style.id = 'gr-badge-styles';
-  style.textContent = css;
-  document.head.appendChild(style);
-})();
 
 // ===================================================
 // CONFIG principal
@@ -183,30 +143,39 @@ function lineDataset(y, x0, x1, color, label, dash = [6, 6]) {
   };
 }
 
-// Helpers de rango Y
-function calcYRange(candles, extra = []) {
+// ---- Rango Y SOLO con velas (15% margen) ----
+function calcYRange(candles) {
   let min = Infinity, max = -Infinity;
   for (const c of candles) { if (c.l < min) min = c.l; if (c.h > max) max = c.h; }
-  for (const v of extra)   { if (v < min)  min = v;   if (v > max)   max = v;   }
   const pad = (max - min) * 0.15 || (min * 0.003);
   return { min: min - pad, max: max + pad };
 }
 
-// Render inicial (solo pasado + TP/SL)
+// ---- Render inicial: velas gorditas + aire lateral (centrado) ----
 function renderVelasInicial(candles, tpPrice, slPrice) {
   const cv = $('chartVelas');
   if (!cv) return;
   const ctx = cv.getContext('2d');
 
+  // ancho real del canvas
+  const W = cv.getBoundingClientRect().width || cv.clientWidth || cv.width || 360;
+
+  // intervalo real entre velas (ms)
   const lastTs = candles[candles.length - 1].x.getTime();
   const prevTs = candles[candles.length - 2]?.x.getTime() ?? (lastTs - 60_000);
-  const dt = Math.max(10_000, lastTs - prevTs);
+  const intervalMs = Math.max(5_000, lastTs - prevTs);      // 5s mínimo por seguridad
+  const padMs = Math.round(intervalMs * 0.6);               // margen simétrico 60%
 
-  const barThickness = Math.max(7, Math.floor((cv.clientWidth / candles.length) * 0.70));
+  // grosor dinámico (centrado visual)
+  const widthPerCandle = Math.max(1, W / candles.length);
+  const barThickness = Math.max(8, Math.min(18, Math.floor(widthPerCandle * 0.78)));
 
   if (velaChart) { velaChart.destroy(); velaChart = null; }
 
-  const yRange = calcYRange(candles, [tpPrice, slPrice]);
+  // rango Y solo con velas (no “aplastar” por TP/SL)
+  const yRange = calcYRange(candles);
+  const minX = new Date(candles[0].x.getTime() - padMs);
+  const maxX = new Date(lastTs + padMs);
 
   velaChart = new Chart(ctx, {
     type: 'candlestick',
@@ -215,64 +184,74 @@ function renderVelasInicial(candles, tpPrice, slPrice) {
         {
           label: '',
           data: candles,
-          upColor: '#22c55e',
-          downColor: '#ef4444',
-          unchangedColor: '#9ca3af',
-          borderUpColor: '#22c55e',
-          borderDownColor: '#ef4444',
-          borderUnchangedColor: '#9ca3af',
-          barThickness,
-          borderWidth: 1
+          upColor:'#22c55e', downColor:'#ef4444', unchangedColor:'#9ca3af',
+          borderUpColor:'#22c55e', borderDownColor:'#ef4444', borderUnchangedColor:'#9ca3af',
+          borderWidth: 1.25,
+          barThickness
         },
-        lineDataset(tpPrice, candles[0].x, new Date(lastTs + dt * 0.9), '#22c55e', 'TP'),
-        lineDataset(slPrice, candles[0].x, new Date(lastTs + dt * 0.9), '#ef4444', 'SL')
+        { ...lineDataset(tpPrice, candles[0].x, maxX, '#22c55e', 'TP') },
+        { ...lineDataset(slPrice, candles[0].x, maxX, '#ef4444', 'SL') }
       ]
     },
     options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      animation: false,
-      plugins: { legend: { display: false } },
-      layout: { padding: { top: 6, right: 56, bottom: 8, left: 8 } },
-      scales: {
-        x: {
-          type: 'time',
-          time: {
+      responsive:true, maintainAspectRatio:false, animation:false,
+      plugins:{ legend:{ display:false } },
+      layout:{ padding:{ top:6, right:46, bottom:10, left:10 } },
+      clip: { left: 6, right: 6, top: 6, bottom: 6 },
+      scales:{
+        x:{
+          type:'time',
+          time:{
             unit: TIME_UNIT_BY_INTERVAL[INTERVAL] || 'minute',
             tooltipFormat: (INTERVAL === '1h' ? 'MMM dd HH:mm' : 'HH:mm')
           },
-          bounds: 'ticks',
-          offset: false,
-          ticks: { color: '#cbd5e1', padding: 4, maxRotation: 0 },
-          grid: { color: 'rgba(255,255,255,0.07)' },
-          min: new Date(candles[0].x.getTime() - dt * 0.25),
-          max: new Date(lastTs + dt * 0.9),
+          bounds:'ticks',
+          offset:true, // medio intervalo a cada lado → sensación centrada
+          min: minX,
+          max: maxX,
+          ticks:{ color:'#cbd5e1', padding:4, maxRotation:0, autoSkip:true },
+          grid:{ color:'rgba(255,255,255,0.07)' }
         },
-        y: {
-          position: 'right',
+        y:{
+          position:'right',
           min: yRange.min,
           max: yRange.max,
-          ticks: {
-            color: '#cbd5e1',
-            padding: 8,
-            callback: (v) => Number(v).toLocaleString('en-US', { minimumFractionDigits: 2 })
+          ticks:{
+            color:'#cbd5e1', padding:10,
+            callback:(v)=>Number(v).toLocaleString('en-US',{ minimumFractionDigits:2 })
           },
-          grid: { color: 'rgba(255,255,255,0.07)' },
-          afterFit: (scale) => { scale.width += 16; }
+          grid:{ color:'rgba(255,255,255,0.07)' },
+          afterFit:(scale)=>{ scale.width += 12; }
         }
       }
     }
   });
 }
 
-// Revelar futuro + re-zoom
-function revelarFuturoEnGrafico(tp, sl) {
+// ---- Al revelar futuro: re-zoom solo con velas y mismo margen simétrico ----
+function revelarFuturoEnGrafico() {
   if (!velaChart) return;
   velaChart.data.datasets[0].data = candlesAll;
 
-  const yRange = calcYRange(candlesAll, [tp, sl]);
-  const y = velaChart.options.scales.y;
-  y.min = yRange.min; y.max = yRange.max;
+  // eje Y
+  const yRange = calcYRange(candlesAll);
+  velaChart.options.scales.y.min = yRange.min;
+  velaChart.options.scales.y.max = yRange.max;
+
+  // eje X con el mismo criterio de margen
+  const all = candlesAll;
+  const lastTs = all[all.length - 1].x.getTime();
+  const prevTs = all[all.length - 2]?.x.getTime() ?? (lastTs - 60_000);
+  const intervalMs = Math.max(5_000, lastTs - prevTs);
+  const padMs = Math.round(intervalMs * 0.6);
+  velaChart.options.scales.x.min = new Date(all[0].x.getTime() - padMs);
+  velaChart.options.scales.x.max = new Date(lastTs + padMs);
+
+  // grosor si cambió el número de velas
+  const cv = velaChart.canvas;
+  const W = cv.getBoundingClientRect().width || cv.clientWidth || cv.width || 360;
+  const widthPerCandle = Math.max(1, W / all.length);
+  velaChart.data.datasets[0].barThickness = Math.max(8, Math.min(18, Math.floor(widthPerCandle * 0.78)));
 
   velaChart.update();
 }
@@ -322,33 +301,25 @@ function bloquearEval(ms=900){
   setTimeout(()=>btnEval.disabled=false, ms);
 }
 
-// Notificación visible + vibración + beep
 function marcarResultado(outcome, net) {
-  let clase = 'neutral', titulo = 'RESULTADO';
-  if (outcome === 'tp' || net > 0) { clase = 'win';  titulo = '¡GANASTE!'; }
-  else if (outcome === 'sl' || net < 0) { clase = 'lose'; titulo = 'PERDISTE'; }
-  else if (outcome === 'ambigua') { clase = 'neutral'; titulo = 'AMBIGUA'; }
-
+  const isWin = outcome === 'tp' || net > 0;
   const badge = document.createElement('div');
-  badge.className = `resultado-badge ${clase}`;
-  const pnlStr = (net>=0?'+':'')+'$'+Math.abs(+net).toFixed(2);
-  badge.textContent = `${titulo}  ·  P&L: ${pnlStr}`;
+  badge.className = 'resultado-badge ' + (isWin ? 'win' : 'lose');
+  badge.textContent = isWin ? '¡GANASTE!' : 'PERDISTE';
   document.body.appendChild(badge);
-
-  try { if (navigator.vibrate) navigator.vibrate(clase==='lose' ? [60,60,60] : [40,40]); } catch {}
 
   try {
     const ctx = new (window.AudioContext || window.webkitAudioContext)();
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
     osc.connect(gain); gain.connect(ctx.destination);
-    osc.type = 'sine';
-    osc.frequency.value = clase==='lose' ? 240 : clase==='win' ? 880 : 440;
+    osc.type = 'square';
+    osc.frequency.value = isWin ? 880 : 220;
     gain.gain.value = 0.08;
-    osc.start(); osc.stop(ctx.currentTime + 0.22);
+    osc.start(); osc.stop(ctx.currentTime + 0.25);
   } catch {}
 
-  setTimeout(() => { badge.remove(); }, 1800);
+  setTimeout(() => badge.remove(), 1200);
 }
 
 // === Historial de jugadas ===
@@ -478,8 +449,8 @@ function evaluarDecision() {
     if (hitSL) { outcome = 'sl'; break; }
   }
 
-  // Revela el futuro con re-zoom
-  revelarFuturoEnGrafico(e.tpPrice, e.slPrice);
+  // Revela el futuro con re-zoom (solo velas)
+  revelarFuturoEnGrafico();
 
   // 4) P&L con comisiones
   const feeRate = FEE_BPS / 10_000; // 0.0004
@@ -499,7 +470,7 @@ function evaluarDecision() {
   const saldoAntes = saldo;
   setSaldo(saldo + net);
 
-  // 5) Puntaje + racha + contadores de resultado
+  // 5) Puntaje + racha
   rondas++;
   let delta = 0;
   if (ok && riesgoSel >= riesgoMin && riesgoSel <= riesgoMax) {
@@ -521,12 +492,6 @@ function evaluarDecision() {
   }
   puntos = Math.max(0, puntos + delta);
   mejor = Math.max(mejor, racha);
-
-  // Contabiliza resultado agregado
-  if (outcome === 'tp' || net > 0)      wins++;
-  else if (outcome === 'sl' || net < 0) losses++;
-  else                                   neutrals++;
-
   guardar(); pintarStats();
 
   const outcomeTxt =
@@ -585,9 +550,7 @@ $('btnEvaluar')?.addEventListener('click', evaluarDecision);
 $('btnSiguiente')?.addEventListener('click', nuevaRonda);
 $('btnReiniciar')?.addEventListener('click', () => {
   if (!confirm('¿Reiniciar estadísticas y saldo?')) return;
-  rondas = puntos = racha = mejor = 0;
-  wins = losses = neutrals = 0; // también resultados agregados
-  guardar(); pintarStats();
+  rondas = puntos = racha = mejor = 0; guardar(); pintarStats();
   setSaldo(1000);
   elSalida && (elSalida.textContent = '');
   elTradeRes && (elTradeRes.textContent = '');
@@ -760,6 +723,7 @@ async function nuevaRonda() {
 pintarStats();
 renderHistorial();
 (async () => {
+  const intervalSelect = document.getElementById('intervalSelect');
   if (intervalSelect && intervalSelect.value) {
     INTERVAL = intervalSelect.value;
     LIMIT    = LIMIT_BY_INTERVAL[INTERVAL] ?? 150;

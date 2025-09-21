@@ -2,11 +2,14 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>¿Sube o Baja el Bitcoin? (Demo educativo) - Freimel Jerez</title>
-  <meta name="description" content="Juego DEMO: predice si el precio de Bitcoin sube o baja. Aprende a leer la tendencia con velas reales, estadísticas, racha y saldo ficticio.">
+  <title>¿Sube o Baja el Bitcoin? — Demo educativo | freimeljerezcom.online</title>
+  <meta name="description" content="Juego DEMO educativo: practica si el precio de Bitcoin sube o baja. Aprende a leer tendencia con velas reales, estadísticas, racha y saldo ficticio.">
   <meta name="robots" content="index, follow">
+  <meta name="author" content="Freimel Jerez">
+  <meta name="theme-color" content="#0d0d0d">
 
   <!-- Canonical -->
   <link rel="canonical" href="https://freimeljerezcom.online/interactivos/prediccion-btc-juego.html">
@@ -14,14 +17,14 @@
   <!-- Open Graph / Twitter -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="¿Sube o Baja el Bitcoin? (Demo educativo)">
-  <meta property="og:description" content="Simulador con velas BTC/USDT en tiempo real y estadísticas de aciertos.">
+  <meta property="og:description" content="Simulador con velas BTC/USDT en tiempo real y estadísticas de aciertos. 100% educativo, sin dinero real.">
   <meta property="og:image" content="https://freimeljerezcom.online/imagenes/og-prediccion-btc.jpg">
   <meta property="og:url" content="https://freimeljerezcom.online/interactivos/prediccion-btc-juego.html">
   <meta name="twitter:card" content="summary_large_image">
 
-  <!-- PWA / assets (opcional si ya los tienes globales) -->
-  <link rel="icon" href="/favicon.ico" type="image/x-icon">
-  <link rel="manifest" href="/manifest.json" />
+  <!-- PWA / assets -->
+     <link rel="icon" href="/imagenes/icon-192.png" type="image/png" />
+
 
   <!-- Rendimiento: preconexión a APIs -->
   <link rel="preconnect" href="https://api.binance.com">
@@ -30,68 +33,79 @@
   <!-- Estilos -->
   <link rel="stylesheet" href="/interactivos/css/prediccion-btc.css">
 
-  <!-- JSON-LD específico de esta página -->
+  <!-- AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4933331274738462" crossorigin="anonymous"></script>
+
+  <style>
+    .adsbygoogle {
+      display:block;
+      margin:20px auto;
+      text-align:center;
+      max-width:100%;
+      min-height:90px;
+      opacity:0;
+      transition:opacity .6s ease-in-out;
+    }
+    .adsbygoogle[data-adsbygoogle-status="done"] {
+      opacity:1;
+    }
+    .ad-buffer { margin-top:24px; }
+  </style>
+
+  <!-- JSON-LD principal -->
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
     "@type":"SoftwareApplication",
-    "name":"¿Sube o Baja el Bitcoin? (Demo)",
+    "name":"¿Sube o Baja el Bitcoin? (Demo educativo)",
     "applicationCategory":"GameApplication",
     "operatingSystem":"Web",
-    "description":"Juego demo educativo para practicar la lectura de velas con BTC/USDT en tiempo real.",
+    "description":"Juego demo educativo para practicar lectura de velas con BTC/USDT en tiempo real sin dinero real.",
     "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
     "author":{"@type":"Person","name":"Freimel Jerez"},
-    "url":"https://freimeljerezcom.online/interactivos/prediccion-btc-juego.html"
+    "inLanguage":"es",
+    "isAccessibleForFree": true,
+    "url":"https://freimeljerezcom.online/interactivos/prediccion-btc-juego.html",
+    "dateModified":"2025-09-11"
   }
   </script>
-
-  <!-- (Opcional) AdSense si quieres anuncios en esta página -->
-  <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXX" crossorigin="anonymous"></script> -->
 </head>
 <body>
-  <main class="wrapper">
+
+  <main id="contenido" class="wrapper">
     <div class="container">
       <h1>📈 ¿Sube o Baja el Bitcoin?</h1>
 
       <!-- AVISO DEMO -->
-      <div class="aviso-demo" role="note" aria-label="Aviso de créditos demo">
-        💡 <strong>Modo demo educativo:</strong> el saldo y las apuestas son <u>créditos ficticios</u>.
-        No hay depósitos, premios ni retiros reales. Esto no es asesoría financiera.
+      <div class="aviso-demo">
+        💡 <strong>Modo demo educativo:</strong> créditos ficticios, sin depósitos ni premios reales.
       </div>
 
       <!-- SALDO / APUESTA / RIESGO -->
       <section class="banca destaque">
+        <div class="banca-item">💰 Saldo <span class="badge-demo">DEMO</span>: <span id="saldo">—</span></div>
         <div class="banca-item">
-          💰 Saldo <span class="badge-demo">DEMO</span>:
-          <span id="saldo">—</span>
+          <label for="apuesta">Apuesta:</label>
+          <input id="apuesta" type="number" min="1" step="1" value="10">
+          <button id="menosApuesta" class="btn secundario" type="button">−</button>
+          <button id="masApuesta" class="btn secundario" type="button">+</button>
+          <small>Apuesta máx. demo: 500 créditos</small>
         </div>
-
         <div class="banca-item">
-          Apuesta:
-          <input id="apuesta" type="number" min="1" step="1" value="10" aria-label="Apuesta en créditos demo">
-          <button id="menosApuesta" class="btn secundario" type="button" aria-label="Disminuir apuesta">−</button>
-          <button id="masApuesta" class="btn secundario" type="button" aria-label="Aumentar apuesta">+</button>
-          <small class="nota-apuesta">Apuesta máx. demo: 500 créditos</small>
-        </div>
-
-        <div class="banca-item">
-          Riesgo:
-          <select id="riesgo" aria-label="Nivel de riesgo / multiplicador">
+          <label for="riesgo">Riesgo:</label>
+          <select id="riesgo">
             <option value="1">Conservador (1.0x)</option>
             <option value="1.5" selected>Estándar (1.5x)</option>
             <option value="2">Alto (2.0x)</option>
           </select>
-          <small class="nota-apuesta">Bono por racha: +5% por acierto (máx +50%).</small>
         </div>
-
         <div class="banca-item">
           <button id="btnRecargar" class="btn peligro" type="button">Recargar saldo</button>
         </div>
       </section>
 
       <p class="intro">
-        Elige tu predicción para el próximo intervalo. Observa la mini-tendencia, decide y comprueba tu resultado. 
-        <strong>BTC/USDT</strong> en tiempo real (con respaldo CoinGecko si es necesario).
+        Elige tu predicción para el próximo intervalo. Observa la mini-tendencia, decide y comprueba el resultado.
       </p>
 
       <!-- PANEL -->
@@ -101,33 +115,37 @@
           <div id="precio" class="precio">—</div>
           <div id="variacion" class="variacion">—</div>
         </div>
-
         <div class="controles">
-          <label>
-            Intervalo:
-            <select id="intervalo" aria-label="Intervalo de la ronda">
-              <option value="30">30 s</option>
-              <option value="60" selected>1 min</option>
-              <option value="180">3 min</option>
-              <option value="300">5 min</option>
-            </select>
-          </label>
-
+          <label for="intervalo">Intervalo:</label>
+          <select id="intervalo">
+            <option value="30">30 s</option>
+            <option value="60" selected>1 min</option>
+            <option value="180">3 min</option>
+            <option value="300">5 min</option>
+          </select>
           <button id="btnSube" class="btn sube" type="button">Creo que SUBE ↑</button>
           <button id="btnBaja" class="btn baja" type="button">Creo que BAJA ↓</button>
-          <button id="btnCancelar" class="btn secundario" type="button" disabled>Cancelar predicción</button>
+          <button id="btnCancelar" class="btn secundario" type="button" disabled>Cancelar</button>
         </div>
-
-        <div id="estado" class="estado" aria-live="polite">Haz una predicción para iniciar la ronda.</div>
+        <div id="estado" class="estado">Haz una predicción para iniciar la ronda.</div>
         <div id="contador" class="contador" style="display:none;">00:00</div>
       </section>
+
+      <!-- ✅ ANUNCIO 1: in-article -->
+      <ins class="adsbygoogle ad-buffer"
+           data-ad-client="ca-pub-4933331274738462"
+           data-ad-slot="7799323022"
+           data-ad-format="fluid"
+           data-ad-layout="in-article"
+           data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 
       <!-- ESTADÍSTICAS -->
       <section class="estadisticas">
         <div>Rondas: <span id="rondas">0</span></div>
         <div>Aciertos: <span id="aciertos">0</span></div>
         <div>Precisión: <span id="precision">0%</span></div>
-        <div>Racha: <span id="racha">0</span> | Mejor racha: <span id="mejorRacha">0</span></div>
+        <div>Racha: <span id="racha">0</span> | Mejor: <span id="mejorRacha">0</span></div>
       </section>
 
       <!-- HISTORIAL -->
@@ -139,10 +157,18 @@
       <!-- MINI TENDENCIA -->
       <section class="panel mini-tendencia">
         <h2>Mini tendencia (últimos 10 ticks)</h2>
-        <div style="position:relative; height:320px; width:100%;">
+        <div style="height:320px;width:100%;">
           <canvas id="miniCandlestick"></canvas>
         </div>
       </section>
+
+      <!-- ✅ ANUNCIO 2: centro -->
+      <ins class="adsbygoogle"
+           data-ad-client="ca-pub-4933331274738462"
+           data-ad-slot="9479478115"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 
       <div class="acciones">
         <button id="btnActualizar" class="btn secundario" type="button">Actualizar precio</button>
@@ -153,21 +179,37 @@
     </div>
   </main>
 
-  <!-- Modal Game Over (saldo 0) -->
+  <!-- Modal Game Over -->
   <div id="modalOverlay" class="modal-overlay" hidden>
-    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
       <h3 id="modalTitle">Saldo agotado</h3>
-      <p>Tu saldo llegó a 0. Debes recargar para continuar jugando.
-        <br><small>Este juego es <strong>demo educativo</strong>. No hay dinero real.</small>
-      </p>
+      <p>Tu saldo llegó a 0. Recarga para continuar. <small>Demo educativo, sin dinero real.</small></p>
       <div class="modal-actions">
-        <button id="modalRecargar" class="btn sube" type="button" autofocus>Recargar saldo</button>
+        <button id="modalRecargar" class="btn sube" type="button">Recargar saldo</button>
         <button id="modalCerrar" class="btn secundario" type="button">Cerrar</button>
       </div>
     </div>
   </div>
 
-  <!-- Librerías: Chart.js + adapter + financial -->
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <!-- ✅ ANUNCIO 3: footer -->
+    <ins class="adsbygoogle"
+         data-ad-client="ca-pub-4933331274738462"
+         data-ad-slot="4606183476"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+    <p>© <span id="year"></span> Freimel Jerez · Proyecto educativo</p>
+  </footer>
+
+  <script>
+    // Año automático
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+
+  <!-- Librerías -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial"></script>

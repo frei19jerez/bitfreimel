@@ -213,3 +213,4 @@ document.addEventListener("DOMContentLoaded", async () => {
     $("#contenedorTrivia").innerHTML = `<div class="resultado">❌ No se pudo cargar la trivia. Intenta más tarde.</div>`;
   }
 });
+

@@ -1,0 +1,221 @@
+/* ============================
+   Zona Interactiva · Freimel Jerez
+   Archivo: /css/interactivos.css
+   ============================ */
+
+:root{
+  --bg: #000;
+  --panel: #0f0f0f;
+  --line: #1f1f1f;
+  --ink: #e9e9e9;
+  --muted: #bfbfbf;
+  --brand: #00ff6a;
+  --brand-ink: #061a0e;
+  --glow: rgba(0,255,106,0.14);
+}
+
+/* ====== BODY (por si el global no aplica) ====== */
+html, body { height: 100%; }
+body{
+  background: var(--bg);
+  color: var(--ink);
+  margin:0;
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+}
+
+/* ================= NAVBAR ================= */
+.navbar {
+  background: #0b0b0b;
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+.navbar-container {
+  width: min(1200px, 94%);
+  margin: 0 auto;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap; /* si falta espacio, los links bajan */
+}
+.logo {
+  color: var(--brand);
+  font-weight: 800;
+  text-decoration: none;
+  font-size: clamp(1rem, 1.8vw, 1.2rem);
+  letter-spacing: .2px;
+}
+
+/* Links */
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: clamp(12px, 2vw, 20px);
+  margin: 0;
+  padding: 0;
+}
+.nav-links a {
+  color: var(--ink);
+  text-decoration: none;
+  padding: 8px 10px;
+  border-radius: 8px;
+  transition: background 0.2s ease;
+}
+.nav-links a:hover,
+.nav-links a.active {
+  background: #111;
+}
+
+/* Botón hamburguesa */
+.hamburger {
+  display: none;
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  cursor: pointer;
+  position: relative;
+}
+.hamburger .line {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  height: 2px;
+  background: #fff;
+  transition: transform .25s ease, opacity .2s ease, top .25s ease;
+}
+.hamburger .line:nth-child(1){ top:12px; }
+.hamburger .line:nth-child(2){ top:20px; }
+.hamburger .line:nth-child(3){ top:28px; }
+
+/* Animación al abrir */
+.hamburger.is-active .line:nth-child(1){ top:20px; transform:rotate(45deg); }
+.hamburger.is-active .line:nth-child(2){ opacity:0; }
+.hamburger.is-active .line:nth-child(3){ top:20px; transform:rotate(-45deg); }
+
+/* ===== MOBILE ===== */
+@media (max-width: 960px){
+  .hamburger{ display:inline-block; }
+
+  .nav-links{
+    position: fixed;
+    top: 64px;
+    right: 0; left: 0;
+    background: #0b0b0b;
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px 20px 24px;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-10px);
+    transition: opacity .25s ease, transform .25s ease;
+    border-top: 1px solid var(--line);
+  }
+  .nav-links.open{
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+  .nav-links a{ padding: 14px 10px; border-radius: 12px; }
+
+  /* Evita scroll del body cuando el menú está abierto (lo hace el JS) */
+  body[style*="overflow: hidden"]{ touch-action: none; }
+}
+
+/* ============ CONTENIDO ============ */
+.wrapper{ padding: 18px 0 10px; }
+.container{ width: min(1200px, 94%); margin: 0 auto; }
+
+/* Titular y texto */
+.container h1{
+  margin: 0 0 8px;
+  font-size: clamp(1.2rem, 2.4vw, 1.8rem);
+  color: var(--brand);
+  letter-spacing: .2px;
+}
+.container > p{ margin: 0 0 14px; color: var(--muted); }
+
+/* Lista de apps como tarjetas (auto-responsive) */
+.container > ul{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: clamp(12px, 2vw, 16px);
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.container > ul > li{
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: clamp(12px, 1.8vw, 14px);
+  box-shadow: 0 12px 28px -16px var(--glow);
+}
+
+/* Enlace principal de cada tarjeta */
+.container > ul > li > a{
+  display: inline-block;
+  text-decoration: none;
+  color: var(--ink);
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.container > ul > li > a strong{ color: var(--brand); font-weight: 800; }
+.container > ul > li > a:hover{ text-decoration: underline; }
+
+/* Descripción */
+.container > ul > li > p{ margin: 0; color: var(--muted); line-height: 1.35; }
+
+/* Link volver */
+.container > a[href="/"]{
+  display: inline-block;
+  margin-top: 12px;
+  color: var(--muted);
+  text-decoration: none;
+}
+.container > a[href="/"]:hover{ text-decoration: underline; }
+
+/* Ads */
+.ad-box {
+  margin: 20px auto;
+  text-align: center;
+  min-height: 72px;           /* mejor en móviles */
+  background: transparent;
+  border: none;
+  padding: 4px;
+  box-shadow: 0 0 12px rgba(0,255,106,0.12); /* un glow muy suave */
+  border-radius: 8px;
+}
+
+/* Ultra-mobile (≤360px) */
+@media (max-width: 360px){
+  .wrapper{ padding-top: 12px; }
+  .container{ width: min(1100px, 94%); }
+  .container h1{ font-size: 1.08rem; }
+  .container > p{ font-size: .97rem; }
+  .container > ul{ gap: 12px; }
+  .container > ul > li{ padding: 12px; border-radius: 12px; }
+  .ad-box{ min-height: 60px; }
+}
+
+/* Footer básico */
+.site-footer{
+  text-align: center;
+  padding: 14px 10px;
+  background: #222;
+  color: #aaa;
+  font-size: .92rem;
+}
+.site-footer a{
+  color: var(--brand);
+  text-decoration: none;
+  font-weight: 700;
+  margin: 0 .35rem;
+}
+.site-footer a:hover{ text-decoration: underline; }

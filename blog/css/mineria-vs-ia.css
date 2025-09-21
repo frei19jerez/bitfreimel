@@ -1,0 +1,72 @@
+/* /blog/css/mineria-vs-ia.css */
+:root{--bg:#0f0f0f;--card:#121212;--line:#222;--text:#eaeaea;--muted:#c9d1d9;--accent:#4caf50;--accent-2:#2e7d32}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--text);font:400 17px/1.75 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+img{max-width:100%;height:auto;display:block}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+
+/* Navbar */
+.navbar{position:sticky;top:0;z-index:50;background:var(--bg);border-bottom:1px solid var(--line)}
+.navbar-container{max-width:900px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo{color:#fff;font-weight:800}
+.hamburger{border:1px solid #333;background:#1a1a1a;color:#fff;border-radius:10px;padding:8px 12px;cursor:pointer}
+.nav-links{list-style:none;margin:0;padding:0;display:none;flex-direction:column;gap:8px;position:absolute;left:0;right:0;top:100%;background:var(--bg);border-bottom:1px solid var(--line);padding:12px 16px}
+.nav-links li a{color:#d0d0d0;padding:8px 10px;border-radius:8px;display:block}
+.nav-links li a:hover{background:#1b1b1b;color:#fff}
+.nav-links.open{display:flex}
+@media (min-width:768px){.hamburger{display:none}.nav-links{position:static;display:flex;flex-direction:row;background:transparent;border:0;padding:0;gap:16px}}
+
+/* Layout */
+.wrapper{padding:22px 0}
+.container{max-width:900px;margin:0 auto;padding:0 16px}
+
+/* Cabecera de post */
+.post-header{margin:6px 0 18px}
+.post-title{font-weight:800;letter-spacing:.2px;line-height:1.25;font-size:clamp(1.7rem,2.6vw,2.4rem);margin:0 0 6px}
+.post-meta{color:#a9a9a9;font-size:.95rem}
+
+/* Imagen destacada */
+.cover{margin:18px 0;border-radius:14px;overflow:hidden;border:1px solid #1e1e1e}
+.cover img{width:100%;aspect-ratio:16/9;object-fit:cover}
+
+/* Contenido */
+.content h2{font-size:clamp(1.25rem,2vw,1.6rem);margin:22px 0 8px}
+.content h3{font-size:clamp(1.05rem,1.5vw,1.25rem);margin:18px 0 8px}
+.content p{margin:10px 0;color:#dcdcdc}
+.content ul,.content ol{margin:8px 0 12px 20px}
+.content li{margin:6px 0}
+.content strong{color:#fff}
+.content blockquote{margin:14px 0;padding:12px 14px;border-left:4px solid var(--accent);background:#111;border-radius:10px;color:#cfe9d2}
+
+/* Tablas */
+.content table{width:100%;border-collapse:collapse;margin:14px 0;border:1px solid #1f1f1f}
+.content th,.content td{padding:10px;border-bottom:1px solid #1f1f1f;text-align:left}
+.content thead th{background:#171717}
+
+/* Código */
+.content pre{background:#0e0e0e;border:1px solid #1f1f1f;border-radius:12px;padding:12px;overflow:auto}
+.content code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#121212;padding:.1em .35em;border-radius:6px}
+
+/* Imágenes */
+.content figure{margin:16px 0;text-align:center}
+.content figure img{border-radius:12px;border:1px solid #1f1f1f}
+.content figcaption{color:#a5a5a5;font-size:.9rem;margin-top:6px}
+
+/* CTA */
+.post-cta{display:flex;gap:10px;flex-wrap:wrap;margin:22px 0}
+.post-cta a{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#071b0a;padding:10px 14px;border-radius:10px;font-weight:700}
+.post-cta a:hover{filter:brightness(1.1)}
+
+/* Nav siguiente/anterior */
+.post-nav{display:flex;justify-content:space-between;gap:10px;margin:34px 0 10px}
+.post-nav a{color:#98e6ac}
+.post-nav a:hover{text-decoration:underline}
+
+/* Footer */
+footer{border-top:1px solid var(--line);margin-top:40px;padding:20px 16px;text-align:center;color:#aaa}
+footer a{color:inherit;margin:0 6px}
+footer a:hover{text-decoration:underline}
+
+/* Responsive */
+@media (max-width:600px){.post-nav{flex-direction:column;gap:8px}}

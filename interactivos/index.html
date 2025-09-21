@@ -7,7 +7,16 @@
   <meta name="keywords" content="juegos bitcoin, IA, criptomonedas, predicción, simulador, educación financiera">
   <meta name="author" content="Freimel Jerez">
   <title>Zona Interactiva - Freimel Jerez</title>
-  <link rel="stylesheet" href="/css/styles.min.css" />
+
+  <link rel="stylesheet" href="/interactivos/css/interactivos.css" />
+    <link rel="icon" href="/imagenes/icon-192.png" type="image/png" />
+
+  <!-- AdSense (solo una vez) -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4933331274738462" crossorigin="anonymous"></script>
+
+  <style>
+    .ad-box { margin: 18px auto; text-align: center; min-height: 90px; }
+  </style>
 </head>
 <body>
 
@@ -15,22 +24,37 @@
 <nav class="navbar">
   <div class="navbar-container">
     <a href="/" class="logo">Freimel Jerez</a>
-    <button class="hamburger" id="hamburger">&#9776;</button>
+
+    <button class="hamburger" id="hamburger" aria-label="Abrir menú" aria-controls="nav-links" aria-expanded="false">
+      <span class="line"></span><span class="line"></span><span class="line"></span>
+    </button>
+
     <ul class="nav-links" id="nav-links">
       <li><a href="/">Inicio</a></li>
       <li><a href="/blog/index.html">Blog</a></li>
-      <li><a href="/interactivos/index.html">Interactivos</a></li>
+      <li><a class="active" href="/interactivos/">Interactivos</a></li>
       <li><a href="/ia-prediccion.html">IA-predicción</a></li>
     </ul>
   </div>
 </nav>
-
 
 <!-- CONTENIDO -->
 <main class="wrapper">
   <div class="container">
     <h1>🎮 Zona Interactiva</h1>
     <p>Explora nuestras herramientas educativas y juegos sobre Bitcoin, inteligencia artificial y el mercado cripto. Ideal para aprender mientras te diviertes.</p>
+
+    <!-- ANUNCIO #1 (in-article) -->
+    <div class="ad-box">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-4933331274738462"
+           data-ad-slot="7799323022"
+           data-ad-format="auto"
+           data-full-width-responsive="true"
+           data-adtest="on"></ins>
+    </div>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 
     <ul>
       <li>
@@ -52,18 +76,36 @@
     </ul>
 
     <a href="/">← Volver al inicio</a>
+
+    <!-- ANUNCIO #2 (footer/abajo) -->
+    <div class="ad-box">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-4933331274738462"
+           data-ad-slot="4606183476"
+           data-ad-format="auto"
+           data-full-width-responsive="true"
+           data-adtest="on"></ins>
+    </div>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
   </div>
 </main>
 
 <!-- FOOTER -->
-<footer>
-  <a href="/privacidad.html">Privacidad</a> |
+<footer class="site-footer" role="contentinfo">
+  <a href="/privacidad.html" rel="nofollow">Privacidad</a> |
   <a href="/contacto.html">Contacto</a> |
-  <a href="/terminos-condiciones.html">Términos</a> |
+  <a href="/terminos-condiciones.html" rel="nofollow">Términos</a> |
   <a href="/acerca.html">Acerca de</a>
+  <br><small>© <span id="year"></span> Freimel Jerez · Proyecto educativo</small>
 </footer>
 
-<script src="/script/script.js"></script>
+<script>
+  // año automático del footer
+  (function(){ var y=document.getElementById('year'); if(y){ y.textContent=new Date().getFullYear(); }})();
+</script>
 
+<script src="/interactivos/js/interactivos.js"></script>
 </body>
 </html>

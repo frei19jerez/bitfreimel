@@ -1,68 +1,194 @@
 /* ===========================
    Tema oscuro — Trivia Cripto
    =========================== */
-:root{
-  --bg:#0f0f0f; --panel:#151515; --panel-2:#1b1b1b; --line:#262626; --line-2:#2b2b2b;
-  --text:#e9e9e9; --muted:#bdbdbd; --green:#7aff7a; --green-2:#1d8f2d; --red:#c92430;
-  --red-2:#7a2323; --btn:#2f2f2f; --shadow:rgba(0,0,0,.35); --radius-lg:14px; --radius-md:12px;
+:root {
+  --bg: #0f0f0f;
+  --panel: #151515;
+  --panel-2: #1b1b1b;
+  --line: #262626;
+  --line-2: #2b2b2b;
+  --text: #e9e9e9;
+  --muted: #bdbdbd;
+  --green: #7aff7a;
+  --green-2: #1d8f2d;
+  --red: #c92430;
+  --red-2: #7a2323;
+  --btn: #2f2f2f;
+  --shadow: rgba(0, 0, 0, .35);
+  --radius-lg: 14px;
+  --radius-md: 12px;
 }
 
-html,body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.45}
-.wrapper{padding:18px}
-.container{
-  max-width:980px;margin:0 auto;background:var(--panel);
-  border:1px solid var(--line);border-radius:var(--radius-lg);
-  padding:20px;box-shadow:0 0 20px var(--shadow)
+/* ===== Layout global ===== */
+html, body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  line-height: 1.45;
+  margin: 0;
+  padding: 0;
 }
 
-h1{margin:4px 0 10px;text-align:center;color:var(--green);letter-spacing:.2px}
-.intro{background:#101010;border:1px solid var(--line-2);border-radius:12px;padding:12px 14px;color:var(--muted)}
-.ayuda{color:var(--muted);font-size:.9rem;margin:.4rem 0 1rem}
+.wrapper { padding: 18px; }
 
-/* Progreso */
-.progreso{height:10px;background:#0d0d0d;border:1px solid var(--line);border-radius:999px;margin:14px 0;overflow:hidden}
-.progreso span{display:block;height:100%;width:0;background:linear-gradient(90deg,#2ecc71,#7aff7a);transition:width .25s ease}
-
-/* Tarjetas de preguntas */
-.trivia .pregunta{
-  margin:16px 0;background:var(--panel-2);border:1px solid var(--line-2);border-radius:12px;padding:14px
+.container {
+  max-width: 980px;
+  margin: 0 auto;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  box-shadow: 0 0 20px var(--shadow);
 }
-.pregunta h3{margin:0 0 10px;font-size:1.05rem}
-.pregunta .op{display:block;margin:.35rem 0;padding:.35rem .45rem;border-radius:8px}
-.pregunta .op input{margin-right:.45rem}
-.pregunta .op:has(input:focus-visible){outline:3px solid rgba(122,255,122,.25)}
-.pregunta .exp{margin-top:8px;background:#121212;border:1px solid #2a2a2a;border-radius:8px;padding:8px;color:#d7d7d7}
 
-/* Botones */
-.btn{border:none;padding:10px 14px;border-radius:12px;cursor:pointer;font-weight:700;transition:transform .06s,filter .15s;outline:none}
-.btn:hover{filter:brightness(1.08)} .btn:active{transform:translateY(1px)}
-.btn:disabled{opacity:.6;cursor:not-allowed}
-.sube{background:var(--green-2);color:#fff}
-.secundario{background:var(--btn);color:#ddd}
-.peligro{background:var(--red-2);color:#fff}
-.acciones{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:12px 0}
+/* ===== Titulares ===== */
+h1 {
+  margin: 4px 0 10px;
+  text-align: center;
+  color: var(--green);
+  letter-spacing: .2px;
+}
+.intro {
+  background: #101010;
+  border: 1px solid var(--line-2);
+  border-radius: 12px;
+  padding: 12px 14px;
+  color: var(--muted);
+}
+.ayuda {
+  color: var(--muted);
+  font-size: .9rem;
+  margin: .4rem 0 1rem;
+}
 
-/* Resultado y revisión */
-.resultado{margin-top:10px;background:#101010;border:1px solid #242424;border-radius:12px;padding:12px}
-.resultado .punt{font-size:1.2rem;font-weight:800;color:var(--green)}
-.mejor{color:var(--muted);margin:.5rem 0 1rem}
-.divisor{border:0;border-top:1px solid var(--line-2);margin:18px 0}
-.revision-wrap{background:#111;border:1px solid #242424;border-radius:12px;padding:12px}
-.revision{margin:0;padding-left:1.2rem}
-.revision li{margin:.5rem 0}
+/* ===== Progreso ===== */
+.progreso {
+  height: 10px;
+  background: #0d0d0d;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  margin: 14px 0;
+  overflow: hidden;
+}
+.progreso span {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, #2ecc71, #7aff7a);
+  transition: width .25s ease;
+}
 
-/* Estado correcto/incorrecto en la tarjeta */
-.correcta{border-color:#2ea043}
-.incorrecta{border-color:#c43d44}
+/* ===== Tarjetas de preguntas ===== */
+.trivia .pregunta {
+  margin: 16px 0;
+  background: var(--panel-2);
+  border: 1px solid var(--line-2);
+  border-radius: 12px;
+  padding: 14px;
+}
+.pregunta h3 {
+  margin: 0 0 10px;
+  font-size: 1.05rem;
+}
+.pregunta .op {
+  display: block;
+  margin: .35rem 0;
+  padding: .35rem .45rem;
+  border-radius: 8px;
+}
+.pregunta .op input { margin-right: .45rem; }
+.pregunta .op:has(input:focus-visible) {
+  outline: 3px solid rgba(122, 255, 122, .25);
+}
+.pregunta .exp {
+  margin-top: 8px;
+  background: #121212;
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
+  padding: 8px;
+  color: #d7d7d7;
+}
 
-/* Enlaces & volver */
-.volver{text-align:center;margin-top:16px}
-.volver a{color:var(--green);text-decoration:none}
-.volver a:hover{text-decoration:underline}
+/* ===== Botones ===== */
+.btn {
+  border: none;
+  padding: 10px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: transform .06s, filter .15s;
+  outline: none;
+}
+.btn:hover { filter: brightness(1.08); }
+.btn:active { transform: translateY(1px); }
+.btn:disabled { opacity: .6; cursor: not-allowed; }
+.sube { background: var(--green-2); color: #fff; }
+.secundario { background: var(--btn); color: #ddd; }
+.peligro { background: var(--red-2); color: #fff; }
+.acciones {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 12px 0;
+}
 
-/* Responsivo */
-@media (max-width:720px){
-  .wrapper{padding:14px}
-  .container{padding:16px}
-  .btn{min-width:140px}
+/* ===== Resultado y revisión ===== */
+.resultado {
+  margin-top: 10px;
+  background: #101010;
+  border: 1px solid #242424;
+  border-radius: 12px;
+  padding: 12px;
+}
+.resultado .punt {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--green);
+}
+.mejor { color: var(--muted); margin: .5rem 0 1rem; }
+.divisor { border: 0; border-top: 1px solid var(--line-2); margin: 18px 0; }
+.revision-wrap {
+  background: #111;
+  border: 1px solid #242424;
+  border-radius: 12px;
+  padding: 12px;
+}
+.revision { margin: 0; padding-left: 1.2rem; }
+.revision li { margin: .5rem 0; }
+
+/* ===== Estado correcto/incorrecto ===== */
+.correcta { border-color: #2ea043; }
+.incorrecta { border-color: #c43d44; }
+
+/* ===== Enlaces & volver ===== */
+.volver { text-align: center; margin-top: 16px; }
+.volver a { color: var(--green); text-decoration: none; }
+.volver a:hover { text-decoration: underline; }
+
+/* ===== Anuncios ===== */
+.adsbygoogle {
+  display: block;
+  margin: 18px auto;
+  max-width: 100%;
+  text-align: center;
+}
+
+/* ===== Footer ===== */
+.site-footer {
+  border-top: 1px solid #333;
+  margin-top: 40px;
+  padding: 24px 0;
+  text-align: center;
+  color: #aaa;
+  font-size: .95rem;
+}
+.site-footer a { color: inherit; text-decoration: none; }
+.site-footer a:hover { text-decoration: underline; }
+
+/* ===== Responsivo ===== */
+@media (max-width: 720px) {
+  .wrapper { padding: 14px; }
+  .container { padding: 16px; }
+  .btn { min-width: 140px; }
 }

@@ -7,20 +7,36 @@
   <meta name="description" content="Consulta en tiempo real la predicción de precios del Bitcoin con inteligencia artificial. Estimaciones para hoy, la semana y el mes.">
   <meta name="keywords" content="Predicción IA Bitcoin, BTC inteligencia artificial, criptomonedas, análisis BTC, BitFreimel">
   <meta name="robots" content="index, follow">
-  <link rel="stylesheet" href="/css/styles.min.css" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <link rel="stylesheet" href="/css/prediccionIA.css" />
+    <link rel="icon" href="/imagenes/icon-192.png" type="image/png" />
+
+  <!-- AdSense (cargar una sola vez) -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4933331274738462" crossorigin="anonymous"></script>
+
+  <!-- TradingView / utilidades -->
+  <script src="https://s3.tradingview.com/tv.js"></script>
   <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 </head>
 <body>
 
-  <!-- Menú de navegación -->
+  <!-- ===== NAVBAR ===== -->
   <nav class="navbar">
     <div class="navbar-container">
       <a href="/" class="logo">Freimel Jerez</a>
-      <button class="hamburger" id="hamburger">&#9776;</button>
+
+      <!-- Botón hamburguesa -->
+      <button class="hamburger" id="hamburger" aria-label="Abrir menú">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </button>
+
+      <!-- Links -->
       <ul class="nav-links" id="nav-links">
         <li><a href="/">Inicio</a></li>
         <li><a href="/blog/index.html">Blog</a></li>
+         <li><a href="/interactivos/">Interactivos</a></li>
         <li><a href="/ia-prediccion.html" class="active">Predicción IA</a></li>
       </ul>
     </div>
@@ -29,6 +45,17 @@
   <!-- Panel de Predicción -->
   <main class="ia-box" id="prediccionBox">
     <h1>📊 Predicción Inteligente del Precio de Bitcoin</h1>
+
+    <!-- Anuncio 1: debajo del título -->
+    <div class="ad-box" style="margin:12px 0; min-height:90px;">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-4933331274738462"
+           data-ad-slot="9479478115"   <!-- bitcoin-prediccion-1 -->
+      </ins>
+    </div>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
     <p><strong>🔮 Precio Futuro Estimado:</strong> <span id="precioFuturoIA">$...</span></p>
     <p><strong>📅 Próximas 24 horas:</strong> <span id="prediccionCorto">Cargando...</span></p>
     <p><strong>🗓️ Próximos 7 días:</strong> <span id="prediccionSemana">Cargando...</span></p>
@@ -36,16 +63,25 @@
     <p><strong>📈 Tendencia Actual:</strong> <span id="tendenciaTexto">Calculando...</span></p>
     <p><strong>⏱️ Última actualización:</strong> <span id="horaActual">--:--</span></p>
 
-    <!-- Gráfico de velas en vivo -->
-    <div class="tradingview-widget-container" style="margin-top:2rem; height:400px;">
-      <div id="tradingview_1" style="height:100%;"></div>
+    <!-- Gráfico de velas -->
+    <div style="height:320px; margin-top:16px;">
+      <canvas id="velasBTC"></canvas>
     </div>
+
+    <!-- Anuncio 2: después del gráfico -->
+    <div class="ad-box" style="margin:16px 0; min-height:90px;">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-4933331274738462"
+           data-ad-slot="7799323022"   <!-- bitcoin-inarticle-1 -->
+      </ins>
+    </div>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 
     <button class="actualizar-btn" onclick="obtenerPrediccionIA()">🔄 Actualizar ahora</button>
     <button id="descargarImagen" class="actualizar-btn">📷 Descargar Imagen</button>
   </main>
   
-
   <!-- Footer -->
   <footer>
     <a href="/privacidad.html">Política de Privacidad</a> |
@@ -54,54 +90,22 @@
     <a href="/acerca.html">Acerca de</a>
   </footer>
 
-  <!-- TradingView Script -->
-  <script src="https://s3.tradingview.com/tv.js"></script>
-  <script>
-    new TradingView.widget({
-      autosize: true,
-      symbol: "BINANCE:BTCUSDT",
-      interval: "1",
-      timezone: "America/Bogota",
-      theme: "dark",
-      style: "1",
-      locale: "es",
-      toolbar_bg: "#0b0b0b",
-      enable_publishing: false,
-      hide_side_toolbar: false,
-      allow_symbol_change: false,
-      container_id: "tradingview_1"
-    });
-  </script>
+  <!-- Anuncio 3: en el footer -->
+  <div class="ad-box" style="margin:20px auto; min-height:90px; max-width:1100px;">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-4933331274738462"
+         data-ad-slot="4606183476"   <!-- bitcoin-footer-1 -->
+    </ins>
+  </div>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 
-  <!-- Script de predicción IA -->
+  <!-- Chart.js + plugin financiero -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+
+  <!-- Script principal -->
   <script src="/script/prediccionIA.js"></script>
-
-  <!-- Botón descargar imagen -->
-  <script>
-    document.getElementById('descargarImagen').addEventListener('click', () => {
-      const panel = document.getElementById('prediccionBox');
-      html2canvas(panel).then(canvas => {
-        const enlace = document.createElement('a');
-        const nombreArchivo = `prediccion_bitfreimel_${new Date().toISOString().slice(0,19).replace(/[-:T]/g, "")}.png`;
-        enlace.download = nombreArchivo;
-        enlace.href = canvas.toDataURL('image/png');
-        enlace.click();
-      });
-    });
-  </script>
-
-  <!-- Menú hamburguesa -->
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const hamburger = document.getElementById("hamburger");
-      const navLinks = document.getElementById("nav-links");
-      if (hamburger && navLinks) {
-        hamburger.addEventListener("click", () => {
-          navLinks.classList.toggle("active");
-        });
-      }
-    });
-  </script>
-
 </body>
 </html>

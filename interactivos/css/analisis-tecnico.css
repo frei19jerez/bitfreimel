@@ -1,140 +1,158 @@
-body {
-  background-color: #121212;
-  color: #fff;
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  text-align: center;
+/* ====== Variables base ====== */
+:root{
+  --bg:#121212;
+  --card:#1e1e1e;
+  --text:#ffffff;
+  --muted:#cccccc;
+  --line:#333;
+  --accent:#4caf50;
+  --accent-2:#2e7d32;
+  --shadow:0 0 10px rgba(76,175,80,.6);
 }
 
-.container {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 20px;
-  text-align: center;
+/* ====== Global ====== */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  background-color:var(--bg);
+  color:var(--text);
+  font-family:Arial,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  margin:0;
+  padding:0;
+  text-align:center;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
 }
 
-h1 span {
-  color: #4caf50;
+.container{
+  max-width:900px;
+  margin:0 auto;
+  padding:20px;
+  text-align:center;
 }
 
-.chart-wrap {
-  background-color: #121212;
-  border-radius: 10px;
-  padding: 10px;
-  max-width: 900px;
-  margin: 20px auto;
-  height: 400px;
-  position: relative;
+h1 span{ color:var(--accent); }
+
+/* Aviso demo (si lo usas en la página) */
+.aviso-demo{
+  background:#111; border:1px solid var(--line);
+  padding:12px; border-radius:8px; margin:12px 0;
 }
 
-#candlestickChart {
-  width: 100% !important;
-  height: 100% !important;
-  display: block;
-  background: #1e1e1e;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(76, 175, 80, 0.6);
+/* ====== Gráfico ====== */
+.chart-wrap{
+  background-color:var(--bg);
+  border-radius:12px;
+  padding:10px;
+  margin:20px auto;
+  position:relative;
+  height:clamp(280px, 55vh, 440px); /* más responsivo */
+  max-width:900px;
 }
 
-.opciones {
-  margin: 20px 0;
+#candlestickChart{
+  width:100% !important;
+  height:100% !important;
+  display:block;
+  background:var(--card);
+  border-radius:10px;
+  box-shadow:var(--shadow);
 }
 
-.opciones button {
-  padding: 10px 20px;
-  margin: 0 10px;
-  font-size: 16px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  color: white;
-  background-color: #333;
-  transition: background-color 0.3s ease;
+/* ====== Controles ====== */
+.opciones{ margin:20px 0; display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+
+.opciones button{
+  padding:10px 20px;
+  font-size:16px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  color:#fff;
+  background-color:#333;
+  transition:transform .06s ease, background-color .2s ease, box-shadow .2s ease;
+}
+.opciones button:hover{ background-color:#4a4a4a; }
+.opciones button:active{ transform:translateY(1px); }
+.opciones button:focus-visible{
+  outline:3px solid rgba(76,175,80,.6);
+  outline-offset:2px;
+  box-shadow:0 0 0 2px #222;
 }
 
-.opciones button:hover {
-  background-color: #555;
+/* Selectores token/intervalo */
+.token-selector, .interval-selector{
+  margin:12px 0 15px;
+  color:var(--muted);
+  font-size:16px;
+}
+.token-selector label,
+.interval-selector label{ margin-right:8px; }
+
+.token-selector select,
+.interval-selector select{
+  padding:8px 12px;
+  background-color:#222;
+  border:1px solid #2b2b2b;
+  border-radius:6px;
+  color:#fff;
+  font-size:16px;
+  cursor:pointer;
+  transition:background-color .2s ease, border-color .2s ease;
+}
+.token-selector select:hover,
+.interval-selector select:hover{ background-color:#333; border-color:#3a3a3a; }
+
+/* Saldo demo (usa el ID correcto del HTML) */
+#saldoDemo{
+  max-width:340px;
+  margin:25px auto 15px;
+  padding:18px 24px;
+  border-radius:12px;
+  font-weight:700;
+  font-size:1.6rem;
+  user-select:none;
+  text-align:center;
+  color:#a5d6a7;
+  background:linear-gradient(135deg,#1b5e20,var(--accent-2));
+  box-shadow:0 0 20px rgba(76,175,80,.8);
+  transition:box-shadow .25s ease;
+}
+#saldoDemo:hover{ box-shadow:0 0 35px rgba(76,175,80,1); }
+
+/* Sonido */
+.sonido{ margin:8px 0 16px }
+.toggle-sound input{ margin-right:8px }
+
+/* Resultado y timer */
+.resultado{ font-size:18px; margin-top:10px; }
+#timer{ margin-top:10px; color:var(--muted); }
+
+/* Volver */
+.volver a{ color:var(--accent); text-decoration:none; }
+.volver a:hover{ text-decoration:underline; }
+
+/* ====== Anuncios: reserva de espacio (anti-CLS) ====== */
+.ad-slot{ display:block; margin:20px 0; min-height:250px; }
+.ad-buffer{ margin-top:24px; }
+@media (max-width:767px){
+  .ad-slot{ min-height:280px; }
 }
 
-.resultado {
-  font-size: 18px;
-  margin-top: 10px;
+/* ====== Footer ====== */
+.site-footer{
+  border-top:1px solid var(--line);
+  margin-top:40px;
+  padding:24px 0;
+  text-align:center;
+  color:#aaa;
+  font-size:.95rem;
 }
+.site-footer a{ color:inherit; text-decoration:none; }
+.site-footer a:hover{ text-decoration:underline; }
 
-#timer {
-  margin-top: 10px;
-  color: #ccc;
-}
-
-.volver a {
-  color: #4caf50;
-  text-decoration: none;
-}
-
-.volver a:hover {
-  text-decoration: underline;
-}
-
-@media (max-width: 600px) {
-  .chart-wrap {
-    height: 300px;
-  }
-
-  .opciones {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .opciones button {
-    width: 80%;
-    margin: 0 auto;
-  }
-}
-
-.interval-selector {
-  margin-bottom: 15px;
-  color: #ccc;
-  font-size: 16px;
-}
-
-.interval-selector label {
-  margin-right: 8px;
-}
-
-.interval-selector select {
-  padding: 8px 12px;
-  background-color: #222;
-  border: none;
-  border-radius: 6px;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.interval-selector select:hover {
-  background-color: #444;
-}
-
-.saldo-demo {
-  max-width: 320px;
-  margin: 25px auto 15px auto;
-  padding: 18px 25px;
-  border-radius: 12px;
-  font-weight: 700;
-  font-size: 1.6rem;
-  user-select: none;
-  text-align: center;
-  box-shadow: 0 0 20px rgba(76, 175, 80, 0.8);
-  cursor: default;
-  color: #a5d6a7;
-  background: linear-gradient(135deg, #1b5e20, #2e7d32);
-  transition: box-shadow 0.3s ease, background-color 0.3s ease;
-}
-
-.saldo-demo:hover {
-  box-shadow: 0 0 35px rgba(76, 175, 80, 1);
-  background-color: #00796b;
+/* ====== Responsivo extra ====== */
+@media (max-width:600px){
+  .opciones{ flex-direction:column; }
+  .opciones button{ width:80%; margin:0 auto; }
 }

@@ -1,4 +1,14 @@
+/* =======================
+   Variables y base
+   ======================= */
+:root{
+  --page-pad: clamp(12px, 3vw, 28px);
+  --content-max: 800px;              /* Tope único para header + cuerpo + footer */
+  --footer-h: 56px;                  /* altura aprox del footer fijo */
+}
+
 /* ==== Fondo General ==== */
+html, body { min-height: 100dvh; }
 body {
   margin: 0;
   font-family: Arial, sans-serif;
@@ -7,34 +17,43 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  color: #0f0; /* Verde neón para texto que contraste con fondo oscuro */
+  color: #0f0;
+  padding-bottom: var(--footer-h);   /* evita que el footer tape el contenido */
+  box-sizing: border-box;
 }
 
-/* ==== Contenedor General ==== */
+/* =======================
+   Contenedor General
+   ======================= */
 .container {
-  background: #000 !important; /* fondo negro sólido */
+  background: #000 !important;
   color: #0f0;
   padding: 30px;
   border-radius: 14px;
   box-shadow: 0 8px 16px rgba(0, 255, 0, 0.3);
-  width: 100%;
-  max-width: 800px;
+  width: min(100% - 2*var(--page-pad), var(--content-max));
+  max-width: var(--content-max);
   text-align: center;
   margin: 0 auto 100px auto;
+  box-sizing: border-box;
 }
 
-/* ==== Canvas para gráfico ==== */
+/* =======================
+   Canvas para gráfico
+   ======================= */
 #btcChart {
   margin-top: 30px;
   width: 100% !important;
   max-height: 400px;
-  background-color: #111 !important; /* Fondo negro menos intenso para separar */
+  background-color: #111 !important;
   border-radius: 12px;
   padding: 10px;
   box-shadow: 0 0 20px rgba(0, 255, 0, 0.4);
 }
 
-/* ==== Textos panel de precios y tiempos ==== */
+/* =======================
+   Textos panel
+   ======================= */
 #future-price,
 #btc-price,
 #btc-price-timer,
@@ -46,11 +65,12 @@ body {
   color: #0f0;
 }
 
-/* ==== Footer ==== */
+/* =======================
+   Footer (fijo)
+   ======================= */
 footer {
   position: fixed;
-  bottom: 0;
-  left: 0;
+  bottom: 0; left: 0;
   width: 100%;
   text-align: center;
   z-index: 1000;
@@ -59,6 +79,10 @@ footer {
   background: rgba(0, 0, 0, 0.75);
   padding: 10px 0;
   backdrop-filter: blur(5px);
+  height: var(--footer-h);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 footer a {
   color: #0f0;
@@ -66,14 +90,14 @@ footer a {
   margin: 0 12px;
   font-weight: bold;
 }
-footer a:hover {
-  text-decoration: underline;
-}
+footer a:hover { text-decoration: underline; }
 
-/* ==== Banner Cookies ==== */
+/* =======================
+   Banner Cookies
+   ======================= */
 .cookie-banner {
   position: fixed;
-  bottom: 0;
+  bottom: var(--footer-h);           /* aparece encima del footer */
   left: 0;
   width: 100%;
   background: rgba(0, 0, 0, 0.75);
@@ -94,51 +118,78 @@ footer a:hover {
   cursor: pointer;
 }
 
-/* ==== Navbar ==== */
+/* =======================
+   Navbar
+   ======================= */
 .navbar {
-  background-color: #111;
-  padding: 10px 0;
+  background-color: #111;            /* barra ocupa todo el ancho */
+  padding: 12px 0;
   position: relative;
   box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
-.navbar-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
+
+/* Contenido del header alineado con el cuerpo */
+.navbar .navbar-container{
+  width: min(100% - 2*var(--page-pad), var(--content-max));
+  max-width: var(--content-max);
+  margin-inline: auto;
+  padding-inline: var(--page-pad);
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-between;    /* logo izq / menú der */
+  gap: 16px;
+  box-sizing: border-box;
 }
+
 .logo {
   color: #fff;
-  font-weight: bold;
-  font-size: 1.3rem;
+  font-weight: 800;
+  font-size: 1.25rem;
   text-decoration: none;
+  letter-spacing: .2px;
 }
+
+/* Menú a la derecha (desktop) */
 .nav-links {
   list-style: none;
   display: flex;
-  gap: 15px;
+  align-items: center;
+  gap: 18px;
   margin: 0;
   padding: 0;
 }
-.nav-links li a {
-  color: #fff;
-  padding: 8px 16px;
-  border-radius: 6px;
-  font-weight: 500;
-  font-size: 14px;
-  text-decoration: none;
-  transition: background 0.3s;
-  border: 1px solid transparent;
+
+/* Reset para que el estilo del blog no afecte el menú */
+.nav-links li{
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  border-radius: 0;
 }
-.nav-links li a:hover {
+
+/* Links del menú */
+.nav-links li a{
+  display: inline-block;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 10px 14px;
+  border-radius: 999px;              /* pastilla sutil */
+  border: 1px solid transparent;
+  background: transparent;
+  transition: all .25s ease;
+}
+.nav-links li a:hover{
   background: #00d0ff;
   color: #000;
   border-color: #00d0ff;
+  box-shadow: 0 6px 18px rgba(0,208,255,.25);
 }
 
-/* ==== Botón hamburguesa ==== */
+/* Botón hamburguesa (solo móvil) */
 .hamburger {
   display: none;
   font-size: 26px;
@@ -146,99 +197,65 @@ footer a:hover {
   border: none;
   color: white;
   cursor: pointer;
-  position: absolute;
-  top: 14px;
-  right: 20px;
 }
 
-/* ==== Responsive ==== */
-@media (max-width: 768px) {
-  .hamburger {
-    display: block;
-  }
+/* =======================
+   Responsive
+   ======================= */
+@media (max-width: 900px){
+  .hamburger{ display:block; }
 
-  .nav-links {
-    display: none;
+  .nav-links{
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: min(100%, 320px);
+    max-height: 0;
+    overflow: hidden;
     flex-direction: column;
     background: #111;
-    position: absolute;
-    top: 55px;
-    left: 0;
-    width: 100%;
+    border: 1px solid #222;
+    border-radius: 12px 0 0 12px;
+    box-shadow: 0 12px 24px rgba(0,0,0,.35);
+    transition: max-height .3s ease, padding .3s ease;
     z-index: 999;
+    padding: 0;
   }
-
-  .nav-links.active {
-    display: flex;
-  }
-
-  .nav-links li {
+  .nav-links.active{
+    max-height: 70vh;
     padding: 10px 0;
-    text-align: center;
   }
-
-  .navbar-container {
-    flex-direction: column;
-    align-items: flex-start;
+  .nav-links li{ width: 100%; }
+  .nav-links li a{
+    width: 100%;
+    text-align: left;
+    padding: 12px 16px;
+    border-radius: 0;
   }
 }
 
-@media (max-width: 480px) {
-  body {
-    background-attachment: scroll;
-  }
+@media (max-width: 480px){
+  body { background-attachment: scroll; }
 
-  .container {
+  .container{
     border-radius: 8px;
     box-shadow: none;
     padding: 20px 15px;
   }
 
-  h1 {
-    font-size: 20px;
-  }
+  h1 { font-size: 20px; }
+  p  { font-size: 15px; line-height: 1.4; }
 
-  p {
-    font-size: 15px;
-    line-height: 1.4;
-  }
-
-  footer {
+  footer{
     font-size: 12px;
     padding: 8px 0;
-  }
-
-  .nav-links {
-    gap: 10px;
+    --footer-h: 30px;
   }
 }
 
-/* ==== Estilo para artículos del blog ==== */
-ul li {
-  padding: 1.5rem;
-  border: 1px solid #333;
-  margin-bottom: 1.5rem;
-  border-radius: 10px;
-  background-color: black;
-  color: white;
-  box-shadow: 0 4px 15px rgba(0, 204, 255, 0.3);
-  transition: transform 0.2s, box-shadow 0.3s;
-}
-ul li:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 20px rgba(0, 204, 255, 0.5);
-}
-ul li a {
-  font-weight: bold;
-  font-size: 1.2rem;
-  color: #1a73e8;
-}
-ul li p {
-  margin-top: 0.5rem;
-  color: #ddd;
-}
-
-/* ==== Panel IA ==== */
+/* =======================
+   Panel IA
+   ======================= */
 .ia-box {
   background-color: #111;
   color: #0f0;
@@ -250,10 +267,8 @@ ul li p {
   box-shadow: 0 0 10px limegreen;
   transition: all 0.3s ease;
 }
-.ia-box h2 {
-  text-align: center;
-  margin-bottom: 1rem;
-}
+.ia-box h2 { text-align: center; margin-bottom: 1rem; }
+
 .actualizar-btn {
   display: block;
   margin: 1rem auto;
@@ -265,21 +280,15 @@ ul li p {
   cursor: pointer;
   transition: background 0.3s ease;
 }
-.actualizar-btn:hover {
-  background: #00cc00;
-}
-.actualizando {
-  opacity: 0.6;
-}
+.actualizar-btn:hover { background: #00cc00; }
+.actualizando { opacity: 0.6; }
 
-/* ==== Título adicional ==== */
-.ia-box h3 {
-  margin-top: 2rem;
-  font-size: 1.2rem;
-  color: blue;
-}
+/* Título adicional */
+.ia-box h3 { margin-top: 2rem; font-size: 1.2rem; color: blue; }
 
-/* ==== Referidos Binance ==== */
+/* =======================
+   Referidos Binance
+   ======================= */
 .referidos-binance {
   background-color: #0b0e13;
   color: #f0f0f0;
@@ -288,7 +297,6 @@ ul li p {
   text-align: center;
   margin: 50px 0;
 }
-
 .btn-afiliado {
   display: inline-block;
   background-color: #f0b90b;
@@ -299,11 +307,11 @@ ul li p {
   text-decoration: none;
   transition: background 0.3s;
 }
-.btn-afiliado:hover {
-  background-color: #d9a800;
-}
+.btn-afiliado:hover { background-color: #d9a800; }
 
-/* ==== Botones Long/Short ==== */
+/* =======================
+   Botones Long/Short
+   ======================= */
 .acciones-cripto {
   display: flex;
   justify-content: center;
@@ -319,16 +327,12 @@ ul li p {
   cursor: pointer;
   font-weight: bold;
 }
-.btn-long {
-  background-color: #00c087;
-  color: #000;
-}
-.btn-short {
-  background-color: #f6465d;
-  color: #fff;
-}
+.btn-long  { background-color: #00c087; color: #000; }
+.btn-short { background-color: #f6465d; color: #fff; }
 
-/* ==== Canvas general ==== */
+/* =======================
+   Canvas general
+   ======================= */
 canvas {
   background-color: #111 !important;
   border-radius: 10px;
