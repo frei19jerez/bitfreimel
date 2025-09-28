@@ -16,7 +16,7 @@
 
   <!-- CSS -->
   <link rel="stylesheet" href="/css/styles.min.css" />
-   <link rel="icon" href="/imagenes/icon-192.png" type="image/png" />
+  <link rel="icon" href="/imagenes/icon-192.png" type="image/png" />
 
   <!-- Open Graph / Twitter -->
   <meta property="og:type" content="website">
@@ -37,7 +37,7 @@
           <li><a href="/">Inicio</a></li>
           <li><a href="/blog/">Blog</a></li>
           <li><a href="/interactivos/index.html">Interactivos</a></li>
-          <li><a href="/ia-prediccion.html" aria-current="page">IA-prediccion.html</a></li>
+          <li><a href="/ia-prediccion.html">IA-prediccion</a></li>
         </ul>
       </div>
     </nav>
@@ -49,7 +49,12 @@
 
       <p>¿Tienes alguna sugerencia, encontraste un error o simplemente deseas saludar? Estás en el lugar correcto. A través de este formulario puedes enviarme tus comentarios, inquietudes o aportes relacionados con <strong>freimeljerezcom.online</strong>. Responderé lo antes posible 🙌</p>
 
-      <form action="https://formsubmit.co/frei19jerez@gmail.com" method="POST" novalidate aria-describedby="nota-privacidad">
+      <!-- Tu número ya configurado: 573206780200 -->
+      <form id="contact-form"
+            action="https://formsubmit.co/frei19jerez@gmail.com"
+            method="POST"
+            aria-describedby="nota-privacidad"
+            data-wa-number="573206780200">
         <!-- FormSubmit config -->
         <input type="hidden" name="_captcha" value="false">
         <input type="hidden" name="_template" value="table">
@@ -89,10 +94,13 @@
             </label>
           </div>
 
-          <button type="submit">Enviar mensaje</button>
+          <div class="form-control btn-row">
+            <button type="submit">Enviar mensaje</button>
+            <a href="#" id="send-whatsapp" class="btn-whatsapp btn-outline" role="button" aria-label="Enviar por WhatsApp">Enviar por WhatsApp</a>
+          </div>
         </fieldset>
 
-        <p id="nota-privacidad" class="muted" style="font-size:14px">
+        <p id="nota-privacidad" class="muted text-small">
           No compartas datos sensibles. Este formulario es solo para temas del sitio. Mensajes comerciales o spam no serán atendidos.
         </p>
       </form>
@@ -112,6 +120,11 @@
     <button type="button" aria-label="Aceptar cookies" onclick="this.parentElement.style.display='none'">Aceptar</button>
   </div>
 
+  <!-- FAB de WhatsApp -->
+  <div class="wa-fab" aria-label="Contacto rápido por WhatsApp">
+    <a id="wa-fab-link" href="#" title="Escríbeme por WhatsApp">💬</a>
+  </div>
+
   <!-- JSON-LD: ContactPage + contactPoint -->
   <script type="application/ld+json">
   {
@@ -127,7 +140,8 @@
       "contactType":"customer support",
       "email":"frei19jerez@gmail.com",
       "availableLanguage":["es"],
-      "areaServed":"CO"
+      "areaServed":"CO",
+      "url":"https://wa.me/573206780200"
     }
   }
   </script>
@@ -144,7 +158,12 @@
   }
   </script>
 
-  <!-- Si tu menú hamburguesa depende de JS global, descomenta: -->
-  <!-- <script src="/script/script.js" defer></script> -->
+  <!-- Librerías para el gráfico (si el canvas existe) -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial@3"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3"></script>
+
+  <!-- Tu JS global -->
+  <script src="/script/script.js" defer></script>
 </body>
 </html>
