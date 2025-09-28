@@ -11,7 +11,7 @@
   const $$ = (sel) => document.querySelectorAll(sel);
   const on = (el, evt, fn, opts) => el && el.addEventListener(evt, fn, opts);
 
-  // Manejador de intervalos centralizado
+  // Manejador de intervalos centralizado para limpiar fácil
   const Intervals = (() => {
     const map = new Map();
     return {
@@ -59,7 +59,7 @@
     });
 
     /* ---------------------------
-       PWA instalación
+       PWA: botón de instalación
     --------------------------- */
     let deferredPrompt;
     const installBtn = $("#installBtn");
@@ -74,7 +74,9 @@
         await deferredPrompt?.userChoice;
         deferredPrompt = null;
         $("#mensajeInstalacion")?.classList.remove("oculto");
-      } catch { /* usuario canceló */ }
+      } catch {
+        /* el usuario puede cancelar */
+      }
     });
 
     /* ---------------------------
@@ -85,29 +87,33 @@
     const intervaloSelect = $("#intervalo");
     const updateBtn = $("#updateBtn");
 
+    // Elementos UI precio/tendencia/tiempos (opcionales)
     const priceEl  = $("#btc-price");
     const trendEl  = $("#trend-indicator");
     const futureEl = $("#future-price");
     const timerEl  = $("#timer");
     const priceTimerEl = $("#btc-price-timer");
 
+    // Estado
     let candleChart = null;
     let previousPrice = null;
 
+    // Validar dependencias del gráfico
     function chartDepsOk() {
       const hasChart = typeof window.Chart !== "undefined";
+      const hasFinancial =
+        hasChart && window.Chart.registry && window.Chart.registry.getPlugin
+          ? !!window.Chart.registry.getPlugin("financial")
+          : // fallback: muchos builds registran Chart.FinancialController
+            !!(window.Chart && (window.Chart.FinancialController || window.financial));
       const hasTimeScale =
         hasChart &&
         window.Chart.registry &&
         (window.Chart.registry.getScale("time") || window.Chart.registry.getScale("timeseries"));
-      // El plugin financial se auto-registra; si no, mostramos aviso.
-      const hasFinancial =
-        hasChart &&
-        (window.Chart.FinancialController ||
-         (window.Chart.registry && window.Chart.registry.getController && window.Chart.registry.getController("candlestick")));
       return { hasChart, hasFinancial, hasTimeScale };
     }
 
+    // Adaptador de timers para los contadores
     function startCounter(el, label) {
       if (!el) return null;
       let s = 0;
@@ -118,6 +124,25 @@
       }, 1000);
     }
 
+    // Resetear contadores
+    function resetTimer(labelEl, labelText, key) {
+      Intervals.clear(key);
+      const id = startCounter(labelEl, labelText);
+      if (id) {
+        // Guardar bajo el mismo nombre para poder limpiar luego
+        Intervals.clear(key);
+        // peq. wrapper para compatibilidad de API
+        const intervalId = id;
+        Intervals.set(key, () => {}, 1e9); // placeholder
+        // hack para registrar el id real y que clearAll lo limpie
+        // (clearAll limpiará el placeholder, limpiemos manualmente el real en visibilitychange)
+        // Para simpleza, gestionamos manual con clearInterval en visibilitychange
+        return intervalId;
+      }
+      return null;
+    }
+
+    // Obtener velas OHLC desde Binance
     async function fetchCandles(symbol = "BTCUSDT", interval = "1m", limit = 50) {
       try {
         const url = `https://fapi.binance.com/fapi/v1/klines?symbol=${symbol}&interval=${interval}&limit=${limit}`;
@@ -137,12 +162,16 @@
       }
     }
 
+    // Renderizar gráfico de velas
     async function renderCandleChart(symbol, interval) {
       if (!canvas) return;
 
       const { hasChart, hasFinancial, hasTimeScale } = chartDepsOk();
       if (!hasChart || !hasFinancial || !hasTimeScale) {
-        console.warn("Falta Chart.js, el plugin financial o el adapter de tiempo.");
+        console.warn(
+          "Falta Chart.js, el plugin financial o el adapter de tiempo. " +
+          "Incluye: chart.js, chartjs-chart-financial y un time adapter (p.ej. chartjs-adapter-date-fns)."
+        );
         return;
       }
 
@@ -160,8 +189,9 @@
         candleChart = null;
       }
 
-      const upColor = "#00c087";
-      const downColor = "#f6465d";
+      // Colores coherentes con tu tema
+      const upColor = "#00c087";   // verde
+      const downColor = "#f6465d"; // rojo
 
       candleChart = new Chart(ctx, {
         type: "candlestick",
@@ -171,7 +201,11 @@
             data: candles,
             borderColor: "#00ff00",
             borderWidth: 1,
-            color: { up: upColor, down: downColor, unchanged: "#999" },
+            color: {
+              up: upColor,
+              down: downColor,
+              unchanged: "#999"
+            },
             barPercentage: 0.2,
             categoryPercentage: 0.1,
           }]
@@ -183,7 +217,10 @@
           scales: {
             x: {
               type: "time",
-              time: { unit: "minute", tooltipFormat: "PPpp" },
+              time: {
+                unit: "minute",
+                tooltipFormat: "PPpp"
+              },
               ticks: { color: "#ffffff" },
               grid: { color: "rgba(255,255,255,0.1)" },
               min: new Date(candles[0].x.getTime() - 60000),
@@ -192,19 +229,31 @@
             y: {
               position: "right",
               offset: true,
-              ticks: { color: "#ffffff", padding: 10 },
+              ticks: {
+                color: "#ffffff",
+                padding: 10
+              },
               grid: { color: "rgba(255,255,255,0.1)" }
             }
           },
           plugins: {
-            legend: { labels: { color: "#ffffff" } },
-            tooltip: { mode: "index", intersect: false }
+            legend: {
+              labels: { color: "#ffffff" }
+            },
+            tooltip: {
+              mode: "index",
+              intersect: false
+            }
           },
-          interaction: { mode: "nearest", intersect: false }
+          interaction: {
+            mode: "nearest",
+            intersect: false
+          }
         }
       });
     }
 
+    // Obtener precio actual y actualizar UI
     async function fetchBinancePriceUI(symbol = "BTCUSDT") {
       try {
         const url = `https://fapi.binance.com/fapi/v1/ticker/price?symbol=${symbol}`;
@@ -238,6 +287,7 @@
         }
 
         if (futureEl && Number.isFinite(previousPrice)) {
+          // Demo/placeholder de “IA”: ±5% aleatorio
           const change = price * (Math.random() * 0.1 - 0.05);
           const future = price + change;
           futureEl.textContent =
@@ -245,11 +295,14 @@
         }
 
         // Reiniciar contadores
-        clearInterval(window.__timerInterval);
-        window.__timerInterval = startCounter(timerEl, "IA: Tiempo desde la última actualización");
-
-        clearInterval(window.__priceTimerInterval);
-        window.__priceTimerInterval = startCounter(priceTimerEl, "IA: Tiempo desde la última actualización de BTC");
+        if (timerEl) {
+          clearInterval(window.__timerInterval);
+          window.__timerInterval = startCounter(timerEl, "IA: Tiempo desde la última actualización");
+        }
+        if (priceTimerEl) {
+          clearInterval(window.__priceTimerInterval);
+          window.__priceTimerInterval = startCounter(priceTimerEl, "IA: Tiempo desde la última actualización de BTC");
+        }
 
       } catch (e) {
         console.error("Error obteniendo precio Binance:", e);
@@ -258,19 +311,30 @@
       }
     }
 
+    // Actualizar todo
     async function actualizarDatos() {
       const symbol = (tokenSelect?.value || "BTCUSDT").toUpperCase();
       const intervalo = (intervaloSelect?.value || "1m");
-      await Promise.all([ renderCandleChart(symbol, intervalo), fetchBinancePriceUI(symbol) ]);
+      await Promise.all([
+        renderCandleChart(symbol, intervalo),
+        fetchBinancePriceUI(symbol),
+      ]);
     }
 
+    // Inicialización condicional (solo si existe el canvas)
     if (canvas) {
+      // Primera carga segura
       actualizarDatos().catch(console.error);
+
+      // Intervalo cada 60s
       Intervals.set("actualizarDatos", actualizarDatos, 60000);
+
+      // Cambios por selector/botón
       on(tokenSelect, "change", actualizarDatos);
       on(intervaloSelect, "change", actualizarDatos);
       on(updateBtn, "click", actualizarDatos);
 
+      // Pausar cuando la pestaña no está visible para ahorrar recursos
       on(document, "visibilitychange", () => {
         if (document.hidden) {
           Intervals.clear("actualizarDatos");
@@ -280,74 +344,97 @@
         }
       });
 
+      // Limpieza al salir
       on(window, "beforeunload", () => {
         Intervals.clearAll();
-        if (candleChart) { candleChart.destroy(); candleChart = null; }
+        if (candleChart) {
+          candleChart.destroy();
+          candleChart = null;
+        }
         clearInterval(window.__timerInterval);
         clearInterval(window.__priceTimerInterval);
       });
     }
 
     /* ---------------------------
-       WhatsApp (form + FAB) con VALIDACIÓN
+       WhatsApp (form + FAB)
     --------------------------- */
     const form  = /** @type {HTMLFormElement|null} */ ($("#contact-form"));
     const btnWA = $("#send-whatsapp");
     const fabWA = $("#wa-fab-link");
 
-    function buildWAText() {
-      const name    = ($("#name")?.value || "").trim();
-      const email   = ($("#email")?.value || "").trim();
-      const subject = ($("#subject")?.value || "Sin asunto").trim();
-      const message = ($("#message")?.value || "").trim();
-      // Consent ya está con required (validación nativa), no repetimos alerta si usamos checkValidity
-      const lines = [
-        `*Nuevo mensaje desde freimeljerezcom.online*`,
-        `*Nombre:* ${name}`,
-        `*Email:* ${email}`,
-        subject ? `*Asunto:* ${subject}` : null,
-        `*Mensaje:*`,
-        message,
-        "",
-        `Página: ${location.href}`,
-        `Fecha: ${new Date().toLocaleString()}`
-      ].filter(Boolean);
-      return lines.join("\n");
-    }
-    const buildWAUrl = (text, wa) => `https://wa.me/${wa}?text=${encodeURIComponent(text)}`;
-
     if (form) {
-      const waNumber = (form.dataset.waNumber || "573206780200").replace(/\D/g, "");
+      // Número destino en formato internacional sin "+"
+      const waNumber = (form.dataset.waNumber || "57XXXXXXXXXX").replace(/\D/g, "");
 
-      // Botón “Enviar por WhatsApp” respeta validación nativa
+      function buildWAText() {
+        const name    = ($("#name")?.value || "").trim();
+        const email   = ($("#email")?.value || "").trim();
+        const subject = ($("#subject")?.value || "Sin asunto").trim();
+        const message = ($("#message")?.value || "").trim();
+        const consent = $("#consent")?.checked;
+
+        if (!consent) { alert("Debes aceptar el tratamiento de datos para continuar."); return null; }
+        if (name.length < 2 || !email || message.length < 10) {
+          alert("Por favor completa Nombre, Email y un Mensaje de al menos 10 caracteres.");
+          return null;
+        }
+
+        const meta = [
+          `Página: ${location.href}`,
+          `Fecha: ${new Date().toLocaleString()}`
+        ].join("\n");
+
+        const lines = [
+          `*Nuevo mensaje desde freimeljerezcom.online*`,
+          `*Nombre:* ${name}`,
+          `*Email:* ${email}`,
+          subject ? `*Asunto:* ${subject}` : null,
+          `*Mensaje:*`,
+          message,
+          "",
+          meta
+        ].filter(Boolean);
+
+        return lines.join("\n");
+      }
+
+      function buildWAUrl(text) {
+        const encoded = encodeURIComponent(text);
+        return `https://wa.me/${waNumber}?text=${encoded}`;
+      }
+
+      function openWA(prefillText) {
+        const text = prefillText ?? buildWAText();
+        if (!text) return;
+        const url = buildWAUrl(text);
+        window.open(url, "_blank", "noopener,noreferrer");
+      }
+
+      // Botón “Enviar por WhatsApp”
       on(btnWA, "click", (e) => {
         e.preventDefault();
-        if (!form.checkValidity()) {
-          form.reportValidity();
-          return;
-        }
-        const url = buildWAUrl(buildWAText(), waNumber);
-        window.open(url, "_blank", "noopener,noreferrer");
+        openWA();
       });
 
-      // FAB (saludo rápido)
+      // FAB flotante (saludo rápido, sin validar formulario)
       on(fabWA, "click", (e) => {
         e.preventDefault();
         const saludo = encodeURIComponent("Hola Freimel, vengo desde freimeljerezcom.online 👋");
-        window.open(`https://wa.me/${waNumber}?text=${saludo}`, "_blank", "noopener,noreferrer");
-      });
-
-      // Submit: valida nativo + abre WhatsApp y envía a FormSubmit
-      on(form, "submit", (e) => {
-        if (!form.checkValidity()) {
-          e.preventDefault();
-          form.reportValidity();
-          return;
-        }
-        // Genera WhatsApp y lo abre; NO prevenimos submit para que FormSubmit reciba también
-        const url = buildWAUrl(buildWAText(), waNumber);
+        const url = `https://wa.me/${waNumber}?text=${saludo}`;
         window.open(url, "_blank", "noopener,noreferrer");
       });
+
+      // (Opcional) Si quieres que el submit también dispare WhatsApp, descomenta:
+      /*
+      on(form, "submit", (e) => {
+        const text = buildWAText();
+        if (!text) { e.preventDefault(); return; }
+        const url = buildWAUrl(text);
+        window.open(url, "_blank", "noopener,noreferrer");
+        // No prevenimos el submit: se envía a FormSubmit normal
+      });
+      */
     }
   });
 })();
