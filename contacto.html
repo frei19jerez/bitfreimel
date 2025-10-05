@@ -26,8 +26,8 @@
   <meta property="og:image" content="https://freimeljerezcom.online/imagenes/bitfreimel1.webp">
   <meta name="twitter:card" content="summary_large_image">
 </head>
-<body>
 
+<body>
   <header>
     <nav class="navbar" aria-label="Menú principal">
       <div class="navbar-container">
@@ -37,7 +37,7 @@
           <li><a href="/">Inicio</a></li>
           <li><a href="/blog/">Blog</a></li>
           <li><a href="/interactivos/index.html">Interactivos</a></li>
-          <li><a href="/ia-prediccion.html">IA-prediccion</a></li>
+          <li><a href="/ia-prediccion.html">IA Predicción</a></li>
         </ul>
       </div>
     </nav>
@@ -49,13 +49,14 @@
 
       <p>¿Tienes alguna sugerencia, encontraste un error o simplemente deseas saludar? Estás en el lugar correcto. A través de este formulario puedes enviarme tus comentarios, inquietudes o aportes relacionados con <strong>freimeljerezcom.online</strong>. Responderé lo antes posible 🙌</p>
 
-      <!-- Tu número ya configurado: 573206780200 -->
+      <!-- Formulario con FormSubmit -->
       <form id="contact-form"
             action="https://formsubmit.co/frei19jerez@gmail.com"
             method="POST"
             aria-describedby="nota-privacidad"
             data-wa-number="573206780200">
-        <!-- FormSubmit config -->
+
+        <!-- Configuración FormSubmit -->
         <input type="hidden" name="_captcha" value="false">
         <input type="hidden" name="_template" value="table">
         <input type="hidden" name="_next" value="https://freimeljerezcom.online/gracias.html">
@@ -69,12 +70,12 @@
 
           <div class="form-control">
             <label for="name">Nombre</label>
-            <input id="name" name="name" type="text" autocomplete="name" required minlength="2" maxlength="80" placeholder="Tu nombre">
+            <input id="name" name="name" type="text" required minlength="2" maxlength="80" placeholder="Tu nombre">
           </div>
 
           <div class="form-control">
             <label for="email">Correo electrónico</label>
-            <input id="email" name="email" type="email" inputmode="email" autocomplete="email" required placeholder="tunombre@correo.com">
+            <input id="email" name="email" type="email" required placeholder="tunombre@correo.com">
           </div>
 
           <div class="form-control">
@@ -101,7 +102,7 @@
         </fieldset>
 
         <p id="nota-privacidad" class="muted text-small">
-          No compartas datos sensibles. Este formulario es solo para temas del sitio. Mensajes comerciales o spam no serán atendidos.
+          No compartas datos sensibles. Este formulario es solo para temas relacionados con el sitio. Mensajes comerciales o spam no serán atendidos.
         </p>
       </form>
     </div>
@@ -109,6 +110,7 @@
 
   <footer>
     <a href="/">Inicio</a> |
+    <a href="/privacidad.html#cookies">Política de Cookies</a> |
     <a href="/privacidad.html">Política de Privacidad</a> |
     <a href="/terminos-condiciones.html">Términos y Condiciones</a> |
     <a href="/acerca.html">Acerca de</a>
@@ -120,12 +122,12 @@
     <button type="button" aria-label="Aceptar cookies" onclick="this.parentElement.style.display='none'">Aceptar</button>
   </div>
 
-  <!-- FAB de WhatsApp -->
+  <!-- Botón flotante de WhatsApp -->
   <div class="wa-fab" aria-label="Contacto rápido por WhatsApp">
-    <a id="wa-fab-link" href="#" title="Escríbeme por WhatsApp">💬</a>
+    <a id="wa-fab-link" href="https://wa.me/573206780200" target="_blank" rel="noopener noreferrer" title="Escríbeme por WhatsApp">💬</a>
   </div>
 
-  <!-- JSON-LD: ContactPage + contactPoint -->
+  <!-- JSON-LD: ContactPage -->
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
@@ -158,7 +160,19 @@
   }
   </script>
 
-  <!-- Librerías para el gráfico (si el canvas existe) -->
+  <!-- Script WhatsApp dinámico -->
+  <script>
+    const waButton = document.getElementById('send-whatsapp');
+    waButton?.addEventListener('click', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const message = document.getElementById('message').value.trim();
+      const encodedMsg = encodeURIComponent(`Hola Freimel 👋, soy ${name}. ${message}`);
+      window.open(`https://wa.me/573206780200?text=${encodedMsg}`, '_blank');
+    });
+  </script>
+
+  <!-- Librerías opcionales (Chart.js solo si usas gráficos) -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial@3"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3"></script>

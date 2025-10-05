@@ -1,4 +1,10 @@
+# Permitir el rastreo general
 User-agent: *
-Allow: /
+Disallow:
 
+# Asegurar que AdSense pueda rastrear
+User-agent: Mediapartners-Google
+Disallow:
+
+# Ubicación del sitemap
 Sitemap: https://freimeljerezcom.online/sitemap.xml

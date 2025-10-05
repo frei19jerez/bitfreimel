@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Ha ocurrido un error al enviar tu mensaje. Intenta nuevamente o contacta por otro medio.">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#0d0d0d">
+  <title>Error al enviar mensaje | freimeljerezcom.online</title>
+
+  <link rel="stylesheet" href="/css/styles.min.css" />
+  <link rel="icon" href="/imagenes/icon-192.png" type="image/png" />
+
+  <style>
+    body {
+      background-color: #0d0d0d;
+      color: #fff;
+      font-family: Arial, Helvetica, sans-serif;
+      text-align: center;
+      padding: 50px 20px;
+    }
+
+    .error-icon {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      display: inline-block;
+      background: #e74c3c;
+      position: relative;
+      animation: popIn 0.5s ease forwards;
+    }
+
+    .error-icon::before,
+    .error-icon::after {
+      content: '';
+      position: absolute;
+      top: 25px;
+      left: 43px;
+      width: 6px;
+      height: 40px;
+      background: #fff;
+      transform-origin: center;
+    }
+
+    .error-icon::before {
+      transform: rotate(45deg) scale(0);
+      opacity: 0;
+      animation: drawCross 0.5s ease 0.4s forwards;
+    }
+
+    .error-icon::after {
+      transform: rotate(-45deg) scale(0);
+      opacity: 0;
+      animation: drawCross 0.5s ease 0.6s forwards;
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0); opacity: 0; }
+      80% { transform: scale(1.1); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes drawCross {
+      to { transform: rotate(var(--rotate)) scale(1); opacity: 1; }
+    }
+
+    h1 {
+      font-size: 2em;
+      margin-top: 30px;
+      animation: fadeIn 1s ease forwards;
+    }
+
+    p {
+      color: #ccc;
+      font-size: 1.1em;
+      margin-top: 15px;
+      animation: fadeIn 1.2s ease forwards;
+    }
+
+    a {
+      color: #1db954;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      margin-top: 60px;
+      font-size: 0.9em;
+      color: #999;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="wrapper">
+    <div class="container">
+      <div class="error-icon"></div>
+      <h1>¡Ups! Algo salió mal 😕</h1>
+      <p>No se pudo enviar tu mensaje. Es posible que haya un problema con la conexión o el servidor.</p>
+      <p>Intenta nuevamente en unos minutos o contáctame directamente por <a href="https://wa.me/573206780200" target="_blank" rel="noopener noreferrer">WhatsApp</a>.</p>
+      <p><a href="/">Volver al inicio</a></p>
+    </div>
+  </main>
+
+  <footer>
+    <a href="/">Inicio</a> |
+    <a href="/privacidad.html#cookies">Política de Cookies</a> |
+    <a href="/privacidad.html">Política de Privacidad</a> |
+    <a href="/terminos-condiciones.html">Términos y Condiciones</a> |
+    <a href="/acerca.html">Acerca de</a>
+  </footer>
+
+  <script>
+    // Transición suave al cargar
+    document.addEventListener("DOMContentLoaded", () => {
+      document.body.style.opacity = "0";
+      document.body.style.transition = "opacity 0.8s ease-in";
+      setTimeout(() => document.body.style.opacity = "1", 50);
+    });
+  </script>
+</body>
+</html>
