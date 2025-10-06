@@ -1,26 +1,59 @@
 {
-  "name": "BitFreimel App",
+  "id": "/index.html",
+  "name": "BitFreimel App - Predicción de Bitcoin por IA",
   "short_name": "BitFreimel",
+  "description": "App educativa y predictiva que muestra precios en tiempo real y velas japonesas de Bitcoin impulsadas por inteligencia artificial.",
+  "short_description": "Predicciones de Bitcoin con IA y gráficos de velas en tiempo real.",
   "start_url": "/index.html",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#000000",
-  "theme_color": "#000000",
+  "theme_color": "#0d0d0d",
   "orientation": "portrait",
   "lang": "es-CO",
-  "scope": "/",
-  "description": "Predicciones en tiempo real con velas japonesas de Bitcoin, impulsadas por IA.",
+  "categories": ["finance", "education", "productivity"],
+  "iarc_rating_id": "pending",
+  "developer": {
+    "name": "Freimel Jerez WebApp",
+    "email": "frei19jerez@gmail.com",
+    "url": "https://freimeljerezcom.online"
+  },
   "icons": [
     {
       "src": "/imagenes/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any"
+      "purpose": "any maskable"
     },
     {
       "src": "/imagenes/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any"
+      "purpose": "any maskable"
     }
-  ]
+  ],
+  "screenshots": [
+    {
+      "src": "/imagenes/pantalla-app1.webp",
+      "sizes": "1080x1920",
+      "type": "image/webp",
+      "form_factor": "wide",
+      "label": "Gráfica de velas en tiempo real"
+    },
+    {
+      "src": "/imagenes/pantalla-app2.webp",
+      "sizes": "1080x1920",
+      "type": "image/webp",
+      "form_factor": "narrow",
+      "label": "Predicción IA de precios de Bitcoin"
+    }
+  ],
+  "related_applications": [
+    {
+      "platform": "play",
+      "url": "https://play.google.com/store/apps/details?id=com.freimeljerez.bitfreimel",
+      "id": "com.freimeljerez.bitfreimel"
+    }
+  ],
+  "prefer_related_applications": false
 }
