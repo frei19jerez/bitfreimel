@@ -1,10 +1,48 @@
-# Permitir el rastreo general
+# =====================================
+# Freimel Jerez WebApp - Robots.txt
+# Optimizado para SEO, AdSense y PWA
+# =====================================
+
+# Permitir el rastreo general del sitio
 User-agent: *
-Disallow:
+Allow: /
+Disallow: /script/service-worker.js
+Disallow: /manifest.json
+Disallow: /script/
+Disallow: /css/
+Disallow: /imagenes/
 
-# Asegurar que AdSense pueda rastrear
+# Permitir que Google AdSense y Googlebot vean los anuncios
 User-agent: Mediapartners-Google
-Disallow:
+Allow: /
 
-# Ubicación del sitemap
+# Permitir a Googlebot-Image ver las imágenes para SEO
+User-agent: Googlebot-Image
+Allow: /imagenes/
+
+# Sitemap del sitio
+Sitemap: https://freimeljerezcom.online/sitemap.xml
+# =====================================
+# Freimel Jerez WebApp - Robots.txt
+# Optimizado para SEO, AdSense y PWA
+# =====================================
+
+# Permitir el rastreo general del sitio
+User-agent: *
+Allow: /
+Disallow: /script/service-worker.js
+Disallow: /manifest.json
+Disallow: /script/
+Disallow: /css/
+Disallow: /imagenes/
+
+# Permitir que Google AdSense y Googlebot vean los anuncios
+User-agent: Mediapartners-Google
+Allow: /
+
+# Permitir a Googlebot-Image ver las imágenes para SEO
+User-agent: Googlebot-Image
+Allow: /imagenes/
+
+# Sitemap del sitio
 Sitemap: https://freimeljerezcom.online/sitemap.xml
