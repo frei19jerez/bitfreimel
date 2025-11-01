@@ -1,24 +1,58 @@
-# =====================================
+# =========================================================
 # Freimel Jerez WebApp - Robots.txt
-# Optimizado para SEO, AdSense y PWA
-# =====================================
+# Optimizado para SEO, AdSense, Imágenes y PWA
+# =========================================================
 
-# Permitir el rastreo general del sitio
+# -------------------------------------
+# Acceso general de rastreadores
+# -------------------------------------
 User-agent: *
 Allow: /
-Disallow: /script/service-worker.js
-Disallow: /manifest.json
-Disallow: /script/
-Disallow: /css/
-Disallow: /imagenes/
 
-# Permitir que Google AdSense y Googlebot vean los anuncios
+# Bloquear solo directorios o archivos técnicos que no aportan valor SEO
+Disallow: /admin/
+Disallow: /data/
+Disallow: /tests/
+Disallow: /backup/
+Disallow: /README.md
+Disallow: /LICENSE
+Disallow: /static.json
+Disallow: /*.zip$
+Disallow: /*.rar$
+Disallow: /*.bak$
+Disallow: /*.tmp$
+
+# -------------------------------------
+# Permitir rastreo de scripts y estilos
+# (necesarios para indexación visual correcta y PWA)
+# -------------------------------------
+Allow: /css/
+Allow: /js/
+Allow: /script/
+Allow: /manifest.json
+Allow: /service-worker.js
+
+# -------------------------------------
+# Google AdSense y Googlebot
+# -------------------------------------
 User-agent: Mediapartners-Google
 Allow: /
 
-# Permitir a Googlebot-Image ver las imágenes para SEO
+# -------------------------------------
+# Googlebot-Image (para indexar imágenes en búsqueda visual)
+# -------------------------------------
 User-agent: Googlebot-Image
 Allow: /imagenes/
 
+# -------------------------------------
+# Acceso para PWA y verificación
+# -------------------------------------
+Allow: /manifest.json
+Allow: /sw.js
+Allow: /offline.html
+
+# -------------------------------------
 # Sitemap del sitio
+# -------------------------------------
 Sitemap: https://freimeljerezcom.online/sitemap.xml
+Sitemap: https://freimeljerezcom.online/blog/sitemap.xml

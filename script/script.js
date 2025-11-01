@@ -1,5 +1,5 @@
 /* =========================================================
-   FreimelJerez - JS Global (navbar, PWA, Gráfico, WhatsApp)
+   FreimelJerez - JS Global (navbar, PWA, Gráfico, WhatsApp, Cookies)
    ========================================================= */
 (() => {
   "use strict";
@@ -100,7 +100,6 @@
         hasChart &&
         window.Chart.registry &&
         (window.Chart.registry.getScale("time") || window.Chart.registry.getScale("timeseries"));
-      // El plugin financial se auto-registra; si no, mostramos aviso.
       const hasFinancial =
         hasChart &&
         (window.Chart.FinancialController ||
@@ -142,7 +141,7 @@
 
       const { hasChart, hasFinancial, hasTimeScale } = chartDepsOk();
       if (!hasChart || !hasFinancial || !hasTimeScale) {
-        console.warn("Falta Chart.js, el plugin financial o el adapter de tiempo.");
+        console.warn("Falta Chart.js o plugins necesarios.");
         return;
       }
 
@@ -160,9 +159,6 @@
         candleChart = null;
       }
 
-      const upColor = "#00c087";
-      const downColor = "#f6465d";
-
       candleChart = new Chart(ctx, {
         type: "candlestick",
         data: {
@@ -171,7 +167,7 @@
             data: candles,
             borderColor: "#00ff00",
             borderWidth: 1,
-            color: { up: upColor, down: downColor, unchanged: "#999" },
+            color: { up: "#00c087", down: "#f6465d", unchanged: "#999" },
             barPercentage: 0.2,
             categoryPercentage: 0.1,
           }]
@@ -184,23 +180,18 @@
             x: {
               type: "time",
               time: { unit: "minute", tooltipFormat: "PPpp" },
-              ticks: { color: "#ffffff" },
-              grid: { color: "rgba(255,255,255,0.1)" },
-              min: new Date(candles[0].x.getTime() - 60000),
-              max: new Date(candles[candles.length - 1].x.getTime() + 60000),
+              ticks: { color: "#fff" },
+              grid: { color: "rgba(255,255,255,0.1)" }
             },
             y: {
               position: "right",
-              offset: true,
-              ticks: { color: "#ffffff", padding: 10 },
+              ticks: { color: "#fff" },
               grid: { color: "rgba(255,255,255,0.1)" }
             }
           },
           plugins: {
-            legend: { labels: { color: "#ffffff" } },
-            tooltip: { mode: "index", intersect: false }
-          },
-          interaction: { mode: "nearest", intersect: false }
+            legend: { labels: { color: "#fff" } }
+          }
         }
       });
     }
@@ -223,16 +214,10 @@
             price > previousPrice ? "lime" :
             price < previousPrice ? "red" : "gray";
 
-          if (trendEl) {
-            trendEl.textContent =
-              previousPrice === null
-                ? "IA: Analizando…"
-                : price > previousPrice
-                  ? "IA: Vela Alta 🔼"
-                  : price < previousPrice
-                    ? "IA: Vela Baja 🔽"
-                    : "IA: Tendencia Estable ➡️";
-          }
+          trendEl && (trendEl.textContent =
+            price > previousPrice ? "IA: Vela Alta 🔼" :
+            price < previousPrice ? "IA: Vela Baja 🔽" :
+            "IA: Tendencia Estable ➡️");
 
           previousPrice = price;
         }
@@ -244,12 +229,11 @@
             `IA: Precio Futuro (estimado): $${future.toFixed(2)} ${change >= 0 ? "🔼" : "🔽"}`;
         }
 
-        // Reiniciar contadores
         clearInterval(window.__timerInterval);
-        window.__timerInterval = startCounter(timerEl, "IA: Tiempo desde la última actualización");
+        window.__timerInterval = startCounter(timerEl, "IA: Tiempo desde actualización");
 
         clearInterval(window.__priceTimerInterval);
-        window.__priceTimerInterval = startCounter(priceTimerEl, "IA: Tiempo desde la última actualización de BTC");
+        window.__priceTimerInterval = startCounter(priceTimerEl, "IA: Última actualización de BTC");
 
       } catch (e) {
         console.error("Error obteniendo precio Binance:", e);
@@ -282,71 +266,84 @@
 
       on(window, "beforeunload", () => {
         Intervals.clearAll();
-        if (candleChart) { candleChart.destroy(); candleChart = null; }
-        clearInterval(window.__timerInterval);
-        clearInterval(window.__priceTimerInterval);
+        candleChart && candleChart.destroy();
       });
     }
 
     /* ---------------------------
-       WhatsApp (form + FAB) con VALIDACIÓN
+       WhatsApp (form + FAB)
     --------------------------- */
-    const form  = /** @type {HTMLFormElement|null} */ ($("#contact-form"));
+    const form  = $("#contact-form");
     const btnWA = $("#send-whatsapp");
     const fabWA = $("#wa-fab-link");
 
-    function buildWAText() {
-      const name    = ($("#name")?.value || "").trim();
-      const email   = ($("#email")?.value || "").trim();
+    const buildWAText = () => {
+      const name = ($("#name")?.value || "").trim();
+      const email = ($("#email")?.value || "").trim();
       const subject = ($("#subject")?.value || "Sin asunto").trim();
       const message = ($("#message")?.value || "").trim();
-      // Consent ya está con required (validación nativa), no repetimos alerta si usamos checkValidity
-      const lines = [
+      return [
         `*Nuevo mensaje desde freimeljerezcom.online*`,
         `*Nombre:* ${name}`,
         `*Email:* ${email}`,
         subject ? `*Asunto:* ${subject}` : null,
-        `*Mensaje:*`,
-        message,
-        "",
+        `*Mensaje:*`, message, "",
         `Página: ${location.href}`,
         `Fecha: ${new Date().toLocaleString()}`
-      ].filter(Boolean);
-      return lines.join("\n");
-    }
+      ].filter(Boolean).join("\n");
+    };
+
     const buildWAUrl = (text, wa) => `https://wa.me/${wa}?text=${encodeURIComponent(text)}`;
 
     if (form) {
       const waNumber = (form.dataset.waNumber || "573206780200").replace(/\D/g, "");
-
-      // Botón “Enviar por WhatsApp” respeta validación nativa
       on(btnWA, "click", (e) => {
         e.preventDefault();
-        if (!form.checkValidity()) {
-          form.reportValidity();
-          return;
-        }
+        if (!form.checkValidity()) return form.reportValidity();
         const url = buildWAUrl(buildWAText(), waNumber);
         window.open(url, "_blank", "noopener,noreferrer");
       });
-
-      // FAB (saludo rápido)
       on(fabWA, "click", (e) => {
         e.preventDefault();
         const saludo = encodeURIComponent("Hola Freimel, vengo desde freimeljerezcom.online 👋");
         window.open(`https://wa.me/${waNumber}?text=${saludo}`, "_blank", "noopener,noreferrer");
       });
-
-      // Submit: valida nativo + abre WhatsApp y envía a FormSubmit
       on(form, "submit", (e) => {
         if (!form.checkValidity()) {
           e.preventDefault();
-          form.reportValidity();
-          return;
+          return form.reportValidity();
         }
-        // Genera WhatsApp y lo abre; NO prevenimos submit para que FormSubmit reciba también
         const url = buildWAUrl(buildWAText(), waNumber);
         window.open(url, "_blank", "noopener,noreferrer");
+      });
+    }
+
+    /* ---------------------------
+       Banner de cookies (Aceptar / Rechazar)
+    --------------------------- */
+    const cookieBanner = document.getElementById("cookieBanner");
+    const acceptBtn = document.getElementById("acceptCookiesBtn");
+    const rejectBtn = document.getElementById("rejectCookiesBtn");
+
+    const cookieChoice = localStorage.getItem("cookieChoice");
+
+    if (!cookieChoice && cookieBanner) {
+      cookieBanner.style.display = "block";
+    }
+
+    if (acceptBtn) {
+      acceptBtn.addEventListener("click", () => {
+        localStorage.setItem("cookieChoice", "accepted");
+        cookieBanner.style.display = "none";
+        console.log("🍪 Cookies aceptadas");
+      });
+    }
+
+    if (rejectBtn) {
+      rejectBtn.addEventListener("click", () => {
+        localStorage.setItem("cookieChoice", "rejected");
+        cookieBanner.style.display = "none";
+        console.log("🚫 Cookies rechazadas");
       });
     }
   });

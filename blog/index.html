@@ -3,112 +3,132 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Explora artículos sobre Bitcoin, inteligencia artificial, minería y emociones en el mercado cripto.">
-  <meta name="keywords" content="blog bitcoin, predicción IA, análisis técnico, minería, psicología trading">
+  <meta name="description" content="Explora artículos sobre Bitcoin, inteligencia artificial, minería y emociones en el mercado cripto. Aprende sobre predicción con IA y análisis técnico.">
+  <meta name="keywords" content="blog bitcoin, inteligencia artificial, minería, análisis técnico, predicción IA, psicología trading">
   <meta name="author" content="Freimel Jerez">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#0d0d0d">
 
-  <!-- Open Graph -->
-  <meta property="og:title" content="Blog - Predicción de Bitcoin con IA" />
-  <meta property="og:description" content="Explora artículos sobre Bitcoin, inteligencia artificial y análisis técnico." />
-  <meta property="og:image" content="https://freimeljerezcom.online/blog/imagen/preview.png" />
-  <meta property="og:url" content="https://freimeljerezcom.online/blog/" />
-  <meta property="og:type" content="website" />
+  <title>Blog | Freimel Jerez WebApp</title>
 
-  <title>Blog - Predicción de Bitcoin con IA</title>
+  <!-- Canonical -->
+  <link rel="canonical" href="https://freimeljerezcom.online/blog/">
 
-  <link rel="stylesheet" href="/blog/css/index.css" />
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- CSS Personalizado -->
+  <link rel="stylesheet" href="/css/styles.min.css">
   <link rel="icon" href="/imagenes/icon-192.png" type="image/png" />
 
-  <!-- AdSense -->
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Blog de Freimel Jerez - IA, Bitcoin y Análisis Técnico">
+  <meta property="og:description" content="Artículos sobre inteligencia artificial, minería, emociones y análisis técnico en el mercado cripto.">
+  <meta property="og:url" content="https://freimeljerezcom.online/blog/">
+  <meta property="og:image" content="https://freimeljerezcom.online/blog/imagen/preview.png">
+  <meta property="og:locale" content="es_CO">
+
+  <!-- Google AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4933331274738462" crossorigin="anonymous"></script>
 
   <style>
-    .ad-slot { display:block; margin:20px 0; min-height:250px; }
-    @media (min-width:768px){ .ad-slot { min-height:90px; } }
+    .card img { border-radius: .5rem .5rem 0 0; }
+    .card:hover { transform: scale(1.02); transition: all .3s ease; }
+    .ad-slot { display:block; margin:30px 0; min-height:250px; }
+    @media (min-width:768px){ .ad-slot{min-height:90px;} }
   </style>
 </head>
-<body>
 
-<!-- ====== NAVBAR ====== -->
-<nav class="navbar">
-  <div class="navbar-container">
-    <a href="/" class="logo">Freimel Jerez</a>
-    <button id="hamburger" class="hamburger" aria-label="Abrir menú">☰</button>
-    <ul class="nav-links" id="nav-links">
-      <li><a href="/">Inicio</a></li>
-      <li><a href="/blog/index.html" aria-current="page">Blog</a></li>
-      <li><a href="/interactivos/index.html">Interactivos</a></li>
-      <li><a href="/ia-prediccion.html">IA-Predicción</a></li>
-      <li><a href="">IA-Predicción</a></li>
-    </ul>
-  </div>
-</nav>
+<body class="bg-dark text-light">
 
-<!-- ====== CONTENIDO ====== -->
-<main class="wrapper">
-  <div class="container">
-    <h1>📰 Blog de Predicción de Bitcoin</h1>
-    <p>Lee nuestros artículos sobre inteligencia artificial, minería, psicología del inversor y análisis técnico en criptomonedas.</p>
+  <!-- 🔹 NAVBAR -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-secondary" aria-label="Menú principal">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="/">Freimel Jerez</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarMenu">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link" href="/">Inicio</a></li>
+          <li class="nav-item"><a class="nav-link active" href="/blog/">Blog</a></li>
+          <li class="nav-item"><a class="nav-link" href="/interactivos/">Interactivos</a></li>
+          <li class="nav-item"><a class="nav-link" href="/ia-prediccion.html">IA-Predicción</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
-    <!-- Anuncio #1 -->
+  <!-- 🔹 CONTENIDO -->
+  <main class="container py-5">
+    <div class="text-center mb-5">
+      <h1 class="fw-bold">📰 Blog de Predicción de Bitcoin</h1>
+      <p class="text-secondary">Análisis técnico, inteligencia artificial y psicología del mercado cripto.</p>
+    </div>
+
+    <!-- 📢 AdSense superior -->
     <ins class="adsbygoogle ad-slot"
-         style="text-align:center"
          data-ad-client="ca-pub-4933331274738462"
          data-ad-slot="7799323022"
          data-ad-format="fluid"
-         data-ad-layout="in-article"
          data-full-width-responsive="true"></ins>
     <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 
-    <!-- ====== LISTA DE ARTÍCULOS ====== -->
-    <ul class="blog-list">
+    <!-- 🔹 GRID DE ARTÍCULOS -->
+    <div class="row g-4 mt-3">
 
       <!-- IA vs Bitcoin -->
-      <li>
-        <div class="blog-banner">
-          <img src="/blog/imagen/¿Puede-la-IA-predecir-el-precio-del-Bitcoin.png"
-               alt="¿Puede la IA predecir el precio del Bitcoin?"
-               loading="lazy" width="1280" height="720" />
+      <div class="col-md-6 col-lg-4">
+        <div class="card h-100 shadow bg-secondary border-0">
+          <img src="/blog/imagen/¿Puede-la-IA-predecir-el-precio-del-Bitcoin.png" alt="¿Puede la IA predecir el precio del Bitcoin?" loading="lazy" class="card-img-top">
+          <div class="card-body">
+            <h5 class="card-title">¿Puede la IA predecir el precio del Bitcoin?</h5>
+            <p class="card-text">Descubre cómo la inteligencia artificial analiza millones de datos para prever el comportamiento del mercado cripto.</p>
+            <a href="/blog/ia-vs-bitcoin.html" class="btn btn-outline-light w-100">Leer artículo</a>
+          </div>
         </div>
-        <a href="/blog/ia-vs-bitcoin.html"><strong>¿Puede la IA predecir el precio del Bitcoin?</strong></a>
-        <p>Descubre cómo la inteligencia artificial analiza millones de datos para prever el comportamiento del mercado cripto.</p>
-      </li>
+      </div>
 
       <!-- Minería vs IA -->
-      <li>
-        <div class="blog-banner">
-          <img src="/blog/imagen/Minería-vs-IA.png"
-               alt="Minería vs IA"
-               loading="lazy" width="1280" height="720" />
+      <div class="col-md-6 col-lg-4">
+        <div class="card h-100 shadow bg-secondary border-0">
+          <img src="/blog/imagen/Minería-vs-IA.png" alt="Minería vs Inteligencia Artificial en Bitcoin" loading="lazy" class="card-img-top">
+          <div class="card-body">
+            <h5 class="card-title">Minería vs IA</h5>
+            <p class="card-text">¿Qué impulsa más el ecosistema de Bitcoin: la minería tradicional o la inteligencia artificial?</p>
+            <a href="/blog/mineria-vs-ia.html" class="btn btn-outline-light w-100">Leer artículo</a>
+          </div>
         </div>
-        <a href="/blog/mineria-vs-ia.html"><strong>Minería vs IA: ¿Qué impulsa más el ecosistema de Bitcoin?</strong></a>
-        <p>¿Qué aporta más al futuro de Bitcoin: la minería tradicional o la inteligencia artificial? Descúbrelo aquí.</p>
-      </li>
+      </div>
 
       <!-- Emociones vs Bitcoin -->
-      <li>
-        <div class="blog-banner">
-          <img src="/blog/imagen/Emociones-vs-Bitcoin.png"
-               alt="Emociones vs Bitcoin"
-               loading="lazy" width="1280" height="720" />
+      <div class="col-md-6 col-lg-4">
+        <div class="card h-100 shadow bg-secondary border-0">
+          <img src="/blog/imagen/Emociones-vs-Bitcoin.png" alt="Emociones y psicología en el mercado cripto" loading="lazy" class="card-img-top">
+          <div class="card-body">
+            <h5 class="card-title">Emociones vs Bitcoin</h5>
+            <p class="card-text">El miedo y la codicia mueven los mercados. Aprende cómo la psicología colectiva influye en el precio del Bitcoin.</p>
+            <a href="/blog/emociones-vs-bitcoin.html" class="btn btn-outline-light w-100">Leer artículo</a>
+          </div>
         </div>
-        <a href="/blog/emociones-vs-bitcoin.html"><strong>Emociones vs Bitcoin: ¿Influyen en el precio?</strong></a>
-        <p>El miedo y la codicia mueven los mercados. Aprende cómo la psicología colectiva afecta al Bitcoin.</p>
-      </li>
+      </div>
 
-      <!-- Análisis técnico -->
-      <li>
-        <div class="blog-banner">
-          <img src="/blog/imagen/¿Qué-es-el-análisis-técnico-y-cómo-se-aplica-al-Bitcoin.png"
-               alt="¿Qué es el análisis técnico y cómo se aplica al Bitcoin?"
-               loading="lazy" width="1280" height="720" />
+      <!-- Análisis Técnico -->
+      <div class="col-md-6 col-lg-4">
+        <div class="card h-100 shadow bg-secondary border-0">
+          <img src="/blog/imagen/¿Qué-es-el-análisis-técnico-y-cómo-se-aplica-al-Bitcoin.png" alt="Análisis técnico en Bitcoin" loading="lazy" class="card-img-top">
+          <div class="card-body">
+            <h5 class="card-title">Análisis Técnico de Bitcoin</h5>
+            <p class="card-text">Guía práctica para interpretar indicadores, soportes y resistencias y tomar mejores decisiones de inversión.</p>
+            <a href="/blog/analisis-tecnico-bitcoin.html" class="btn btn-outline-light w-100">Leer artículo</a>
+          </div>
         </div>
-        <a href="/blog/analisis-tecnico-bitcoin.html"><strong>¿Qué es el análisis técnico y cómo se aplica al Bitcoin?</strong></a>
-        <p>Una guía práctica sobre cómo leer gráficos, interpretar indicadores y mejorar tus decisiones de inversión.</p>
-      </li>
-    </ul>
+      </div>
 
-    <!-- Anuncio #2 -->
+    </div>
+
+    <!-- 📢 AdSense inferior -->
     <ins class="adsbygoogle ad-slot"
          data-ad-client="ca-pub-4933331274738462"
          data-ad-slot="9479478115"
@@ -116,27 +136,29 @@
          data-full-width-responsive="true"></ins>
     <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 
-    <a href="/" style="display:inline-block;margin-top:20px;">← Volver al inicio</a>
-  </div>
-</main>
+    <div class="text-center mt-4">
+      <a href="/" class="text-light text-decoration-underline">← Volver al inicio</a>
+    </div>
+  </main>
 
-<!-- ====== FOOTER ====== -->
-<footer>
-  <a href="/privacidad.html">Política de Privacidad</a> |
-  <a href="/contacto.html">Contacto</a> |
-  <a href="/terminos-condiciones.html">Términos y Condiciones</a> |
-  <a href="/acerca.html">Acerca de</a>
+  <!-- 🔹 FOOTER -->
+  <footer class="bg-dark text-center text-light py-4 mt-5 border-top border-secondary">
+    <div class="container">
+      <ul class="list-inline mb-3">
+        <li class="list-inline-item"><a href="/" class="text-light text-decoration-none">Inicio</a></li>
+        <li class="list-inline-item"><a href="/privacidad.html" class="text-light text-decoration-none">Privacidad</a></li>
+        <li class="list-inline-item"><a href="/terminos-condiciones.html" class="text-light text-decoration-none">Términos</a></li>
+        <li class="list-inline-item"><a href="/contacto.html" class="text-light text-decoration-none">Contacto</a></li>
+        <li class="list-inline-item"><a href="/acerca.html" class="text-light text-decoration-none">Acerca de</a></li>
+      </ul>
+      <p class="mb-0">© <span id="year"></span> Freimel Jerez WebApp. Todos los derechos reservados.</p>
+    </div>
+  </footer>
 
-  <ins class="adsbygoogle ad-slot"
-       data-ad-client="ca-pub-4933331274738462"
-       data-ad-slot="4606183476"
-       data-ad-format="auto"
-       data-full-width-responsive="true"></ins>
-  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-</footer>
-
-<!-- ====== JS ====== -->
-<script src="/blog/js/index.js" defer></script>
-
+  <!-- JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
