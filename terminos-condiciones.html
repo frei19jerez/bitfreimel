@@ -84,6 +84,7 @@
 
       <h2 id="publicidad">9. Publicidad, afiliados y monetización</h2>
       <p>freimeljerezcom.online utiliza <strong>Google AdSense</strong> para mostrar anuncios, y eventualmente enlaces de afiliación identificados con <code>rel="nofollow sponsored"</code>. La publicidad no afecta la independencia editorial del contenido publicado.</p>
+      <p>Google puede utilizar cookies o identificadores anónimos para personalizar los anuncios. Los usuarios pueden consultar <a href="https://policies.google.com/technologies/ads?hl=es" target="_blank" rel="noopener">cómo Google utiliza los datos en sus sitios asociados</a>.</p>
       <p>Consulta la <a href="/privacidad.html">Política de Privacidad</a> para más detalles sobre el tratamiento de datos y cookies.</p>
 
       <h2 id="cookies">10. Uso de cookies</h2>
@@ -98,8 +99,8 @@
       <h2 id="contacto">13. Contacto</h2>
       <p>Para cualquier duda o solicitud relacionada con estos términos, puedes escribir a <a href="mailto:frei19jerez@gmail.com">frei19jerez@gmail.com</a> o visitar la sección <a href="/contacto.html">Contacto</a>.</p>
 
-      <p style="font-size:0.9rem;opacity:0.75;text-align:center;margin-top:32px;">
-        Documento informativo. Sujeto a modificaciones sin previo aviso.
+      <p id="fecha-actualizacion" style="font-size:0.9rem;opacity:0.75;text-align:center;margin-top:32px;">
+        Documento informativo. Última actualización: <span id="fecha"></span>. Sujeto a modificaciones sin previo aviso.
       </p>
     </div>
   </main>
@@ -114,8 +115,19 @@
     <p style="text-align:center;margin-top:8px;">© <span id="year"></span> Freimel Jerez WebApp. Todos los derechos reservados.</p>
   </footer>
 
+  <script src="/script/script.js"></script>
+
   <!-- Scripts -->
-  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+  <script>
+    // Mostrar el año actual en el footer
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Mostrar la fecha actual en formato español
+    const fecha = new Date();
+    const opciones = { day: 'numeric', month: 'long', year: 'numeric' };
+    const fechaFormateada = fecha.toLocaleDateString('es-CO', opciones);
+    document.getElementById("fecha").textContent = fechaFormateada;
+  </script>
 
   <!-- JSON-LD: TermsOfService -->
   <script type="application/ld+json">
@@ -124,9 +136,10 @@
     "@type": "TermsOfService",
     "@id": "https://freimeljerezcom.online/terminos-condiciones.html#tos",
     "name": "Términos y Condiciones",
+    "description": "Condiciones de uso, propiedad intelectual, cookies, publicidad y limitaciones de responsabilidad del sitio freimeljerezcom.online.",
     "url": "https://freimeljerezcom.online/terminos-condiciones.html",
     "inLanguage": "es",
-    "dateModified": "2025-10-26",
+    "dateModified": "2025-11-05",
     "provider": {
       "@type": "Person",
       "name": "Freimel Jerez",

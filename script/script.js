@@ -46,7 +46,11 @@
     }
   }
 
-  document.addEventListener("DOMContentLoaded", () => {
+  document.addEventListener("DOMContentLoaded", async () => {
+  if (document.getElementById("app-main")) {
+    await new Promise((resolve) => setTimeout(resolve, 500));
+  }
+
     /* ---------------------------
        Menú hamburguesa accesible
     --------------------------- */
@@ -80,7 +84,7 @@
     /* ---------------------------
        Gráfico de velas + precio
     --------------------------- */
-    const canvas = /** @type {HTMLCanvasElement|null} */ ($("#btcChart"));
+    const canvas = $("#btcChart");
     const tokenSelect = $("#token");
     const intervaloSelect = $("#intervalo");
     const updateBtn = $("#updateBtn");
@@ -194,8 +198,43 @@
           }
         }
       });
+
+      // 🔧 Ajuste de resolución para móviles y pantallas retina
+      window.candleChart = candleChart;
+      ajustarResolucionCanvas(candleChart);
     }
 
+     /* ----------------------------------------------------
+       🔧 Ajuste de resolución del gráfico (móviles/retina)
+    ---------------------------------------------------- */
+    function ajustarResolucionCanvas(chart) {
+      if (!chart || !chart.canvas) return;
+      const canvas = chart.canvas;
+      const ctx = canvas.getContext("2d");
+      const ratio = window.devicePixelRatio || 1;
+      const width = canvas.clientWidth;
+      const height = canvas.clientHeight;
+      canvas.width = width * ratio;
+      canvas.height = height * ratio;
+      ctx.scale(ratio, ratio);
+      chart.resize();
+    }
+
+    // Detectar cambio de tamaño o rotación del dispositivo
+    window.addEventListener("resize", () => {
+      if (window.candleChart) ajustarResolucionCanvas(window.candleChart);
+    });
+
+    // Redibujar al volver a la pestaña visible
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "visible" && window.candleChart) {
+        ajustarResolucionCanvas(window.candleChart);
+      }
+    });
+
+    /* ---------------------------
+       Precio en tiempo real + IA
+    --------------------------- */
     async function fetchBinancePriceUI(symbol = "BTCUSDT") {
       try {
         const url = `https://fapi.binance.com/fapi/v1/ticker/price?symbol=${symbol}`;
