@@ -19,9 +19,9 @@
 
   <!-- CSS -->
   <link rel="stylesheet" href="/interactivos/css/analisis-tecnico.css">
-    <link rel="icon" href="/imagenes/icon-192.png" type="image/png" />
+  <link rel="icon" href="/imagenes/icon-192.png" type="image/png" />
 
-  <!-- AdSense (una sola vez) -->
+  <!-- AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4933331274738462" crossorigin="anonymous"></script>
 
   <!-- JSON-LD -->
@@ -43,100 +43,104 @@
   </script>
 </head>
 <body>
-  <main class="container">
-    <h1>📈 <span>Simulador de Análisis Técnico</span></h1>
+  <!-- 🧩 CONTENEDOR GLOBAL -->
+  <div class="container">
+    <main>
+      <h1>📈 <span>Simulador de Análisis Técnico</span></h1>
 
-    <div class="aviso-demo" role="note" aria-label="Aviso demo educativo">
-      💡 <strong>Demo educativo:</strong> el saldo y la apuesta son <u>créditos ficticios</u>. No hay dinero real ni asesoría financiera.
-    </div>
+      <div class="aviso-demo" role="note" aria-label="Aviso demo educativo">
+        💡 <strong>Demo educativo:</strong> el saldo y la apuesta son <u>créditos ficticios</u>. No hay dinero real ni asesoría financiera.
+      </div>
 
-    <p class="descripcion">
-      Observa el gráfico en tiempo real y responde si el próximo movimiento será
-      <strong>📈 Alcista</strong>, <strong>📉 Bajista</strong> o <strong>➖ Neutro</strong>.
-    </p>
+      <!-- ANUNCIO #1: in-article debajo del gráfico -->
+      <ins class="adsbygoogle"
+           style="display:block;text-align:center"
+           data-ad-client="ca-pub-4933331274738462"
+           data-ad-slot="7799323022"
+           data-ad-format="fluid"
+           data-ad-layout="in-article"
+           data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 
-    <div id="saldoDemo" style="font-weight:bold; font-size:24px; color:limegreen; margin:20px 0;"></div>
+      <p class="descripcion">
+        Observa el gráfico en tiempo real y responde si el próximo movimiento será
+        <strong>📈 Alcista</strong>, <strong>📉 Bajista</strong> o <strong>➖ Neutro</strong>.
+      </p>
 
-    <label for="inputApuesta" style="color:limegreen; font-weight:bold;">Apuesta:</label>
-    <input type="number" id="inputApuesta" min="100" max="10000" step="100" value="1000" style="font-size:18px; width:120px; margin-left:10px;" />
+      <div id="saldoDemo" style="font-weight:bold; font-size:24px; color:limegreen; margin:20px 0;"></div>
 
-    <div class="chart-wrap">
-      <canvas id="candlestickChart" aria-label="Gráfico de velas"></canvas>
-    </div>
+      <label for="inputApuesta" style="color:limegreen; font-weight:bold;">Apuesta:</label>
+      <input type="number" id="inputApuesta" min="100" max="10000" step="100" value="1000" style="font-size:18px; width:120px; margin-left:10px;" />
 
-    <!-- ANUNCIO #1: in-article debajo del gráfico -->
+      <div class="chart-wrap">
+        <canvas id="candlestickChart" aria-label="Gráfico de velas"></canvas>
+      </div>
+
+      <div class="opciones">
+        <button id="alcistaBtn">📈 Alcista</button>
+        <button id="bajistaBtn">📉 Bajista</button>
+        <button id="neutroBtn">➖ Neutro</button>
+      </div>
+
+      <div class="token-selector">
+        <label for="token">Token:</label>
+        <select id="token">
+          <option value="BTCUSDT" selected>BTC</option>
+          <option value="ETHUSDT">ETH</option>
+          <option value="ETCUSDT">ETC</option>
+          <option value="BNBUSDT">BNB</option>
+          <option value="XRPUSDT">XRP</option>
+        </select>
+      </div>
+
+      <div class="interval-selector">
+        <label for="intervalo">Intervalo:</label>
+        <select id="intervalo">
+          <option value="1m" selected>1 Minuto</option>
+          <option value="5m">5 Minutos</option>
+          <option value="15m">15 Minutos</option>
+          <option value="30m">30 Minutos</option>
+        </select>
+      </div>
+
+      <div class="sonido">
+        <label class="toggle-sound">
+          <input type="checkbox" id="toggleSonido" aria-label="Activar sonido al finalizar la ronda">
+          🔔 Sonido al finalizar la ronda
+        </label>
+      </div>
+
+      <p id="resultado" class="resultado" aria-live="polite"></p>
+      <p id="timer">⏳ Próximo movimiento en: <span id="tiempoRestante">60</span> segundos</p>
+      <p class="volver"><a href="/interactivos/index.html">← Volver a Zona Interactiva</a></p>
+    </main>
+
+    <!-- ANUNCIO #2: al final -->
     <ins class="adsbygoogle"
-         style="display:block;text-align:center"
+         style="display:block"
          data-ad-client="ca-pub-4933331274738462"
-         data-ad-slot="7799323022"
-         data-ad-format="fluid"
-         data-ad-layout="in-article"
+         data-ad-slot="4606183476"
+         data-ad-format="auto"
          data-full-width-responsive="true"></ins>
     <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 
-    <div class="opciones">
-      <button id="alcistaBtn">📈 Alcista</button>
-      <button id="bajistaBtn">📉 Bajista</button>
-      <button id="neutroBtn">➖ Neutro</button>
-    </div>
+    <!-- FOOTER -->
+    <footer class="site-footer" role="contentinfo">
+      <a href="/privacidad.html" rel="nofollow">Privacidad</a> |
+      <a href="/contacto.html">Contacto</a> |
+      <a href="/terminos-condiciones.html" rel="nofollow">Términos</a> |
+      <a href="/acerca.html">Acerca de</a>
+      <br><small>© <span id="year"></span> Freimel Jerez · Proyecto educativo</small>
+    </footer>
+  </div> <!-- 🔚 fin container -->
 
-    <div class="token-selector">
-      <label for="token">Token:</label>
-      <select id="token">
-        <option value="BTCUSDT" selected>BTC</option>
-        <option value="ETHUSDT">ETH</option>
-        <option value="ETCUSDT">ETC</option>
-        <option value="BNBUSDT">BNB</option>
-        <option value="XRPUSDT">XRP</option>
-      </select>
-    </div>
-
-    <div class="interval-selector">
-      <label for="intervalo">Intervalo:</label>
-      <select id="intervalo">
-        <option value="1m" selected>1 Minuto</option>
-        <option value="5m">5 Minutos</option>
-        <option value="15m">15 Minutos</option>
-        <option value="30m">30 Minutos</option>
-      </select>
-    </div>
-
-    <div class="sonido">
-     <label class="toggle-sound">
-        <input type="checkbox" id="toggleSonido" aria-label="Activar sonido al finalizar la ronda">
-        🔔 Sonido al finalizar la ronda
-     </label>
-    </div>
-
-    <p id="resultado" class="resultado" aria-live="polite"></p>
-    <p id="timer">⏳ Próximo movimiento en: <span id="tiempoRestante">60</span> segundos</p>
-    <p class="volver"><a href="/interactivos/index.html">← Volver a Zona Interactiva</a></p>
-  </main>
-
-  <!-- ANUNCIO #2: al final (responsive auto) -->
-  <ins class="adsbygoogle"
-       style="display:block"
-       data-ad-client="ca-pub-4933331274738462"
-       data-ad-slot="4606183476"
-       data-ad-format="auto"
-       data-full-width-responsive="true"></ins>
-  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-
-  <!-- FOOTER -->
-  <footer class="site-footer" role="contentinfo">
-    <a href="/privacidad.html" rel="nofollow">Privacidad</a> |
-    <a href="/contacto.html">Contacto</a> |
-    <a href="/terminos-condiciones.html" rel="nofollow">Términos</a> |
-    <a href="/acerca.html">Acerca de</a>
-    <br><small>© <span id="year"></span> Freimel Jerez · Proyecto educativo</small>
-  </footer>
-
+  <!-- Scripts -->
   <script>
-    // año automático del footer
+    // Año automático del footer
     (function(){ var y=document.getElementById('year'); if(y){ y.textContent=new Date().getFullYear(); }})();
   </script>
 
-  <!-- Librerías -->
+  <!-- Librerías externas -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>

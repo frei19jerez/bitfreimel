@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <!-- 🧠 META Y SEO -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Predicción de Precios de Bitcoin en Tiempo Real por IA. Consulta estimaciones de Bitcoin al instante.">
@@ -12,17 +11,14 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: data: blob: 'unsafe-inline' 'unsafe-eval'; connect-src *;">
   
   <title>Predicción de Precios de Bitcoin - Freimel Jerez</title>
-
-  <!-- 📱 PWA Y ESTILOS -->
   <link rel="manifest" href="/manifest.json" />
   <link rel="stylesheet" href="/css/styles.min.css" />
   <link rel="stylesheet" href="/css/instalacion.css">
   <link rel="icon" href="/imagenes/icon-192.png" type="image/png" />
 
-  <!-- 📈 Google AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4933331274738462" crossorigin="anonymous"></script>
 
-  <!-- 🧩 JSON-LD SEO -->
+  <!-- JSON-LD SEO estructurado -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -40,53 +36,42 @@
 
 <body>
 
-  <!-- =========================================================
-       🧭 NAVBAR / MENÚ PRINCIPAL
-  ========================================================== -->
-  <div id="nav-container">
-    <nav class="navbar" aria-label="Menú principal">
-      <div class="navbar-container">
-        <a href="/" class="logo">Freimel Jerez</a>
-        <button class="hamburger" id="hamburger" aria-label="Menú de navegación" aria-expanded="false">&#9776;</button>
-        <ul class="nav-links" id="nav-links">
-          <li><a href="/">Inicio</a></li>
-          <li><a href="/blog/index.html">Blog</a></li>
-          <li><a href="/interactivos/index.html">Interactivos</a></li>
-          <li><a href="/ia-prediccion.html">IA-predicción</a></li>
-          <li><a href="https://freimeljerezwebapps.netlify.app/" target="_blank" rel="noopener">Portafolio</a></li>
-        </ul>
-      </div>
-    </nav>
-  </div>
-
-  <!-- =========================================================
-       💰 ANUNCIO HEADER
-  ========================================================== -->
-  <div id="ads-header-container">
-    <div class="ads-container">
-      <ins class="adsbygoogle"
-           style="display:block"
-           data-ad-client="ca-pub-4933331274738462"
-           data-ad-slot="9479478115"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  <!-- NAV -->
+  <nav class="navbar" aria-label="Menú principal">
+    <div class="navbar-container">
+      <a href="/" class="logo">Freimel Jerez</a>
+      <button class="hamburger" id="hamburger" aria-label="Menú de navegación" aria-expanded="false">&#9776;</button>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="/">Inicio</a></li>
+        <li><a href="/blog/index.html">Blog</a></li>
+        <li><a href="/interactivos/index.html">Interactivos</a></li>
+        <li><a href="/ia-prediccion.html">IA-predicción</a></li>
+        <li><a href="https://freimeljerezwebapps.netlify.app/" target="_blank" rel="noopener">Portafolio</a></li>
+      </ul>
     </div>
+  </nav>
+
+  <!-- 📌 ANUNCIO HEADER -->
+  <div class="ads-container">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-4933331274738462"
+         data-ad-slot="9479478115"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
   </div>
 
-  <!-- =========================================================
-       ⚙️ CONTENEDOR PRINCIPAL
-  ========================================================== -->
+  <!-- MAIN -->
   <main class="wrapper">
     <div class="container">
 
-      <!-- 🔹 INTRO -->
       <section class="intro">
         <h1>Predicción de Precios de Bitcoin</h1>
         <p>Bienvenido a <strong>freimeljerezcom.online</strong>, una aplicación educativa que utiliza inteligencia artificial para mostrarte predicciones en tiempo real sobre el comportamiento del precio del Bitcoin.</p>
       </section>
 
-      <!-- 🔹 ANUNCIO INTERMEDIO -->
+      <!-- 📌 ANUNCIO IN-ARTICLE -->
       <div class="ads-container">
         <ins class="adsbygoogle"
              style="display:block; text-align:center;"
@@ -97,7 +82,6 @@
         <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
       </div>
 
-      <!-- 🔹 PANEL IA / GRÁFICO -->
       <section class="panel-predicciones">
         <h2>Panel en Tiempo Real</h2>
         <p id="future-price">IA: Precio Futuro (estimado): Cargando...</p>
@@ -108,7 +92,6 @@
         <canvas id="btcChart" width="600" height="300"></canvas>
       </section>
 
-      <!-- 🔹 CONTROLES -->
       <div class="controles">
         <select id="token">
           <option value="BTCUSDT">BTCUSDT</option>
@@ -133,81 +116,89 @@
         <button id="updateBtn">🔄 Actualizar</button>
       </div>
 
-      <!-- 🔹 INSTALADOR PWA -->
-      <div id="pwa-container">
-        <div class="install-container">
-          <button id="installBtn" style="display:none;">📲 Instalar App</button>
-          <div id="mensajeInstalacion" class="mensaje-exito oculto">¡App instalada!</div>
-        </div>
-        <div id="mensajeGracias" class="mensaje-exito oculto">🙌 Gracias por instalar la app.</div>
+      <!-- Botón de instalación -->
+      <div class="install-container">
+        <button id="installBtn" style="display:none;">📲 Instalar App</button>
+        <div id="mensajeInstalacion" class="mensaje-exito oculto">¡App instalada!</div>
       </div>
+
+      <div id="mensajeGracias" class="mensaje-exito oculto">🙌 Gracias por instalar la app.</div>
 
     </div>
   </main>
 
-  <!-- =========================================================
-       💰 ANUNCIO FOOTER
-  ========================================================== -->
-  <div id="ads-footer-container">
-    <div class="ads-container">
-      <ins class="adsbygoogle"
-           style="display:block"
-           data-ad-client="ca-pub-4933331274738462"
-           data-ad-slot="4606183476"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  <!-- 📌 ANUNCIO FOOTER -->
+  <div class="ads-container">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-4933331274738462"
+         data-ad-slot="4606183476"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <a href="/privacidad.html" rel="nofollow">Política de Privacidad</a> |
+    <a href="/contacto.html" rel="nofollow">Contacto</a> |
+    <a href="/terminos-condiciones.html" rel="nofollow">Términos y Condiciones</a> |
+    <a href="/acerca.html" rel="nofollow">Acerca de</a> |
+    <a href="https://freimeljerezwebapps.netlify.app/" target="_blank" rel="noopener">Portafolio</a>
+  </footer>
+
+  <!-- ✅ Banner de Cookies mejorado -->
+  <div class="cookie-banner" id="cookieBanner">
+    Este sitio usa cookies para mejorar la experiencia del usuario y mostrar anuncios personalizados.
+    <div style="margin-top:8px;">
+      <button id="acceptCookiesBtn">Aceptar</button>
+      <button id="rejectCookiesBtn" style="background:#ff5555;color:#fff;">Rechazar</button>
     </div>
   </div>
 
-  <!-- =========================================================
-       🍪 BANNER DE COOKIES
-  ========================================================== -->
-  <div id="cookies-container">
-    <div id="cookieBanner" class="cookie-banner" style="display:none;">
-      <p>Usamos cookies propias y de terceros para mejorar tu experiencia y mostrar anuncios personalizados mediante Google AdSense.</p>
-      <div class="cookie-buttons">
-        <button id="acceptCookiesBtn" class="cookie-btn aceptar">Aceptar</button>
-        <button id="rejectCookiesBtn" class="cookie-btn rechazar">Rechazar</button>
-      </div>
-      <a href="/privacidad.html#cookies" class="cookie-link">Más información</a>
-    </div>
-  </div>
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+  <script src="/script/script.js" defer></script>
+  <script src="/script/descargar.js"></script>
 
-  <!-- =========================================================
-       🔻 FOOTER
-  ========================================================== -->
-  <div id="footer-container">
-    <footer>
-      <a href="/privacidad.html" rel="nofollow">Política de Privacidad</a> |
-      <a href="/contacto.html" rel="nofollow">Contacto</a> |
-      <a href="/terminos-condiciones.html" rel="nofollow">Términos y Condiciones</a> |
-      <a href="/acerca.html" rel="nofollow">Acerca de</a> |
-      <a href="https://freimeljerezwebapps.netlify.app/" target="_blank" rel="noopener">Portafolio</a>
-    </footer>
-  </div>
+  <!-- ✅ Script funcional de cookies -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const banner = document.getElementById("cookieBanner");
+      const accept = document.getElementById("acceptCookiesBtn");
+      const reject = document.getElementById("rejectCookiesBtn");
+      const choice = localStorage.getItem("cookieChoice");
 
-  <!-- =========================================================
-       📜 SCRIPTS
-  ========================================================== -->
-  <div id="scripts-container">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
-    <script src="/script/script.js" defer></script>
-    <script src="/script/descargar.js" defer></script>
+      if (!choice) banner.style.display = "block";
 
-    <!-- Registro del Service Worker -->
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/script/service-worker.js')
-            .then(reg => console.log('✅ SW registrado:', reg.scope))
-            .catch(err => console.error('❌ Error registrando SW:', err));
+      if (accept) {
+        accept.addEventListener("click", () => {
+          localStorage.setItem("cookieChoice", "accepted");
+          banner.style.display = "none";
         });
       }
-    </script>
-  </div>
+
+      if (reject) {
+        reject.addEventListener("click", () => {
+          localStorage.setItem("cookieChoice", "rejected");
+          banner.style.display = "none";
+        });
+      }
+    });
+  </script>
+
+  <!-- ✅ Registro del Service Worker -->
+  <script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/script/service-worker.js')
+        .then(reg => console.log('✅ SW registrado:', reg.scope))
+        .catch(err => console.error('❌ Error registrando SW:', err));
+    });
+  }
+  </script>
 
 </body>
 </html>
