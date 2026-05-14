@@ -2,8 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>¿Sube o Baja el Bitcoin? — Demo educativo | freimeljerezcom.online</title>
   <meta name="description" content="Juego DEMO educativo: practica si el precio de Bitcoin sube o baja. Aprende a leer tendencia con velas reales, estadísticas, racha y saldo ficticio.">
@@ -11,10 +10,14 @@
   <meta name="author" content="Freimel Jerez">
   <meta name="theme-color" content="#0d0d0d">
 
+  <!-- Modo WebApp -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
   <!-- Canonical -->
   <link rel="canonical" href="https://freimeljerezcom.online/interactivos/prediccion-btc-juego.html">
 
-  <!-- Open Graph / Twitter -->
+  <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="¿Sube o Baja el Bitcoin? (Demo educativo)">
   <meta property="og:description" content="Simulador con velas BTC/USDT en tiempo real y estadísticas de aciertos. 100% educativo, sin dinero real.">
@@ -22,11 +25,10 @@
   <meta property="og:url" content="https://freimeljerezcom.online/interactivos/prediccion-btc-juego.html">
   <meta name="twitter:card" content="summary_large_image">
 
-  <!-- PWA / assets -->
-     <link rel="icon" href="/imagenes/icon-192.png" type="image/png" />
+  <!-- Icono -->
+  <link rel="icon" href="/imagenes/icon-192.png" type="image/png">
 
-
-  <!-- Rendimiento: preconexión a APIs -->
+  <!-- Preconexión rendimiento -->
   <link rel="preconnect" href="https://api.binance.com">
   <link rel="preconnect" href="https://api.coingecko.com">
 
@@ -36,23 +38,27 @@
   <!-- AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4933331274738462" crossorigin="anonymous"></script>
 
+  <!-- Ads styling -->
   <style>
     .adsbygoogle {
-      display:block;
-      margin:20px auto;
-      text-align:center;
-      max-width:100%;
-      min-height:90px;
-      opacity:0;
-      transition:opacity .6s ease-in-out;
+      display: block !important;
+      margin: 20px auto;
+      text-align: center;
+      min-height: 90px;
+      opacity: 0;
+      transition: opacity .6s ease-in-out;
     }
     .adsbygoogle[data-adsbygoogle-status="done"] {
-      opacity:1;
+      opacity: 1;
     }
-    .ad-buffer { margin-top:24px; }
+
+    #miniCandlestick{
+      width:100% !important;
+      height:100% !important;
+    }
   </style>
 
-  <!-- JSON-LD principal -->
+  <!-- JSON-LD SEO -->
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
@@ -76,21 +82,22 @@
     <div class="container">
       <h1>📈 ¿Sube o Baja el Bitcoin?</h1>
 
-      <!-- AVISO DEMO -->
       <div class="aviso-demo">
         💡 <strong>Modo demo educativo:</strong> créditos ficticios, sin depósitos ni premios reales.
       </div>
 
-      <!-- SALDO / APUESTA / RIESGO -->
+      <!-- BANCA -->
       <section class="banca destaque">
         <div class="banca-item">💰 Saldo <span class="badge-demo">DEMO</span>: <span id="saldo">—</span></div>
+
         <div class="banca-item">
           <label for="apuesta">Apuesta:</label>
           <input id="apuesta" type="number" min="1" step="1" value="10">
-          <button id="menosApuesta" class="btn secundario" type="button">−</button>
-          <button id="masApuesta" class="btn secundario" type="button">+</button>
+          <button id="menosApuesta" class="btn secundario">−</button>
+          <button id="masApuesta" class="btn secundario">+</button>
           <small>Apuesta máx. demo: 500 créditos</small>
         </div>
+
         <div class="banca-item">
           <label for="riesgo">Riesgo:</label>
           <select id="riesgo">
@@ -99,8 +106,9 @@
             <option value="2">Alto (2.0x)</option>
           </select>
         </div>
+
         <div class="banca-item">
-          <button id="btnRecargar" class="btn peligro" type="button">Recargar saldo</button>
+          <button id="btnRecargar" class="btn peligro">Recargar saldo</button>
         </div>
       </section>
 
@@ -108,13 +116,14 @@
         Elige tu predicción para el próximo intervalo. Observa la mini-tendencia, decide y comprueba el resultado.
       </p>
 
-      <!-- PANEL -->
+      <!-- PANEL PRINCIPAL -->
       <section class="panel">
         <div class="precio-actual">
           <div>Precio actual:</div>
           <div id="precio" class="precio">—</div>
           <div id="variacion" class="variacion">—</div>
         </div>
+
         <div class="controles">
           <label for="intervalo">Intervalo:</label>
           <select id="intervalo">
@@ -123,16 +132,18 @@
             <option value="180">3 min</option>
             <option value="300">5 min</option>
           </select>
-          <button id="btnSube" class="btn sube" type="button">Creo que SUBE ↑</button>
-          <button id="btnBaja" class="btn baja" type="button">Creo que BAJA ↓</button>
-          <button id="btnCancelar" class="btn secundario" type="button" disabled>Cancelar</button>
+
+          <button id="btnSube" class="btn sube">Creo que SUBE ↑</button>
+          <button id="btnBaja" class="btn baja">Creo que BAJA ↓</button>
+          <button id="btnCancelar" class="btn secundario" disabled>Cancelar</button>
         </div>
+
         <div id="estado" class="estado">Haz una predicción para iniciar la ronda.</div>
         <div id="contador" class="contador" style="display:none;">00:00</div>
       </section>
 
-      <!-- ✅ ANUNCIO 1: in-article -->
-      <ins class="adsbygoogle ad-buffer"
+      <!-- 🟩 ANUNCIO 1 -->
+      <ins class="adsbygoogle"
            data-ad-client="ca-pub-4933331274738462"
            data-ad-slot="7799323022"
            data-ad-format="fluid"
@@ -162,7 +173,7 @@
         </div>
       </section>
 
-      <!-- ✅ ANUNCIO 2: centro -->
+      <!-- 🟩 ANUNCIO 2 -->
       <ins class="adsbygoogle"
            data-ad-client="ca-pub-4933331274738462"
            data-ad-slot="9479478115"
@@ -171,29 +182,28 @@
       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 
       <div class="acciones">
-        <button id="btnActualizar" class="btn secundario" type="button">Actualizar precio</button>
-        <button id="btnReiniciar" class="btn peligro" type="button">Reiniciar estadísticas</button>
+        <button id="btnActualizar" class="btn secundario">Actualizar precio</button>
+        <button id="btnReiniciar" class="btn peligro">Reiniciar estadísticas</button>
       </div>
 
       <p class="volver"><a href="/interactivos/index.html">← Volver a Zona Interactiva</a></p>
     </div>
   </main>
 
-  <!-- Modal Game Over -->
+  <!-- MODAL -->
   <div id="modalOverlay" class="modal-overlay" hidden>
     <div class="modal">
       <h3 id="modalTitle">Saldo agotado</h3>
       <p>Tu saldo llegó a 0. Recarga para continuar. <small>Demo educativo, sin dinero real.</small></p>
       <div class="modal-actions">
-        <button id="modalRecargar" class="btn sube" type="button">Recargar saldo</button>
-        <button id="modalCerrar" class="btn secundario" type="button">Cerrar</button>
+        <button id="modalRecargar" class="btn sube">Recargar saldo</button>
+        <button id="modalCerrar" class="btn secundario">Cerrar</button>
       </div>
     </div>
   </div>
 
   <!-- FOOTER -->
   <footer class="site-footer">
-    <!-- ✅ ANUNCIO 3: footer -->
     <ins class="adsbygoogle"
          data-ad-client="ca-pub-4933331274738462"
          data-ad-slot="4606183476"
@@ -205,7 +215,6 @@
   </footer>
 
   <script>
-    // Año automático
     document.getElementById("year").textContent = new Date().getFullYear();
   </script>
 
@@ -214,7 +223,17 @@
   <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial"></script>
 
-  <!-- Script principal -->
+  <!-- Registro de velas (OBLIGATORIO) -->
+  <script>
+    Chart.register(
+      Chart.FinancialController,
+      Chart.CandlestickElement,
+      Chart.OHLCElement
+    );
+  </script>
+
+  <!-- Script del juego -->
   <script src="/interactivos/js/prediccion-btc.js"></script>
+
 </body>
 </html>

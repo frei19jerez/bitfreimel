@@ -1,398 +1,383 @@
 /* ===========================
-   Tema oscuro — Predicción BTC
-   Archivo: /interactivos/css/prediccion-btc.css
+   TEMA BINANCE PRO — Freimel Jerez WebApp
    =========================== */
 :root {
-  --bg: #0f0f0f;
-  --panel: #151515;
-  --panel-2: #1b1b1b;
-  --panel-3: #161616;
-  --line: #262626;
-  --line-2: #2b2b2b;
-  --line-3: #232323;
-  --text: #e9e9e9;
-  --muted: #bdbdbd;
+  --bg: #000000;
+  --panel: #0a0a0a;
+  --panel-2: #0d0d0d;
+  --panel-3: #111111;
 
-  --green: #7aff7a;
-  --green-2: #1d8f2d;
-  --red: #c92430;
-  --red-2: #7a2323;
+  --line: #1a1a1a;
+  --line-2: #1e1e1e;
+  --line-3: #262626;
 
-  --btn: #2f2f2f;
-  --shadow: rgba(0,0,0,.35);
+  --text: #e4e4e4;
+  --muted: #9a9a9a;
+
+  --yellow: #f0b90b;        /* Binance Yellow */
+  --yellow-soft: #f5c94a;
+
+  --green: #0ecb81;         /* Binance Green */
+  --red: #f6465d;           /* Binance Red */
+
+  --btn: #1a1a1a;
+  --shadow: rgba(0,0,0,.5);
+
   --radius-lg: 14px;
   --radius-md: 12px;
   --radius-sm: 8px;
 }
 
-/* Reset fino */
+/* ===========================
+   Reset
+   =========================== */
 *,
 *::before,
 *::after { box-sizing: border-box; }
 
-/* Tema oscuro consistente */
 html, body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  line-height: 1.45;
   margin: 0;
+  background: var(--bg);
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  color: var(--text);
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
+
 .wrapper { padding: 18px; }
+
 .container {
   width: min(1100px, 94%);
   margin: 0 auto;
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
-  padding: 20px;
-  box-shadow: 0 0 20px var(--shadow);
+  padding: 22px;
+  box-shadow: 0 0 22px var(--shadow);
+  animation: fadeIn .5s ease;
 }
 
+/* ===========================
+   Títulos
+   =========================== */
 h1 {
   text-align: center;
-  color: var(--green);
-  margin: 0 0 10px;
-  letter-spacing: .2px;
+  color: var(--yellow);
+  font-size: clamp(26px, 5vw, 34px);
+  margin: 0 0 14px;
+  letter-spacing: .5px;
+  font-weight: 800;
 }
+
 .intro {
   text-align: center;
   color: var(--muted);
-  background: #0f0f0f;
-  border: 1px solid #2c2c2c;
+  background: #000;
+  border: 1px solid #1f1f1f;
   border-radius: var(--radius-md);
   padding: 12px 16px;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
 
-/* ===== Aviso DEMO ===== */
-.aviso-demo{
-  margin:10px 0 6px;
-  background:#101010;
-  border:1px dashed #3a3a3a;
-  color:#dcdcdc;
-  padding:10px 12px;
-  border-radius:10px;
-  font-size:.95rem;
+/* ===========================
+   Aviso DEMO
+   =========================== */
+.aviso-demo {
+  background: #0d0d0d;
+  border: 1px dashed #272727;
+  color: #dcdcdc;
+  padding: 10px 12px;
+  border-radius: 10px;
+  margin: 10px 0;
 }
-.badge-demo{
-  display:inline-block;
-  margin-left:6px;
-  font-size:.75rem;
-  font-weight:800;
-  letter-spacing:.3px;
-  padding:2px 6px;
-  border-radius:999px;
-  background:#2f2f2f;
-  border:1px solid #3a3a3a;
-  color:#9ee89e;
+.badge-demo {
+  margin-left: 6px;
+  font-size: .75rem;
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: #1a1a1a;
+  border: 1px solid #323232;
+  color: var(--yellow);
+  font-weight: 700;
 }
 
-/* ===== Panel de controles ===== */
+/* ===========================
+   Panel principal
+   =========================== */
 .panel {
-  margin: 16px 0;
   background: var(--panel-2);
   border: 1px solid var(--line-2);
   border-radius: var(--radius-md);
   padding: 14px;
+  margin: 16px 0;
 }
-.panel h2 {
-  margin: 0 0 10px;
-  font-size: clamp(1rem, 2.6vw, 1.15rem);
+.panel h2 { 
   color: var(--text);
+  margin: 0 0 10px;
+  font-size: clamp(1rem, 2.6vw, 1.25rem);
+  font-weight: 700;
 }
 
+/* Precio */
 .precio-actual {
   display: flex;
+  flex-wrap: wrap;
   gap: 12px;
   align-items: baseline;
-  flex-wrap: wrap;
 }
 .precio {
-  font-size: clamp(22px, 3.2vw, 28px);
+  font-size: clamp(24px, 3.2vw, 32px);
   font-weight: 800;
-  color: #a9ff88;
+  color: var(--green);
 }
-.variacion { font-size: 14px; color: var(--muted); }
+.variacion {
+  font-size: 14px;
+  color: var(--muted);
+}
 
+/* ===========================
+   Controles
+   =========================== */
 .controles {
   margin-top: 10px;
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 12px;
   align-items: center;
 }
+
 select,
 input[type="number"] {
-  background: #121212;
+  background: #101010;
   color: var(--text);
-  border: 1px solid #2c2c2c;
-  padding: 6px 8px;
+  border: 1px solid #1f1f1f;
+  padding: 8px 10px;
   border-radius: var(--radius-sm);
+  min-height: 38px;
   outline: none;
-  min-height: 36px;
 }
 select:focus-visible,
 input[type="number"]:focus-visible {
-  box-shadow: 0 0 0 3px rgba(122,255,122,.25);
-  border-color: var(--green);
+  border-color: var(--yellow);
+  box-shadow: 0 0 0 2px rgba(240,185,11,.35);
 }
 
-/* ===== Botones ===== */
+/* ===========================
+   Botones estilo Binance
+   =========================== */
 .btn {
   border: none;
   padding: 10px 14px;
   border-radius: var(--radius-md);
   cursor: pointer;
   font-weight: 700;
-  transition: transform .06s ease, filter .15s ease, box-shadow .15s ease;
-  outline: none;
-  min-height: 38px;
+  transition: .15s ease;
+  min-height: 40px;
 }
+
 .btn:hover { filter: brightness(1.08); }
 .btn:active { transform: translateY(1px); }
-.btn:disabled { opacity: .55; filter: grayscale(.3); cursor: not-allowed; }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
 
-.sube { background: var(--green-2); color: #fff; }
-.baja { background: var(--red); color: #fff; }
-.secundario { background: var(--btn); color: #ddd; }
-.peligro { background: var(--red-2); color: #fff; }
-
-.btn:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(122,255,122,.35);
+.sube {
+  background: var(--green);
+  color: #000;
+}
+.baja {
+  background: var(--red);
+  color: #fff;
+}
+.secundario {
+  background: var(--btn);
+  border: 1px solid #222;
+}
+.peligro {
+  background: var(--red);
+  color: #fff;
 }
 
-/* ===== Estado y contador ===== */
+.btn:focus-visible {
+  box-shadow: 0 0 0 2px rgba(240,185,11,.45);
+}
+
+/* ===========================
+   Estado y Contador
+   =========================== */
 .estado {
-  margin-top: 8px;
-  padding: 8px 10px;
-  background: #101010;
-  border: 1px solid #272727;
+  margin-top: 10px;
+  background: #0c0c0c;
+  border: 1px solid #1f1f1f;
+  padding: 10px 12px;
   border-radius: var(--radius-sm);
 }
 .contador {
-  margin-top: 8px;
   font-size: 22px;
   font-weight: 800;
   text-align: center;
-  color: var(--green);
+  margin-top: 10px;
+  color: var(--yellow);
 }
 
-/* ===== Estadísticas ===== */
+/* ===========================
+   Estadísticas
+   =========================== */
 .estadisticas {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
   background: var(--panel-2);
   border: 1px solid var(--line-2);
   border-radius: var(--radius-md);
   padding: 12px;
-  margin: 14px 0;
+  margin: 18px 0;
+
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 10px;
 }
 .estadisticas div {
   background: var(--panel-3);
   border: 1px solid var(--line-3);
-  border-radius: var(--radius-md);
   padding: 10px;
+  border-radius: var(--radius-md);
   text-align: center;
   font-weight: 600;
 }
 
-/* ===== Historial ===== */
-.historial h2,
-.canvas-wrap h2 { margin: 8px 0; }
-.historial ul { list-style: none; padding-left: 0; margin: 0; }
+/* ===========================
+   Historial
+   =========================== */
+.historial ul { list-style: none; padding: 0; margin: 0; }
 .historial li {
-  padding: 8px 10px;
+  padding: 10px 12px;
   margin: 6px 0;
-  background: #121212;
-  border: 1px solid #242424;
+  background: #0f0f0f;
+  border: 1px solid #222;
   border-radius: var(--radius-sm);
+  font-size: .95rem;
 }
-.historial .win { border-color: #2ea043; }
-.historial .lose { border-color: #c43d44; }
+.historial .win { border-left: 4px solid var(--green); }
+.historial .lose { border-left: 4px solid var(--red); }
 
-/* ===== Sparkline / mini chart ===== */
-.canvas-wrap {
-  background: #111;
-  border: 1px solid #242424;
-  border-radius: var(--radius-md);
-  padding: 10px;
-  overflow: hidden;
-}
-.canvas-wrap canvas {
-  width: 100%;
-  height: auto;
+/* ===========================
+   Mini Tendencia / Velas
+   =========================== */
+.mini-tendencia canvas {
+  width: 100% !important;
+  height: 100% !important;
   display: block;
+  background: #0c0c0c;
+  border-radius: var(--radius-md);
+  border: 1px solid #1b1b1b;
 }
 
-/* ===== Banca (saldo y apuesta) ===== */
+/* ===========================
+   Banca (saldo, apuesta)
+   =========================== */
 .banca {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
   background: var(--panel-2);
   border: 1px solid var(--line-2);
   border-radius: 12px;
   padding: 12px;
-  margin: 14px 0;
+  
+  margin: 16px 0;
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 12px;
 }
 .banca-item {
   background: var(--panel-3);
   border: 1px solid var(--line-3);
   border-radius: 10px;
-  padding: 10px;
+  padding: 12px;
   text-align: center;
+
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
   gap: 8px;
   font-weight: 600;
 }
-.banca.destaque { border: 2px solid var(--green); animation: fadeIn .6s ease; }
-.banca-item span#saldo {
-  font-size: 1.4em;
-  font-weight: bold;
-  color: var(--green);
-  transition: all .4s ease;
+
+#saldo {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--yellow);
+  transition: .4s ease;
 }
-#apuesta {
-  width: 90px;
-  background:#121212;
-  color:#e9e9e9;
-  border:1px solid #2c2c2c;
-  border-radius:8px;
-  padding:6px 8px;
-  text-align:center;
+.saldo-gana {
+  color: var(--green) !important;
+  text-shadow: 0 0 12px rgba(14,203,129,.55);
 }
-.nota-apuesta { display:block; color:#bdbdbd; font-size:.8rem; margin-top:-4px; }
+.saldo-pierde {
+  color: var(--red) !important;
+  text-shadow: 0 0 12px rgba(246,70,93,.55);
+}
 
-.saldo-gana { color: #00ffae !important; text-shadow: 0 0 8px #00ffae; }
-.saldo-pierde { color: #ff5757 !important; text-shadow: 0 0 8px #ff5757; }
-
-@keyframes fadeIn { from {opacity:0; transform:scale(.95);} to {opacity:1; transform:scale(1);} }
-
-/* ===== Acciones & volver ===== */
+/* ===========================
+   Acciones
+   =========================== */
 .acciones {
-  margin-top: 12px;
   display: flex;
   gap: 10px;
   justify-content: center;
-  flex-wrap: wrap;
+  margin-top: 16px;
 }
-.volver { text-align: center; margin-top: 16px; }
-.volver a { color: var(--green); text-decoration: none; }
-.volver a:hover { text-decoration: underline; }
 
-/* ===== Modal game over ===== */
+/* ===========================
+   Modal
+   =========================== */
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,.6);
+  background: rgba(0,0,0,.75);
   display: grid;
   place-items: center;
   z-index: 999;
 }
-/* Oculto cuando lleva [hidden] */
-.modal-overlay[hidden] { display: none !important; }
+.modal-overlay[hidden] { display:none !important; }
+
 .modal {
-  width: min(92vw, 420px);
   background: var(--panel);
-  border: 1px solid var(--line);
+  padding: 20px;
   border-radius: 14px;
-  padding: 16px;
-  box-shadow: 0 10px 30px rgba(0,0,0,.5);
-  animation: fadeIn .2s ease;
+  border: 1px solid var(--line);
+  width: min(92vw, 420px);
+  box-shadow: 0 0 22px var(--shadow);
+  color: var(--text);
+  animation: fadeIn .3s ease;
 }
-.modal h3 { margin: 0 0 6px; color: var(--green); }
-.modal-actions { display:flex; gap:10px; justify-content:flex-end; margin-top:10px; }
-
-/* ===== Links, inputs: accesibilidad ===== */
-a, button, select, input[type="number"], input[type="radio"] {
-  -webkit-tap-highlight-color: transparent;
+.modal h3 {
+  color: var(--yellow);
+  margin: 0 0 10px;
 }
 
-/* =========================
-   Breakpoints Responsivos
-   ========================= */
+/* ===========================
+   Footer
+   =========================== */
+.site-footer {
+  text-align: center;
+  color: #777;
+  font-size: .9rem;
+  padding: 24px 0;
+  border-top: 1px solid #222;
+  margin-top: 40px;
+}
 
-/* XS: <=480px (móviles pequeños) */
+/* ===========================
+   Animaciones
+   =========================== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(.97); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* ===========================
+   Responsive
+   =========================== */
 @media (max-width: 480px) {
-  .wrapper { padding: 10px; }
-  .container { padding: 12px; }
-
-  /* La banca en 1 columna */
-  .banca { grid-template-columns: 1fr !important; }
-
-  .banca-item {
-    flex-direction: column;
-    gap: 6px;
-    text-align: center;
+  .banca {
+    grid-template-columns: 1fr;
   }
-
-  /* Estadísticas en 1 columna */
-  .estadisticas { grid-template-columns: 1fr !important; }
-
-  /* Botones y campos a ancho completo */
-  .btn {
-    width: 100% !important;
-    min-width: unset;
+  .estadisticas {
+    grid-template-columns: 1fr;
   }
-  #apuesta,
-  .controles select { width: 100%; }
-
-  /* Títulos compactos */
-  h1 { font-size: clamp(20px, 6vw, 26px); }
-  .precio { font-size: clamp(20px, 6vw, 24px); }
+  .btn { 
+    width: 100%; 
+  }
 }
-
-/* S: 481px–720px (móvil grande / phablet) */
-@media (min-width: 481px) and (max-width: 720px) {
-  .wrapper { padding: 14px; }
-  .container { padding: 16px; }
-
-  /* Banca en 1 columna para evitar encimes */
-  .banca { grid-template-columns: 1fr; }
-
-  /* Estadísticas en 2 columnas */
-  .estadisticas { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-
-  .btn { width: calc(50% - 6px); min-width: 140px; }
-}
-
-/* M: 721px–1024px (tablet / laptop chica) */
-@media (min-width: 721px) and (max-width: 1024px) {
-  .banca { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .estadisticas { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-}
-
-/* L: 1025px–1279px (desktop mediano) */
-@media (min-width: 1025px) and (max-width: 1279px) {
-  .container { width: min(1100px, 92%); }
-}
-
-/* XL: >=1280px (desktop grande) */
-@media (min-width: 1280px) {
-  .container { width: min(1200px, 90%); max-width: 1100px; }
-}
-
-/* Respeto a usuarios con poca animación */
-@media (prefers-reduced-motion: reduce) {
-  .btn { transition: none; }
-  .modal { animation: none; }
-}
-
-/* ===== Footer ===== */
-.site-footer{
-  border-top:1px solid #333;
-  margin-top:40px;
-  padding:24px 0;
-  text-align:center;
-  color:#aaa;
-  font-size:.95rem;
-}
-.site-footer a{ color:inherit; text-decoration:none; }
-.site-footer a:hover{ text-decoration:underline; }

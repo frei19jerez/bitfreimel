@@ -1,4 +1,4 @@
-const CACHE_NAME = 'bitfreimel-cache-v2';
+const CACHE_NAME = 'bitfreimel-cache-v3';
 const FILES_TO_CACHE = [
   '/',
   '/index.html',
@@ -8,67 +8,75 @@ const FILES_TO_CACHE = [
   '/imagenes/icon-512.png'
 ];
 
-// 🟢 INSTALACIÓN
+// 🟢 Instalación
 self.addEventListener('install', (event) => {
-  console.log('📦 Instalando Service Worker...');
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => {
-        console.log('📁 Archivos cacheados:', FILES_TO_CACHE);
-        return cache.addAll(FILES_TO_CACHE);
-      })
-      .then(() => self.skipWaiting())
+    caches.open(CACHE_NAME).then(cache => cache.addAll(FILES_TO_CACHE))
   );
+  self.skipWaiting();
 });
 
-// ⚙️ ACTIVACIÓN — limpia cachés viejos automáticamente
+// 🟢 Activación
 self.addEventListener('activate', (event) => {
-  console.log('⚙️ Activando nuevo Service Worker...');
   event.waitUntil(
-    caches.keys().then(cacheNames => {
-      return Promise.all(
-        cacheNames
-          .filter(name => name !== CACHE_NAME)
-          .map(name => {
-            console.log('🧹 Borrando caché vieja:', name);
-            return caches.delete(name);
-          })
-      );
-    })
+    caches.keys().then(keys =>
+      Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))
+    )
   );
   self.clients.claim();
 });
 
-// 🌐 INTERCEPTA PETICIONES
+// 🟥 EXCLUSIÓN: NO TOCAR PETICIONES DE API / WEBSOCKET / BINANCE
+function esPeticionDeDatos(url) {
+  return (
+    url.includes('binance') ||
+    url.includes('api') ||
+    url.includes('fapi') ||
+    url.includes('klines') ||
+    url.includes('ticker') ||
+    url.includes('stream')
+  );
+}
+
+// 🟦 Fetch
 self.addEventListener('fetch', (event) => {
-  // Evita interferir con AdSense o solicitudes POST
-  if (event.request.method !== 'GET' || event.request.url.includes('adsbygoogle.js')) {
+
+  const url = event.request.url;
+
+  // ⛔ No interceptar precios, velas ni APIs dinámicas
+  if (esPeticionDeDatos(url)) {
+    return; // que vaya directo a la red
+  }
+
+  // ⛔ No cachar AdSense
+  if (url.includes('adsbygoogle') || url.includes('g.doubleclick.net')) {
     return;
   }
 
-  event.respondWith(
-    caches.match(event.request).then(cachedResponse => {
-      if (cachedResponse) {
-        // 🔁 Respuesta desde caché
-        return cachedResponse;
-      }
+  // ⛔ Solo GET
+  if (event.request.method !== 'GET') {
+    return;
+  }
 
-      // 🌎 Si no está en caché, intenta desde la red
+  // 🟢 Cache First con fallback a red
+  event.respondWith(
+    caches.match(event.request).then(cached => {
+      if (cached) return cached;
+
       return fetch(event.request)
-        .then(networkResponse => {
-          // Guarda en caché las respuestas exitosas (solo GET)
-          if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
-            const responseClone = networkResponse.clone();
-            caches.open(CACHE_NAME).then(cache => cache.put(event.request, responseClone));
+        .then(resp => {
+          // Cachear solo respuestas estáticas
+          if (resp && resp.status === 200 && resp.type === 'basic') {
+            const clone = resp.clone();
+            caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
           }
-          return networkResponse;
+          return resp;
         })
-        .catch(() => {
-          // 🛑 Si no hay conexión, muestra mensaje offline
-          return new Response('⚠️ Sin conexión. Revisa tu red.', {
-            headers: { 'Content-Type': 'text/plain; charset=utf-8' }
-          });
-        });
+        .catch(() =>
+          new Response('⚠️ Sin conexión.', {
+            headers: { 'Content-Type': 'text/plain' }
+          })
+        );
     })
   );
 });

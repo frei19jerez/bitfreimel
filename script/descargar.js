@@ -1,14 +1,14 @@
-// --- Instalación de la PWA ---
-let deferredPrompt;
+// --- Instalación de la PWA (versión optimizada) ---
+let deferredPrompt = null;
 const installBtn = document.getElementById('installBtn');
 const mensajeExito = document.getElementById('mensajeExito');
 
-// Esperar a que cargue la página para verificar si ya está instalada
+// Detectar si ya está instalada
 window.addEventListener('load', () => {
   const pwaInstalada = localStorage.getItem('pwa_instalada') === 'true';
   const isStandalone =
     window.matchMedia('(display-mode: standalone)').matches ||
-    window.navigator.standalone; // iOS support
+    window.navigator.standalone;
 
   if (pwaInstalada || isStandalone) {
     if (installBtn) installBtn.style.display = 'none';
@@ -16,7 +16,7 @@ window.addEventListener('load', () => {
   }
 });
 
-// Detectar cuando el navegador permite instalar la PWA
+// Esperar al navegador para permitir instalación
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredPrompt = e;
@@ -27,44 +27,51 @@ window.addEventListener('beforeinstallprompt', (e) => {
   }
 });
 
-// Manejar el clic del botón de instalación
+// Cuando el usuario toca el botón
 if (installBtn) {
   installBtn.addEventListener('click', async () => {
-    if (!deferredPrompt) return;
+
+    if (!deferredPrompt) {
+      console.warn("⚠ No existe deferredPrompt, no se puede instalar.");
+      installBtn.style.display = 'none';
+      return;
+    }
 
     deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
+    const choice = await deferredPrompt.userChoice;
 
-    if (outcome === 'accepted') {
+    if (choice.outcome === 'accepted') {
       console.log('✅ Usuario aceptó instalar la app');
 
-      // Mostrar mensaje visual breve
+      // Mostrar mensaje
       if (mensajeExito) {
         mensajeExito.classList.remove('oculto');
         mensajeExito.innerHTML = '🙌 ¡App instalada con éxito!';
       }
 
-      // Guardar estado
       localStorage.setItem('pwa_instalada', 'true');
 
-      // Ocultar mensaje después de 5 segundos
       setTimeout(() => {
         if (mensajeExito) mensajeExito.classList.add('oculto');
       }, 5000);
+
     } else {
       console.log('❌ Usuario canceló la instalación');
     }
 
+    // Reset
     deferredPrompt = null;
     installBtn.style.display = 'none';
   });
 }
 
-// Detectar instalación exitosa desde cualquier método
+// Cuando la app se instala desde cualquier método
 window.addEventListener('appinstalled', () => {
   console.log('🎉 PWA instalada correctamente');
   localStorage.setItem('pwa_instalada', 'true');
+
   if (installBtn) installBtn.style.display = 'none';
   if (mensajeExito) mensajeExito.classList.add('oculto');
 });
+
 // --- fin del script ---//

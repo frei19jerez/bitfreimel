@@ -4,14 +4,9 @@
 (() => {
   "use strict";
 
-  /* ---------------------------
-     Utilidades generales
-  --------------------------- */
   const $ = (sel) => document.querySelector(sel);
-  const $$ = (sel) => document.querySelectorAll(sel);
   const on = (el, evt, fn, opts) => el && el.addEventListener(evt, fn, opts);
 
-  // Manejador de intervalos centralizado
   const Intervals = (() => {
     const map = new Map();
     return {
@@ -34,53 +29,70 @@
     };
   })();
 
-  // Fetch con timeout
   async function fetchWithTimeout(url, ms = 10000, init = {}) {
     const ctrl = new AbortController();
     const id = setTimeout(() => ctrl.abort(), ms);
     try {
-      const res = await fetch(url, { ...init, signal: ctrl.signal });
-      return res;
+      return await fetch(url, { ...init, signal: ctrl.signal });
     } finally {
       clearTimeout(id);
     }
   }
 
+  function tiempoHumano(segundos) {
+    if (segundos < 60) return `hace ${segundos} segundo${segundos === 1 ? "" : "s"}`;
+    const minutos = Math.floor(segundos / 60);
+    if (minutos < 60) return `hace ${minutos} minuto${minutos === 1 ? "" : "s"}`;
+    const horas = Math.floor(minutos / 60);
+    return `hace ${horas} hora${horas === 1 ? "" : "s"}`;
+  }
+
+  function startCounter(el, label) {
+    if (!el) return null;
+    let s = 0;
+    el.textContent = `${label}: hace 0 segundos`;
+
+    return setInterval(() => {
+      s++;
+      el.textContent = `${label}: ${tiempoHumano(s)}`;
+    }, 1000);
+  }
+
   document.addEventListener("DOMContentLoaded", () => {
-    /* ---------------------------
-       Menú hamburguesa accesible
-    --------------------------- */
+
     const hamburger = $("#hamburger");
     const navLinks  = $("#nav-links");
+
     on(hamburger, "click", () => {
       navLinks?.classList.toggle("active");
       const expanded = hamburger.getAttribute("aria-expanded") === "true";
       hamburger.setAttribute("aria-expanded", String(!expanded));
     });
 
-    /* ---------------------------
-       PWA instalación
-    --------------------------- */
-    let deferredPrompt;
+    let deferredPrompt = null;
     const installBtn = $("#installBtn");
+
     on(window, "beforeinstallprompt", (e) => {
       e.preventDefault();
       deferredPrompt = e;
-      if (installBtn) installBtn.style.display = "inline-block";
+      installBtn && (installBtn.style.display = "inline-block");
     });
+
     on(installBtn, "click", async () => {
       try {
         await deferredPrompt?.prompt();
         await deferredPrompt?.userChoice;
         deferredPrompt = null;
         $("#mensajeInstalacion")?.classList.remove("oculto");
-      } catch { /* usuario canceló */ }
+      } catch {}
     });
 
     /* ---------------------------
-       Gráfico de velas + precio
+       ⭐ Gráfico de velas + precio
+       ⭐ ESTA SECCIÓN NO SE TOCA ⭐
     --------------------------- */
-    const canvas = /** @type {HTMLCanvasElement|null} */ ($("#btcChart"));
+
+    const canvas = $("#btcChart");
     const tokenSelect = $("#token");
     const intervaloSelect = $("#intervalo");
     const updateBtn = $("#updateBtn");
@@ -103,18 +115,10 @@
       const hasFinancial =
         hasChart &&
         (window.Chart.FinancialController ||
-         (window.Chart.registry && window.Chart.registry.getController && window.Chart.registry.getController("candlestick")));
+          (window.Chart.registry &&
+           window.Chart.registry.getController &&
+           window.Chart.registry.getController("candlestick")));
       return { hasChart, hasFinancial, hasTimeScale };
-    }
-
-    function startCounter(el, label) {
-      if (!el) return null;
-      let s = 0;
-      el.textContent = `${label}: 0 segundos`;
-      return setInterval(() => {
-        s += 1;
-        el.textContent = `${label}: ${s} segundos`;
-      }, 1000);
     }
 
     async function fetchCandles(symbol = "BTCUSDT", interval = "1m", limit = 50) {
@@ -123,6 +127,7 @@
         const res = await fetchWithTimeout(url, 12000);
         if (!res.ok) throw new Error("Error API Binance OHLC");
         const raw = await res.json();
+
         return raw.map((c) => ({
           x: new Date(c[0]),
           o: Number(c[1]),
@@ -140,16 +145,10 @@
       if (!canvas) return;
 
       const { hasChart, hasFinancial, hasTimeScale } = chartDepsOk();
-      if (!hasChart || !hasFinancial || !hasTimeScale) {
-        console.warn("Falta Chart.js o plugins necesarios.");
-        return;
-      }
+      if (!hasChart || !hasFinancial || !hasTimeScale) return;
 
       const candles = await fetchCandles(symbol, interval);
-      if (!candles.length) {
-        console.warn("Sin datos OHLC para mostrar.");
-        return;
-      }
+      if (!candles.length) return;
 
       const ctx = canvas.getContext("2d");
       if (!ctx) return;
@@ -201,39 +200,53 @@
         const url = `https://fapi.binance.com/fapi/v1/ticker/price?symbol=${symbol}`;
         const res = await fetchWithTimeout(url, 10000);
         if (!res.ok) throw new Error("API Binance fallo");
-        const data = await res.json();
-        const price = Number(data.price);
 
-        if (Number.isFinite(price) && priceEl) {
-          const arrow = previousPrice !== null
-            ? (price > previousPrice ? "🔼" : price < previousPrice ? "🔽" : "➡️")
-            : "";
-          priceEl.textContent = `$${price.toFixed(2)} ${arrow}`;
+        const { price } = await res.json();
+        const p = Number(price);
+
+        if (Number.isFinite(p) && priceEl) {
+          const arrow =
+            previousPrice == null ? "" :
+            p > previousPrice ? "🔼" :
+            p < previousPrice ? "🔽" : "➡️";
+
+          priceEl.textContent = `$${p.toFixed(2)} ${arrow}`;
           priceEl.style.color =
-            previousPrice === null ? "#0f0" :
-            price > previousPrice ? "lime" :
-            price < previousPrice ? "red" : "gray";
+            previousPrice == null ? "#0f0" :
+            p > previousPrice ? "lime" :
+            p < previousPrice ? "red" : "gray";
 
           trendEl && (trendEl.textContent =
-            price > previousPrice ? "IA: Vela Alta 🔼" :
-            price < previousPrice ? "IA: Vela Baja 🔽" :
+            p > previousPrice ? "IA: Vela Alta 🔼" :
+            p < previousPrice ? "IA: Vela Baja 🔽" :
             "IA: Tendencia Estable ➡️");
 
-          previousPrice = price;
+          previousPrice = p;
         }
 
-        if (futureEl && Number.isFinite(previousPrice)) {
-          const change = price * (Math.random() * 0.1 - 0.05);
-          const future = price + change;
+        if (futureEl) {
+          const change = p * (Math.random() * 0.1 - 0.05);
           futureEl.textContent =
-            `IA: Precio Futuro (estimado): $${future.toFixed(2)} ${change >= 0 ? "🔼" : "🔽"}`;
+            `IA: Precio Futuro (estimado): $${(p + change).toFixed(2)} ${
+              change >= 0 ? "🔼" : "🔽"
+            }`;
         }
 
-        clearInterval(window.__timerInterval);
-        window.__timerInterval = startCounter(timerEl, "IA: Tiempo desde actualización");
+        if (!window.__timerInterval) {
+          window.__timerInterval = startCounter(timerEl, "IA: Tiempo desde actualización");
+        }
 
-        clearInterval(window.__priceTimerInterval);
-        window.__priceTimerInterval = startCounter(priceTimerEl, "IA: Última actualización de BTC");
+        if (!window.__priceTimerInterval) {
+          window.__priceTimerInterval = startCounter(priceTimerEl, "IA: Última actualización de BTC");
+        }
+
+        if (priceTimerEl) {
+          const ahora = new Date();
+          const h = ahora.getHours().toString().padStart(2, "0");
+          const m = ahora.getMinutes().toString().padStart(2, "0");
+          const s = ahora.getSeconds().toString().padStart(2, "0");
+          priceTimerEl.innerHTML += ` <br><small>Actualizado: ${h}:${m}:${s}</small>`;
+        }
 
       } catch (e) {
         console.error("Error obteniendo precio Binance:", e);
@@ -244,13 +257,14 @@
 
     async function actualizarDatos() {
       const symbol = (tokenSelect?.value || "BTCUSDT").toUpperCase();
-      const intervalo = (intervaloSelect?.value || "1m");
-      await Promise.all([ renderCandleChart(symbol, intervalo), fetchBinancePriceUI(symbol) ]);
+      const intervalo = intervaloSelect?.value || "1m";
+      await Promise.all([renderCandleChart(symbol, intervalo), fetchBinancePriceUI(symbol)]);
     }
 
     if (canvas) {
-      actualizarDatos().catch(console.error);
+      actualizarDatos();
       Intervals.set("actualizarDatos", actualizarDatos, 60000);
+
       on(tokenSelect, "change", actualizarDatos);
       on(intervaloSelect, "change", actualizarDatos);
       on(updateBtn, "click", actualizarDatos);
@@ -259,92 +273,121 @@
         if (document.hidden) {
           Intervals.clear("actualizarDatos");
         } else {
-          actualizarDatos().catch(console.error);
+          actualizarDatos();
           Intervals.set("actualizarDatos", actualizarDatos, 60000);
         }
       });
 
       on(window, "beforeunload", () => {
         Intervals.clearAll();
-        candleChart && candleChart.destroy();
+        candleChart?.destroy();
       });
     }
 
-    /* ---------------------------
-       WhatsApp (form + FAB)
-    --------------------------- */
     const form  = $("#contact-form");
-    const btnWA = $("#send-whatsapp");
-    const fabWA = $("#wa-fab-link");
-
-    const buildWAText = () => {
-      const name = ($("#name")?.value || "").trim();
-      const email = ($("#email")?.value || "").trim();
-      const subject = ($("#subject")?.value || "Sin asunto").trim();
-      const message = ($("#message")?.value || "").trim();
-      return [
-        `*Nuevo mensaje desde freimeljerezcom.online*`,
-        `*Nombre:* ${name}`,
-        `*Email:* ${email}`,
-        subject ? `*Asunto:* ${subject}` : null,
-        `*Mensaje:*`, message, "",
-        `Página: ${location.href}`,
-        `Fecha: ${new Date().toLocaleString()}`
-      ].filter(Boolean).join("\n");
-    };
-
-    const buildWAUrl = (text, wa) => `https://wa.me/${wa}?text=${encodeURIComponent(text)}`;
-
     if (form) {
-      const waNumber = (form.dataset.waNumber || "573206780200").replace(/\D/g, "");
-      on(btnWA, "click", (e) => {
+      const btnWA = $("#send-whatsapp");
+      const fabWA = $("#wa-fab-link");
+
+      const wa = (form.dataset.waNumber || "573206780200").replace(/\D/g, "");
+
+      const buildWAText = () => {
+        const name = ($("#name")?.value || "").trim();
+        const email = ($("#email")?.value || "").trim();
+        const subject = ($("#subject")?.value || "Sin asunto").trim();
+        const message = ($("#message")?.value || "").trim();
+
+        return [
+          "*Nuevo mensaje desde freimeljerezcom.online*",
+          `*Nombre:* ${name}`,
+          `*Email:* ${email}`,
+          subject ? `*Asunto:* ${subject}` : null,
+          `*Mensaje:* ${message}`,
+          "",
+          `Página: ${location.href}`,
+          `Fecha: ${new Date().toLocaleString()}`
+        ].filter(Boolean).join("\n");
+      };
+
+      const openWA = (text) =>
+        window.open(`https://wa.me/${wa}?text=${encodeURIComponent(text)}`,
+          "_blank", "noopener,noreferrer");
+
+      const enviar = (e) => {
         e.preventDefault();
         if (!form.checkValidity()) return form.reportValidity();
-        const url = buildWAUrl(buildWAText(), waNumber);
-        window.open(url, "_blank", "noopener,noreferrer");
-      });
+        openWA(buildWAText());
+      };
+
+      on(btnWA, "click", enviar);
+      on(form, "submit", enviar);
+
       on(fabWA, "click", (e) => {
         e.preventDefault();
-        const saludo = encodeURIComponent("Hola Freimel, vengo desde freimeljerezcom.online 👋");
-        window.open(`https://wa.me/${waNumber}?text=${saludo}`, "_blank", "noopener,noreferrer");
-      });
-      on(form, "submit", (e) => {
-        if (!form.checkValidity()) {
-          e.preventDefault();
-          return form.reportValidity();
-        }
-        const url = buildWAUrl(buildWAText(), waNumber);
-        window.open(url, "_blank", "noopener,noreferrer");
+        openWA("Hola Freimel, vengo desde freimeljerezcom.online 👋");
       });
     }
 
     /* ---------------------------
-       Banner de cookies (Aceptar / Rechazar)
+       🎵 Música IA Futurista
     --------------------------- */
-    const cookieBanner = document.getElementById("cookieBanner");
-    const acceptBtn = document.getElementById("acceptCookiesBtn");
-    const rejectBtn = document.getElementById("rejectCookiesBtn");
 
-    const cookieChoice = localStorage.getItem("cookieChoice");
+    const btnMusicaIA = $("#btnMusicaIA");
+    const musicaIA = $("#musicaIA");
 
-    if (!cookieChoice && cookieBanner) {
+    if (btnMusicaIA && musicaIA) {
+      musicaIA.volume = 0.35;
+
+      btnMusicaIA.innerHTML = "🎵 Activar música IA";
+      btnMusicaIA.style.background = "#00ff66";
+      btnMusicaIA.style.color = "#000";
+      btnMusicaIA.style.border = "none";
+      btnMusicaIA.style.padding = "12px 20px";
+      btnMusicaIA.style.borderRadius = "10px";
+      btnMusicaIA.style.fontWeight = "bold";
+      btnMusicaIA.style.cursor = "pointer";
+      btnMusicaIA.style.boxShadow = "0 0 15px #00ff66";
+
+      on(btnMusicaIA, "click", async () => {
+        try {
+          if (musicaIA.paused) {
+            await musicaIA.play();
+
+            btnMusicaIA.innerHTML = "🔇 Pausar música IA";
+            btnMusicaIA.style.background = "#ff4444";
+            btnMusicaIA.style.color = "#fff";
+            btnMusicaIA.style.boxShadow = "0 0 15px #ff4444";
+          } else {
+            musicaIA.pause();
+
+            btnMusicaIA.innerHTML = "🎵 Activar música IA";
+            btnMusicaIA.style.background = "#00ff66";
+            btnMusicaIA.style.color = "#000";
+            btnMusicaIA.style.boxShadow = "0 0 15px #00ff66";
+          }
+        } catch (error) {
+          console.log("Error reproduciendo música:", error);
+        }
+      });
+    }
+
+    const cookieBanner = $("#cookieBanner");
+    const acceptBtn = $("#acceptCookiesBtn");
+    const rejectBtn = $("#rejectCookiesBtn");
+
+    if (!localStorage.getItem("cookieChoice") && cookieBanner) {
       cookieBanner.style.display = "block";
     }
 
-    if (acceptBtn) {
-      acceptBtn.addEventListener("click", () => {
-        localStorage.setItem("cookieChoice", "accepted");
-        cookieBanner.style.display = "none";
-        console.log("🍪 Cookies aceptadas");
-      });
-    }
+    on(acceptBtn, "click", () => {
+      localStorage.setItem("cookieChoice", "accepted");
+      cookieBanner.style.display = "none";
+    });
 
-    if (rejectBtn) {
-      rejectBtn.addEventListener("click", () => {
-        localStorage.setItem("cookieChoice", "rejected");
-        cookieBanner.style.display = "none";
-        console.log("🚫 Cookies rechazadas");
-      });
-    }
+    on(rejectBtn, "click", () => {
+      localStorage.setItem("cookieChoice", "rejected");
+      cookieBanner.style.display = "none";
+    });
+
   });
 })();

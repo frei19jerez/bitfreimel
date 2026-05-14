@@ -121,9 +121,10 @@
     <h2>12. Cambios en esta política</h2>
     <p>Podemos actualizar esta política de privacidad en cualquier momento. Los cambios se publicarán en esta misma página y serán efectivos desde su publicación.</p>
 
-   <p id="fecha-actualizacion" class="text-center mt-4" style="font-size:0.9rem;opacity:0.75;">
-      Documento informativo. Última actualización: <span id="fecha"></span>. Sujeto a modificaciones sin previo aviso.
-   </p>
+    <!-- 🔹 AQUÍ SOLO SE ELIMINÓ LA FRASE QUE PEDISTE -->
+    <p id="fecha-actualizacion" class="text-center mt-4" style="font-size:0.9rem;opacity:0.75;">
+      <span id="fecha"></span>
+    </p>
 
   </main>
 
@@ -161,24 +162,3 @@
       "@type": "WebSite",
       "name": "freimeljerezcom.online",
       "url": "https://freimeljerezcom.online"
-    }
-  }
-  </script>
-
-  <!-- JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  
-  <script>
-  // Mostrar el año actual en el footer
-  document.getElementById("year").textContent = new Date().getFullYear();
-
-  // Generar fecha de actualización automática
-  const fecha = new Date();
-  const opciones = { day: 'numeric', month: 'long', year: 'numeric' };
-  const fechaFormateada = fecha.toLocaleDateString('es-CO', opciones);
-  document.getElementById("fecha").textContent = fechaFormateada;
-</script>
-
-  
-</body>
-</html>
