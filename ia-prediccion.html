@@ -1,348 +1,204 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Predicción IA - BitFreimel</title>
+  <title>Predicción IA Bitcoin | BitFreimel</title>
 
-  <meta name="description"
-        content="Consulta en tiempo real la predicción de precios del Bitcoin con inteligencia artificial.">
-
-  <meta name="keywords"
-        content="Bitcoin IA, BTC IA, criptomonedas, BitFreimel">
-
-  <meta name="robots" content="index, follow">
-
+  <meta name="description" content="Predicción educativa de Bitcoin con IA, análisis técnico, gráfica de velas y datos de mercado en tiempo real.">
+  <meta name="keywords" content="Bitcoin IA, predicción Bitcoin, BTC IA, criptomonedas, análisis técnico, BitFreimel, Freimel Jerez">
   <meta name="author" content="Freimel Jerez">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#050816">
 
-  <link rel="stylesheet" href="/css/prediccionIA.css" />
+  <meta property="og:title" content="Predicción IA Bitcoin | BitFreimel">
+  <meta property="og:description" content="Herramienta educativa para analizar Bitcoin con IA, gráfica de velas y tendencia del mercado.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://freimeljerezcom.online/ia-prediccion.html">
+  <meta property="og:image" content="https://freimeljerezcom.online/imagenes/icon-512.png">
 
-  <link rel="icon"
-        href="/imagenes/icon-192.png"
-        type="image/png" />
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Predicción IA Bitcoin | BitFreimel">
+  <meta name="twitter:description" content="Predicción educativa de Bitcoin con IA y análisis técnico.">
+  <meta name="twitter:image" content="https://freimeljerezcom.online/imagenes/icon-512.png">
 
-  <!-- ADSENSE -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: data: blob:; script-src 'self' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; media-src 'self' https:; connect-src *; frame-src https:;">
 
-  <script async
-    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4933331274738462"
-    crossorigin="anonymous">
-  </script>
+  <link rel="canonical" href="https://freimeljerezcom.online/ia-prediccion.html">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" href="/imagenes/icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="/imagenes/icon-192.png">
 
-  <!-- LIBRERÍAS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 
-  <script src="https://s3.tradingview.com/tv.js"></script>
-
-  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-
+  <link rel="stylesheet" href="/css/styles.min.css">
+  <link rel="stylesheet" href="/css/prediccionIA.css">
 </head>
 
 <body>
 
-  <!-- ================= NAVBAR ================= -->
-
-  <nav class="navbar">
-
+  <nav class="navbar" aria-label="Menú principal">
     <div class="navbar-container">
+      <a href="/" class="logo">BitFreimel IA</a>
 
-      <a href="/" class="logo">
-
-        Freimel Jerez
-
-      </a>
-
-      <button class="hamburger"
-              id="hamburger"
-              aria-label="Abrir menú">
-
-        <span class="line"></span>
-        <span class="line"></span>
-        <span class="line"></span>
-
+      <button class="hamburger" id="hamburger" type="button" aria-label="Abrir menú de navegación" aria-expanded="false">
+        ☰
       </button>
 
       <ul class="nav-links" id="nav-links">
-
         <li><a href="/">Inicio</a></li>
-
         <li><a href="/blog/index.html">Blog</a></li>
-
         <li><a href="/interactivos/">Interactivos</a></li>
-
-        <li>
-          <a href="/ia-prediccion.html" class="active">
-            Predicción IA
-          </a>
-        </li>
-
+        <li><a href="/ia-prediccion.html" class="active">Predicción IA</a></li>
       </ul>
-
     </div>
-
   </nav>
 
-  <!-- ================= CONTENIDO ================= -->
-
-  <main class="ia-box" id="prediccionBox">
-
-    <h1>
-
-      📊 Predicción Inteligente del Precio de Bitcoin
-
-    </h1>
-
-    <h2>
-
-      Predicción de precios basada en inteligencia artificial y análisis de mercado
-
-    </h2>
-
-    <!-- ===== BOTÓN MÚSICA ===== -->
-
-    <button id="btnMusicaIA"
-            class="actualizar-btn"
-            type="button">
-
+  <div class="music-box">
+    <button id="btnMusicaIA" type="button">
       🎵 Activar música IA
-
     </button>
+  </div>
 
-    <!-- ===== AUDIO ===== -->
+  <audio id="musicaIA" loop preload="auto">
+    <source src="/music/Blocklight%20Algorithm.mp3" type="audio/mpeg">
+  </audio>
 
-    <audio id="musicaIA"
-           loop
-           preload="auto">
+  <main class="wrapper">
 
-      <source
-        src="/music/Blocklight%20Algorithm.mp3"
-        type="audio/mpeg">
+    <section class="container hero prediccion-hero">
+      <div class="hero-content text-center">
+        <span class="badge-ia">Predicción educativa con IA</span>
 
-      Tu navegador no soporta audio HTML5.
+        <h1>📊 Predicción Inteligente del Precio de Bitcoin</h1>
 
-    </audio>
+        <p>
+          Analiza Bitcoin con datos de mercado, gráfica de velas, tendencia educativa
+          y estimaciones generadas para aprendizaje financiero.
+        </p>
 
-    <!-- ================= ADS ================= -->
+        <p class="aviso-riesgo">
+          ⚠️ Esta herramienta es educativa. No es asesoría financiera ni garantiza resultados.
+        </p>
+      </div>
+    </section>
 
-    <div class="ad-box"
-         style="margin:12px 0; min-height:90px;">
+    <section class="container panel-predicciones" id="prediccionBox">
+      <div class="section-header">
+        <span class="badge-ia">Panel Bitcoin IA</span>
 
-      <ins class="adsbygoogle"
-           style="display:block"
-           data-ad-client="ca-pub-4933331274738462"
-           data-ad-slot="9479478115">
-      </ins>
+        <h2>Predicción basada en análisis técnico educativo</h2>
 
-    </div>
+        <p>
+          Revisa posibles escenarios de Bitcoin para corto, mediano y largo plazo.
+        </p>
+      </div>
 
-    <script>
+      <div class="market-status prediccion-status">
+        <p>
+          <strong>🔮 Precio futuro estimado:</strong>
+          <span id="precioFuturoIA">$...</span>
+        </p>
 
-      (adsbygoogle = window.adsbygoogle || []).push({});
+        <p>
+          <strong>📅 Próximas 24 horas:</strong>
+          <span id="prediccionCorto">Cargando...</span>
+        </p>
 
-    </script>
+        <p>
+          <strong>🗓️ Próximos 7 días:</strong>
+          <span id="prediccionSemana">Cargando...</span>
+        </p>
 
-    <!-- ================= DATOS ================= -->
+        <p>
+          <strong>📆 Próximo mes:</strong>
+          <span id="prediccionMes">Cargando...</span>
+        </p>
+      </div>
 
-    <p>
+      <div class="market-status prediccion-status-dos">
+        <p>
+          <strong>📈 Tendencia actual:</strong>
+          <span id="tendenciaTexto">Calculando...</span>
+        </p>
 
-      <strong>🔮 Precio Futuro Estimado:</strong>
+        <p>
+          <strong>⏱️ Última actualización:</strong>
+          <span id="horaActual">--:--</span>
+        </p>
+      </div>
 
-      <span id="precioFuturoIA">$...</span>
+      <div class="chart-card prediccion-chart">
+        <canvas id="velasBTC"></canvas>
+      </div>
 
-    </p>
+      <div class="controles">
+        <button id="actualizarPrediccionBtn" class="actualizar-btn" type="button">
+          🔄 Actualizar ahora
+        </button>
 
-    <p>
+        <button id="descargarImagen" class="actualizar-btn" type="button">
+          📷 Descargar imagen
+        </button>
+      </div>
+    </section>
 
-      <strong>📅 Próximas 24 horas:</strong>
+    <section class="container feature-section">
+      <div class="section-header">
+        <span class="badge-ia">Aprendizaje</span>
 
-      <span id="prediccionCorto">Cargando...</span>
+        <h2>Cómo interpretar esta predicción</h2>
 
-    </p>
+        <p>
+          Usa esta herramienta para aprender a observar precio, tendencia, volatilidad
+          y escenarios antes de tomar decisiones reales.
+        </p>
+      </div>
 
-    <p>
+      <div class="cards-grid">
+        <article class="info-card">
+          <h3>1. Tendencia</h3>
+          <p>
+            Identifica si el mercado se mueve con fuerza alcista, bajista o lateral.
+          </p>
+        </article>
 
-      <strong>🗓️ Próximos 7 días:</strong>
+        <article class="info-card">
+          <h3>2. Riesgo</h3>
+          <p>
+            Bitcoin es volátil. Nunca inviertas sin entender cuánto puedes perder.
+          </p>
+        </article>
 
-      <span id="prediccionSemana">Cargando...</span>
-
-    </p>
-
-    <p>
-
-      <strong>📆 Próximo mes:</strong>
-
-      <span id="prediccionMes">Cargando...</span>
-
-    </p>
-
-    <p>
-
-      <strong>📈 Tendencia Actual:</strong>
-
-      <span id="tendenciaTexto">Calculando...</span>
-
-    </p>
-
-    <p>
-
-      <strong>⏱️ Última actualización:</strong>
-
-      <span id="horaActual">--:--</span>
-
-    </p>
-
-    <!-- ================= GRÁFICO ================= -->
-
-    <div style="height:320px; margin-top:16px;">
-
-      <canvas id="velasBTC"></canvas>
-
-    </div>
-
-    <!-- ================= ADS ================= -->
-
-    <div class="ad-box"
-         style="margin:16px 0; min-height:90px;">
-
-      <ins class="adsbygoogle"
-           style="display:block"
-           data-ad-client="ca-pub-4933331274738462"
-           data-ad-slot="7799323022">
-      </ins>
-
-    </div>
-
-    <script>
-
-      (adsbygoogle = window.adsbygoogle || []).push({});
-
-    </script>
-
-    <!-- ================= BOTONES ================= -->
-
-    <button class="actualizar-btn"
-            onclick="obtenerPrediccionIA()">
-
-      🔄 Actualizar ahora
-
-    </button>
-
-    <button id="descargarImagen"
-            class="actualizar-btn">
-
-      📷 Descargar Imagen
-
-    </button>
+        <article class="info-card">
+          <h3>3. Simulación</h3>
+          <p>
+            Practica primero con dinero ficticio antes de usar capital real.
+          </p>
+        </article>
+      </div>
+    </section>
 
   </main>
 
-  <!-- ================= FOOTER ================= -->
-
   <footer>
+    <p>© 2026 Freimel Jerez IA. Plataforma educativa de inversiones.</p>
 
-    <a href="/privacidad.html">
-      Política de Privacidad
-    </a>
-
-    |
-
-    <a href="/contacto.html">
-      Contacto
-    </a>
-
-    |
-
-    <a href="/terminos-condiciones.html">
-      Términos y Condiciones
-    </a>
-
-    |
-
-    <a href="/acerca.html">
-      Acerca de
-    </a>
-
+    <nav aria-label="Enlaces legales">
+      <a href="/privacidad.html" rel="nofollow">Política de Privacidad</a>
+      <a href="/contacto.html" rel="nofollow">Contacto</a>
+      <a href="/terminos-condiciones.html" rel="nofollow">Términos y Condiciones</a>
+      <a href="/acerca.html" rel="nofollow">Acerca de</a>
+    </nav>
   </footer>
 
-  <!-- ================= ADS FOOTER ================= -->
-
-  <div class="ad-box"
-       style="margin:20px auto; min-height:90px; max-width:1100px;">
-
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-4933331274738462"
-         data-ad-slot="4606183476">
-    </ins>
-
-  </div>
-
-  <script>
-
-    (adsbygoogle = window.adsbygoogle || []).push({});
-
-  </script>
-
-  <!-- ================= LIBRERÍAS ================= -->
-
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
   <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial"></script>
-
   <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
-  <!-- ================= SCRIPT PRINCIPAL ================= -->
-
-  <script src="/script/prediccionIA.js"></script>
-
-  <!-- ================= SCRIPT MÚSICA ================= -->
-
-  <script>
-
-    const btnMusicaIA = document.getElementById("btnMusicaIA");
-
-    const musicaIA = document.getElementById("musicaIA");
-
-    if (btnMusicaIA && musicaIA) {
-
-      musicaIA.volume = 0.35;
-
-      btnMusicaIA.addEventListener("click", async () => {
-
-        try {
-
-          if (musicaIA.paused) {
-
-            await musicaIA.play();
-
-            btnMusicaIA.innerHTML = "🔇 Pausar música IA";
-
-          } else {
-
-            musicaIA.pause();
-
-            btnMusicaIA.innerHTML = "🎵 Activar música IA";
-
-          }
-
-        } catch (error) {
-
-          console.log("Error reproduciendo música:", error);
-
-        }
-
-      });
-
-    }
-
-  </script>
-
-  <!-- ================= OCULTAR WARNINGS ================= -->
-
-  <script>
-
-    console.warn = function(){};
-
-  </script>
-
+  <script src="/script/script.js" defer></script>
+  <script src="/script/prediccionIA.js" defer></script>
 </body>
 </html>
