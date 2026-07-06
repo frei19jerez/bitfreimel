@@ -1,478 +1,758 @@
-/* =======================
-   🌐 FreimelJerez WebApp
-   styles.css (versión optimizada)
-   ======================= */
-
-/* =======================
-   Variables y base
-   ======================= */
 :root {
-  --page-pad: clamp(12px, 3vw, 28px);
-  --content-max: 800px;
-  --footer-h: 56px;
-  --c-bg: #000;
-  --c-fg: #0f0;
-  --c-muted: #e6edf3;
-  --c-panel: #111;
+  --c-bg: #050816;
+  --c-bg-soft: #0b1022;
+  --c-panel: rgba(10, 16, 34, 0.92);
+  --c-card: rgba(15, 23, 42, 0.92);
+  --c-border: rgba(0, 208, 255, 0.22);
   --c-primary: #00d0ff;
+  --c-secondary: #00ff88;
+  --c-warning: #f0b90b;
+  --c-danger: #ff4d5e;
+  --c-text: #f8fafc;
+  --c-muted: #a7b4c8;
   --c-wa: #25d366;
+  --radius: 22px;
+  --shadow: 0 24px 70px rgba(0, 0, 0, 0.45);
 }
 
 *,
 *::before,
-*::after { box-sizing: border-box; }
+*::after {
+  box-sizing: border-box;
+}
 
-/* ==== Fondo General ==== */
-html, body { min-height: 100dvh; }
+html {
+  scroll-behavior: smooth;
+}
+
 body {
+  min-height: 100vh;
   margin: 0;
-  font-family: Arial, sans-serif;
-  background-image: url('../imagenes/bitfreimel1.webp');
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--c-text);
+  background:
+    linear-gradient(135deg, rgba(5, 8, 22, 0.96), rgba(2, 6, 23, 0.88)),
+    url("../imagenes/bitfreimel1.webp");
   background-size: cover;
   background-position: center;
-  background-repeat: no-repeat;
   background-attachment: fixed;
-  color: var(--c-fg);
-  padding-bottom: var(--footer-h);
 }
 
-/* =======================
-   Contenedor General
-   ======================= */
-.container {
-  background: var(--c-bg);
-  color: var(--c-fg);
-  padding: 30px;
-  border-radius: 14px;
-  box-shadow: 0 8px 16px rgba(0, 255, 0, 0.3);
-  width: min(calc(100% - 2*var(--page-pad)), var(--content-max));
-  text-align: center;
-  margin: 0 auto 100px auto;
+a {
+  color: inherit;
 }
 
-/* =======================
-   Canvas / Gráfico Bitcoin
-   ======================= */
-#btcChart {
-  display: block;
-  width: 100%;
-  max-width: 480px;
-  aspect-ratio: 3 / 2;
-  margin: 20px auto;
-  background-color: var(--c-panel);
-  border-radius: 12px;
-  padding: 10px;
-  box-shadow: 0 0 20px rgba(0, 255, 0, 0.4);
-  image-rendering: crisp-edges;
-  backface-visibility: hidden;
-  transform: translateZ(0);
-}
-#btcChart canvas {
-  display: block;
-  width: 100% !important;
-  height: 100% !important;
-  image-rendering: crisp-edges;
-  -webkit-font-smoothing: antialiased;
-  transform: translateZ(0);
-}
-canvas {
-  display: block;
-  width: 100% !important;
-  height: auto !important;
+img {
   max-width: 100%;
-  image-rendering: crisp-edges;
-  transform: translateZ(0);
+  height: auto;
 }
 
-/* =======================
-   Textos panel
-   ======================= */
-#future-price,
-#btc-price,
-#btc-price-timer,
-#trend-indicator,
-#timer {
-  font-weight: bold;
-  font-size: 1.1rem;
-  margin: 8px 0;
-  color: var(--c-fg);
+.wrapper {
+  overflow: hidden;
 }
 
-/* =======================
-   Navbar
-   ======================= */
+.container {
+  max-width: 1180px;
+}
+
 .navbar {
-  background-color: var(--c-panel);
-  padding: 12px 0;
-  position: relative;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  background: rgba(5, 8, 22, 0.9);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--c-border);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
 }
-.navbar .navbar-container {
-  width: min(calc(100% - 2*var(--page-pad)), var(--content-max));
-  margin-inline: auto;
-  padding-inline: var(--page-pad);
+
+.navbar-brand,
+.logo {
+  color: var(--c-text);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  text-decoration: none;
+}
+
+.logo:hover,
+.navbar-brand:hover {
+  color: var(--c-primary);
+}
+
+.navbar-nav .nav-link,
+.nav-links a {
+  color: var(--c-muted);
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 0.65rem 1rem;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link:focus,
+.nav-links a:hover,
+.nav-links a:focus {
+  color: #020617;
+  background: linear-gradient(135deg, var(--c-primary), var(--c-secondary));
+}
+
+.navbar-toggler,
+.hamburger {
+  border: 1px solid var(--c-border);
+  color: var(--c-text);
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 12px;
+}
+
+.hamburger {
+  display: none;
+  font-size: 1.8rem;
+  padding: 0.25rem 0.75rem;
+}
+
+.navbar-container {
+  max-width: 1180px;
+  margin: auto;
+  padding: 0.85rem 1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
 }
-.logo {
-  color: #fff;
-  font-weight: 800;
-  font-size: 1.25rem;
-  text-decoration: none;
-  letter-spacing: .2px;
-}
+
 .nav-links {
   list-style: none;
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 0.25rem;
   margin: 0;
   padding: 0;
 }
-.nav-links li a {
-  color: #fff;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 14px;
-  padding: 10px 14px;
+
+.music-box {
+  position: fixed;
+  right: 18px;
+  bottom: 24px;
+  z-index: 1050;
+}
+
+.music-box button,
+#btnMusicaIA {
+  border: 1px solid var(--c-border);
+  background: rgba(5, 8, 22, 0.85);
+  color: var(--c-text);
   border-radius: 999px;
-  transition: all .25s ease;
-}
-.nav-links li a:hover,
-.nav-links li a:focus-visible {
-  background: var(--c-primary);
-  color: #000;
-  box-shadow: 0 6px 18px rgba(0,208,255,.25);
-  outline: none;
-}
-.hamburger {
-  display: none;
-  font-size: 26px;
-  background: none;
-  border: none;
-  color: white;
-  cursor: pointer;
-}
-.hamburger:focus-visible {
-  outline: 2px dashed #fff;
-  outline-offset: 2px;
+  padding: 0.75rem 1rem;
+  font-weight: 800;
+  box-shadow: var(--shadow);
+  transition: all 0.25s ease;
 }
 
-/* =======================
-   Responsive Navbar
-   ======================= */
-@media (max-width: 900px){
-  .hamburger { display: block; }
-  .nav-links {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    width: min(100%, 320px);
-    max-height: 0;
-    overflow: hidden;
-    flex-direction: column;
-    background: var(--c-panel);
-    border: 1px solid #222;
-    border-radius: 12px 0 0 12px;
-    box-shadow: 0 12px 24px rgba(0,0,0,.35);
-    transition: max-height .3s ease, padding .3s ease;
-    z-index: 999;
-  }
-  .nav-links.active {
-    max-height: 70vh;
-    padding: 10px 0;
-  }
-  .nav-links li a {
-    width: 100%;
-    text-align: left;
-    padding: 12px 16px;
-    border-radius: 0;
-  }
+.music-box button:hover,
+#btnMusicaIA:hover {
+  background: linear-gradient(135deg, var(--c-primary), var(--c-secondary));
+  color: #020617;
+  transform: translateY(-2px);
 }
 
-/* =======================
-   Panel IA
-   ======================= */
-.ia-box {
-  background-color: var(--c-panel);
-  color: var(--c-fg);
-  border: 2px solid var(--c-fg);
-  padding: 1.5rem;
-  margin: 2rem auto;
-  max-width: 600px;
-  border-radius: 12px;
-  box-shadow: 0 0 10px limegreen;
-  transition: box-shadow 0.3s ease, transform .3s ease;
+.hero {
+  padding: 6rem 0 3rem;
 }
-.ia-box h2 { text-align: center; margin-bottom: 1rem; }
-.ia-box:focus-within { box-shadow: 0 0 14px limegreen; }
-.actualizar-btn {
-  display: block;
-  margin: 1rem auto;
-  background: var(--c-fg);
-  color: #000;
-  padding: 0.5rem 1.2rem;
-  border-radius: 8px;
-  font-weight: bold;
-  cursor: pointer;
-  border: none;
-  transition: background 0.3s ease, transform .2s ease;
-}
-.actualizar-btn:hover { background: #00cc00; transform: translateY(-1px); }
-.actualizar-btn:focus-visible { outline: 2px dashed #fff; outline-offset: 2px; }
-.actualizando { opacity: 0.6; }
 
-/* =======================
-   Referidos Binance
-   ======================= */
-.referidos-binance {
-  background-color: #0b0e13;
-  color: #f0f0f0;
-  padding: 40px 20px;
-  border-radius: 12px;
-  text-align: center;
-  margin: 50px 0;
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.25fr 0.75fr;
+  gap: 2rem;
+  align-items: center;
 }
-.btn-afiliado {
-  background-color: #f0b90b;
-  color: #000;
-  padding: 12px 24px;
-  border-radius: 8px;
-  font-weight: bold;
-  text-decoration: none;
-  transition: background 0.3s;
-}
-.btn-afiliado:hover { background-color: #d9a800; }
 
-/* =======================
-   Botones Long/Short
-   ======================= */
-.acciones-cripto {
+.hero-content,
+.hero-card,
+.panel-predicciones,
+.feature-section,
+.academia-ia,
+.simulator-card {
+  background: var(--c-panel);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.hero-content {
+  padding: clamp(1.5rem, 4vw, 3rem);
+}
+
+.hero h1 {
+  margin: 1rem 0;
+  font-size: clamp(2.1rem, 5vw, 4.8rem);
+  line-height: 0.95;
+  font-weight: 950;
+  letter-spacing: -0.08em;
+}
+
+.hero p {
+  color: var(--c-muted);
+  font-size: 1.08rem;
+  line-height: 1.75;
+}
+
+.hero-card {
+  padding: 2rem;
+  min-height: 320px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  gap: 20px;
-  margin-top: 30px;
-  flex-wrap: wrap;
-}
-.btn-long { background-color: #00c087; color: #000; }
-.btn-short { background-color: #f6465d; color: #fff; }
-.btn-long,
-.btn-short {
-  padding: 15px 25px;
-  font-size: 16px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: bold;
 }
 
-/* =======================
-   WhatsApp
-   ======================= */
-.btn-whatsapp {
+.hero-card h2 {
+  font-weight: 900;
+}
+
+.hero-card strong {
+  display: block;
+  color: var(--c-secondary);
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  margin: 1rem 0;
+}
+
+.badge-ia {
   display: inline-flex;
   align-items: center;
-  gap: .5rem;
-  border: 1px solid var(--c-wa);
-  background: var(--c-wa);
-  color: #0d0d0d;
-  padding: .75rem 1rem;
-  border-radius: .75rem;
-  font-weight: 700;
-  text-decoration: none;
-  transition: transform .15s ease, box-shadow .15s ease, background .2s ease;
-}
-.btn-whatsapp.btn-outline {
-  background: transparent;
-  color: var(--c-wa);
-}
-.btn-whatsapp:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 8px 18px rgba(37,211,102,.35);
-}
-.wa-fab {
-  position: fixed;
-  right: 16px;
-  bottom: 16px;
-  z-index: 9999;
-}
-.wa-fab a {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  background: var(--c-wa);
-  color: #0d0d0d;
-  box-shadow: 0 10px 25px rgba(0,0,0,.35);
-  font-size: 28px;
+  gap: 0.35rem;
+  width: fit-content;
+  background: rgba(0, 208, 255, 0.12);
+  color: var(--c-primary);
+  border: 1px solid var(--c-border);
+  border-radius: 999px;
+  padding: 0.45rem 0.85rem;
   font-weight: 900;
-  transition: transform .15s ease, box-shadow .15s ease;
-}
-.wa-fab a:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 14px 30px rgba(0,0,0,.45);
+  font-size: 0.85rem;
 }
 
-/* =======================
-   Footer
-   ======================= */
-footer {
-  position: relative;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  text-align: center;
-  font-size: 14px;
-  color: #00ff80;
-  background: rgba(0, 0, 0, 0.9);
-  backdrop-filter: blur(4px);
-  padding: 18px 10px;
-  margin-top: 60px;
-  border-top: 1px solid rgba(0, 255, 128, 0.2);
-  box-shadow: 0 -4px 12px rgba(0, 255, 128, 0.15);
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  margin: 1.5rem 0;
 }
-footer a {
-  color: #e6edf3;
+
+.btn-primary,
+.btn-secondary,
+.install-btn,
+#updateBtn {
+  border: none;
+  border-radius: 999px;
+  padding: 0.85rem 1.25rem;
+  font-weight: 900;
   text-decoration: none;
-  margin: 0 10px;
-  font-weight: 600;
-  transition: color 0.25s ease;
-}
-footer a:hover { color: #00d0ff; text-decoration: underline; }
-footer p {
-  margin-top: 8px;
-  font-size: 13px;
-  color: #00ff80;
+  transition: all 0.25s ease;
 }
 
-/* =======================
-   🍪 Banner de Cookies
-   ======================= */
+.btn-primary,
+#updateBtn,
+.install-btn {
+  background: linear-gradient(135deg, var(--c-primary), var(--c-secondary));
+  color: #020617;
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--c-text);
+  border: 1px solid var(--c-border);
+}
+
+.btn-primary:hover,
+.btn-secondary:hover,
+.install-btn:hover,
+#updateBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 35px rgba(0, 208, 255, 0.25);
+}
+
+.aviso-riesgo {
+  background: rgba(240, 185, 11, 0.12);
+  color: #ffe8a3;
+  border: 1px solid rgba(240, 185, 11, 0.28);
+  padding: 1rem;
+  border-radius: 16px;
+}
+
+.section-header {
+  text-align: center;
+  max-width: 780px;
+  margin: 0 auto 2rem;
+}
+
+.section-header h2 {
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 950;
+  letter-spacing: -0.05em;
+  margin: 1rem 0;
+}
+
+.section-header p {
+  color: var(--c-muted);
+  line-height: 1.75;
+}
+
+.panel-predicciones,
+.feature-section,
+.academia-ia {
+  padding: clamp(1.5rem, 4vw, 3rem);
+  margin-bottom: 2rem;
+}
+
+.market-status {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.85rem;
+  margin-bottom: 1.5rem;
+}
+
+.market-status p {
+  margin: 0;
+  padding: 1rem;
+  background: var(--c-card);
+  border: 1px solid var(--c-border);
+  border-radius: 16px;
+  color: var(--c-muted);
+  font-weight: 700;
+}
+
+.market-status span,
+#future-price,
+#btc-price,
+#trend-indicator,
+#btc-price-timer,
+#timer {
+  color: var(--c-secondary);
+  font-weight: 900;
+}
+
+.chart-card {
+  background: #020617;
+  border: 1px solid var(--c-border);
+  border-radius: 20px;
+  padding: 1rem;
+  box-shadow: inset 0 0 30px rgba(0, 208, 255, 0.08);
+}
+
+#btcChart {
+  width: 100%;
+  max-width: 100%;
+  min-height: 320px;
+}
+
+canvas {
+  max-width: 100%;
+}
+
+.controles {
+  display: flex;
+  justify-content: center;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+}
+
+.controles select {
+  min-width: 160px;
+  background: #020617;
+  color: var(--c-text);
+  border: 1px solid var(--c-border);
+  border-radius: 999px;
+  padding: 0.85rem 1rem;
+  font-weight: 800;
+  outline: none;
+}
+
+.controles select:focus {
+  border-color: var(--c-secondary);
+  box-shadow: 0 0 0 0.2rem rgba(0, 255, 136, 0.16);
+}
+
+.cards-grid,
+.learning-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.info-card,
+.learning-grid article,
+.simulator-card {
+  background: var(--c-card);
+  border: 1px solid var(--c-border);
+  border-radius: 18px;
+  padding: 1.5rem;
+  transition: all 0.25s ease;
+}
+
+.info-card:hover,
+.learning-grid article:hover,
+.simulator-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(0, 255, 136, 0.5);
+}
+
+.info-card h3,
+.learning-grid h3,
+.simulator-card h3 {
+  color: var(--c-text);
+  font-weight: 900;
+}
+
+.info-card p,
+.learning-grid li,
+.simulator-card p {
+  color: var(--c-muted);
+  line-height: 1.7;
+}
+
+.learning-grid ul {
+  padding-left: 1.2rem;
+  margin-bottom: 0;
+}
+
+.simulator-card {
+  text-align: center;
+  max-width: 760px;
+  margin: auto;
+}
+
+.install-container {
+  text-align: center;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 1rem 0 2rem;
+  margin: 0 auto;
+}
+
+.install-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 14px 30px;
+  border-radius: 999px;
+  font-size: 1.1rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, #0d6efd, #0dcaf0);
+  color: #ffffff;
+}
+
+.install-btn:hover {
+  transform: translateY(-2px);
+}
+
+.mensaje-exito {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 16px;
+  color: #022c22;
+  background: var(--c-secondary);
+  font-weight: 900;
+}
+
+.oculto {
+  display: none !important;
+}
+
+footer {
+  background: rgba(5, 8, 22, 0.94);
+  border-top: 1px solid var(--c-border);
+  padding: 2rem 1rem;
+  text-align: center;
+  color: var(--c-muted);
+}
+
+footer p {
+  margin-bottom: 1rem;
+}
+
+footer nav {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+footer a {
+  color: var(--c-muted);
+  text-decoration: none;
+  font-weight: 700;
+}
+
+footer a:hover {
+  color: var(--c-primary);
+  text-decoration: underline;
+}
+
 .cookie-banner {
   display: none;
   position: fixed;
-  bottom: var(--footer-h);
   left: 50%;
+  bottom: 16px;
   transform: translateX(-50%);
-  width: 100%;
-  max-width: 95%;
-  background: rgba(0, 0, 0, 0.88);
-  color: #fff;
-  padding: 14px 20px;
+  z-index: 1200;
+  width: min(94%, 760px);
+  background: rgba(5, 8, 22, 0.96);
+  color: var(--c-text);
+  border: 1px solid var(--c-border);
+  border-radius: 18px;
+  padding: 1rem;
   text-align: center;
-  z-index: 1100;
-  font-size: 14px;
-  border-top: 1px solid rgba(0,255,128,0.25);
-  box-shadow: 0 -4px 16px rgba(0,255,128,0.15);
-  border-radius: 12px 12px 0 0;
-  backdrop-filter: blur(5px);
-  animation: fadeIn .5s ease forwards;
-  font-family: "Segoe UI", Arial, sans-serif;
-}
-.cookie-inner { max-width: 900px; margin: 0 auto; }
-.cookie-buttons { margin-top: 10px; }
-.cookie-btn {
-  margin: 6px;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 6px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background .25s, transform .15s, box-shadow .2s;
-}
-.cookie-btn.aceptar {
-  background: #00ff6a;
-  color: #000;
-  box-shadow: 0 0 10px rgba(0,255,128,0.4);
-}
-.cookie-btn.rechazar {
-  background: #ff4d4d;
-  color: #fff;
-  box-shadow: 0 0 10px rgba(255,77,77,0.35);
-}
-.cookie-link {
-  display: block;
-  margin-top: 6px;
-  color: #9cd3ff;
-  font-size: 0.85rem;
-  text-decoration: underline;
-  transition: color .2s ease;
-}
-.cookie-link:hover { color: #00ffcc; }
-@keyframes fadeIn {
-  from {opacity: 0; transform: translateY(20px);}
-  to {opacity: 1; transform: translateY(0);}
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(14px);
 }
 
-/* ⚙️ Botón Configuración Cookies */
-#cookieSettingsBtn {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 52px;
-  height: 52px;
-  background: linear-gradient(145deg, #00ff88, #00994d);
-  color: #000;
+.cookie-banner p {
+  margin: 0 0 0.75rem;
+  color: var(--c-muted);
+}
+
+.cookie-actions,
+.cookie-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+
+.cookie-banner button,
+.cookie-btn {
   border: none;
-  border-radius: 50%;
-  box-shadow: 0 6px 16px rgba(0,255,128,0.25);
-  font-size: 24px;
+  border-radius: 999px;
+  padding: 0.65rem 1rem;
   font-weight: 900;
   cursor: pointer;
-  z-index: 1200;
-  transition: transform 0.2s ease, box-shadow 0.25s ease, background 0.25s ease;
-}
-#cookieSettingsBtn:hover {
-  transform: translateY(-3px);
-  background: linear-gradient(145deg, #00ffaa, #00bb66);
-  box-shadow: 0 10px 24px rgba(0,255,128,0.4);
-}
-#cookieSettingsBtn:focus-visible {
-  outline: 2px dashed #00ff80;
-  outline-offset: 3px;
 }
 
-/* 🌗 Modo claro automático */
-@media (prefers-color-scheme: light) {
-  .cookie-banner {
-    background: rgba(250,250,250,0.9);
-    color: #111;
+#acceptCookiesBtn,
+.cookie-btn.aceptar {
+  background: var(--c-secondary);
+  color: #020617;
+}
+
+#rejectCookiesBtn,
+.btn-reject,
+.cookie-btn.rechazar {
+  background: var(--c-danger);
+  color: #ffffff;
+}
+
+.cookie-link {
+  display: block;
+  margin-top: 0.6rem;
+  color: var(--c-primary);
+}
+
+#cookieSettingsBtn {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  width: 54px;
+  height: 54px;
+  z-index: 1300;
+  border: none;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--c-primary), var(--c-secondary));
+  color: #020617;
+  font-size: 1.5rem;
+  font-weight: 950;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+}
+
+.btn-whatsapp {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: var(--c-wa);
+  color: #031b0d;
+  border-radius: 999px;
+  padding: 0.85rem 1.15rem;
+  font-weight: 900;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+.btn-whatsapp:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 35px rgba(37, 211, 102, 0.28);
+}
+
+.wa-fab {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 1100;
+}
+
+.wa-fab a {
+  width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  background: var(--c-wa);
+  color: #031b0d;
+  border-radius: 50%;
+  font-size: 1.7rem;
+  text-decoration: none;
+  box-shadow: var(--shadow);
+}
+
+.ia-box,
+.referidos-binance,
+.acciones-cripto {
+  background: var(--c-card);
+  border: 1px solid var(--c-border);
+  border-radius: 18px;
+  padding: 1.5rem;
+  margin: 2rem auto;
+}
+
+.actualizar-btn,
+.btn-afiliado,
+.btn-long,
+.btn-short {
+  border: none;
+  border-radius: 999px;
+  padding: 0.85rem 1.15rem;
+  font-weight: 900;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.actualizar-btn {
+  background: var(--c-secondary);
+  color: #020617;
+}
+
+.btn-afiliado {
+  background: var(--c-warning);
+  color: #020617;
+}
+
+.acciones-cripto {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn-long {
+  background: #00c087;
+  color: #020617;
+}
+
+.btn-short {
+  background: #f6465d;
+  color: #ffffff;
+}
+
+.actualizando {
+  opacity: 0.65;
+  pointer-events: none;
+}
+
+.musica-activa-btn {
+  background: linear-gradient(135deg, #00ff88, #00d0ff) !important;
+  color: #020617 !important;
+  box-shadow: 0 0 18px rgba(0, 255, 136, 0.45) !important;
+}
+
+.musica-pausa-btn {
+  background: linear-gradient(135deg, #ff4d5e, #f97316) !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 18px rgba(255, 77, 94, 0.45) !important;
+}
+
+@media (max-width: 992px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
   }
-  .cookie-btn.aceptar { background: #0bda51; color: #000; }
-  .cookie-link { color: #0077cc; }
+
+  .market-status {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .cards-grid,
+  .learning-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hamburger {
+    display: block;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 100%;
+    right: 1rem;
+    width: min(92vw, 340px);
+    max-height: 0;
+    overflow: hidden;
+    flex-direction: column;
+    align-items: stretch;
+    background: rgba(5, 8, 22, 0.98);
+    border: 1px solid var(--c-border);
+    border-radius: 18px;
+    box-shadow: var(--shadow);
+    transition: max-height 0.3s ease, padding 0.3s ease;
+    z-index: 999;
+  }
+
+  .nav-links.active {
+    max-height: 75vh;
+    padding: 0.75rem;
+  }
+
+  .nav-links a {
+    display: block;
+  }
 }
 
-/* =======================
-   Móviles
-   ======================= */
-@media (max-width: 768px) {
+@media (max-width: 576px) {
   body {
-    background-size: contain;
-    background-position: top center;
     background-attachment: scroll;
   }
-  .container {
-    width: 95%;
-    max-width: 500px;
-    padding: 20px;
-    margin: 40px auto;
-  }
-  #btcChart { max-height: 320px; }
-  h1 { font-size: 1.4rem; }
-  p { font-size: 0.95rem; }
-  footer { font-size: 12px; padding: 10px 5px; }
-}
-@media (max-width: 600px) {
-  #btcChart {
-    max-width: 95%;
-    border-radius: 10px;
-    box-shadow: 0 0 12px rgba(0,255,0,0.25);
-  }
-}
 
-/* =======================
-   ✅ Fin CSS
-   ======================= */
+  .hero {
+    padding-top: 3rem;
+  }
+
+  .hero-content,
+  .hero-card,
+  .panel-predicciones,
+  .feature-section,
+  .academia-ia {
+    border-radius: 18px;
+  }
+
+  .market-status {
+    grid-template-columns: 1fr;
+  }
+
+  .controles {
+    flex-direction: column;
+  }
+
+  .controles select,
+  #updateBtn {
+    width: 100%;
+  }
+
+  .music-box {
+    right: 12px;
+    bottom: 20px;
+  }
+
+  .music-box button {
+    font-size: 0.85rem;
+    padding: 0.65rem 0.8rem;
+  }
+
+  footer nav {
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+}

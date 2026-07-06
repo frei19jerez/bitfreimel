@@ -1,305 +1,141 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta charset="UTF-8" />
+  <title>Freimel Jerez IA | Bitcoin, Google Finance y Academia de Inversiones</title>
 
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Plataforma educativa de inversiones con IA para aprender Bitcoin, acciones, ETFs, criptomonedas, Google Finance, análisis técnico y simulación de cartera.">
+  <meta name="keywords" content="Bitcoin, predicción Bitcoin, Google Finance, inversiones IA, academia de inversiones, acciones, ETFs, criptomonedas, simulador de cartera, Freimel Jerez">
+  <meta name="author" content="Freimel Jerez">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#050816">
 
-  <meta name="description"
-        content="Predicción de Precios de Bitcoin en Tiempo Real por IA. Consulta estimaciones de Bitcoin al instante.">
+  <meta property="og:title" content="Freimel Jerez IA | Plataforma Educativa de Inversiones">
+  <meta property="og:description" content="Aprende Bitcoin, acciones, ETFs y criptomonedas con herramientas educativas de IA.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://freimeljerezcom.online/">
+  <meta property="og:image" content="https://freimeljerezcom.online/imagenes/icon-512.png">
 
-  <meta name="keywords"
-        content="Bitcoin, predicción bitcoin, precios criptomonedas, IA Bitcoin, Freimel Jerez, trading bitcoin">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Freimel Jerez IA | Bitcoin y Google Finance">
+  <meta name="twitter:description" content="Academia educativa de inversiones con IA, Bitcoin, Google Finance y simulador de cartera.">
+  <meta name="twitter:image" content="https://freimeljerezcom.online/imagenes/icon-512.png">
 
-  <meta name="author"
-        content="Freimel Jerez">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: data: blob:; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; media-src 'self' https:; connect-src *; frame-src https:;">
 
-  <meta name="robots"
-        content="index, follow">
+  <link rel="canonical" href="https://freimeljerezcom.online/">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" href="/imagenes/icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="/imagenes/icon-192.png">
 
-  <meta name="theme-color"
-        content="#000000">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 
-  <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self' https: data: blob: 'unsafe-inline' 'unsafe-eval'; connect-src *;">
-
-  <title>
-
-    Predicción de Precios de Bitcoin - Freimel Jerez
-
-  </title>
-
-  <link rel="manifest"
-        href="/manifest.json" />
-
-  <link rel="stylesheet"
-        href="/css/styles.min.css" />
-
-  <link rel="stylesheet"
-        href="/css/instalacion.css">
-
-  <link rel="icon"
-        href="/imagenes/icon-192.png"
-        type="image/png" />
-
-  <script async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4933331274738462"
-          crossorigin="anonymous">
-  </script>
-
-  <!-- JSON-LD SEO -->
-
-  <script type="application/ld+json">
-
-  {
-    "@context": "https://schema.org",
-    "@type": "EducationalApplication",
-    "name": "Predicción de Precios de Bitcoin - Freimel Jerez",
-    "url": "https://freimeljerezcom.online",
-    "applicationCategory": "FinanceApplication",
-    "operatingSystem": "All",
-    "author": {
-      "@type": "Person",
-      "name": "Freimel Jerez"
-    },
-    "description": "Aplicación educativa con IA para predecir precios de Bitcoin en tiempo real.",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "USD"
-    }
-  }
-
-  </script>
-
+  <link rel="stylesheet" href="/css/styles.min.css">
+  <link rel="stylesheet" href="/css/instalacion.css">
 </head>
-
 <body>
 
-  <!-- NAV -->
-
-  <nav class="navbar"
-       aria-label="Menú principal">
-
+  <nav class="navbar" aria-label="Menú principal">
     <div class="navbar-container">
+      <a href="/" class="logo">Freimel Jerez IA</a>
 
-      <a href="/"
-         class="logo">
-
-        Freimel Jerez
-
-      </a>
-
-      <button class="hamburger"
-              id="hamburger"
-              aria-label="Menú de navegación"
-              aria-expanded="false">
-
-        &#9776;
-
+      <button class="hamburger" id="hamburger" type="button" aria-label="Abrir menú de navegación" aria-expanded="false">
+        ☰
       </button>
 
-      <ul class="nav-links"
-          id="nav-links">
-
-        <li>
-          <a href="/">Inicio</a>
-        </li>
-
-        <li>
-          <a href="/blog/index.html">Blog</a>
-        </li>
-
-        <li>
-          <a href="/interactivos/index.html">
-            Interactivos
-          </a>
-        </li>
-
-        <li>
-          <a href="/ia-prediccion.html">
-            IA-predicción
-          </a>
-        </li>
-
-        <li>
-          <a href="https://freimeljerezwebapps.com/"
-             target="_blank"
-             rel="noopener">
-
-            Portafolio
-
-          </a>
-        </li>
-
+      <ul class="nav-links" id="nav-links">
+        <li><a href="/">Inicio</a></li>
+        <li><a href="#bitcoin-ia">Bitcoin IA</a></li>
+        <li><a href="#google-finance">Google Finance</a></li>
+        <li><a href="#academia">Academia IA</a></li>
+        <li><a href="#simulador">Simulador</a></li>
+        <li><a href="/blog/index.html">Blog</a></li>
+        <li><a href="/interactivos/index.html">Interactivos</a></li>
+        <li><a href="https://freimeljerezwebapps.com/" target="_blank" rel="noopener">Portafolio</a></li>
       </ul>
-
     </div>
-
   </nav>
 
-  <!-- ================= MÚSICA IA ================= -->
-
   <div class="music-box">
-
-    <button id="btnMusicaIA">
-
+    <button id="btnMusicaIA" type="button">
       🎵 Activar música IA
-
     </button>
-
   </div>
 
-  <audio id="musicaIA"
-         loop
-         preload="auto">
-
-    <source
-      src="/music/Blocklight%20Algorithm.mp3"
-      type="audio/mpeg">
-
+  <audio id="musicaIA" loop preload="auto">
+    <source src="/music/Blocklight%20Algorithm.mp3" type="audio/mpeg">
   </audio>
-
-  <!-- ADS HEADER -->
-
-  <div class="ads-container">
-
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-4933331274738462"
-         data-ad-slot="9479478115"
-         data-ad-format="auto"
-         data-full-width-responsive="true">
-
-    </ins>
-
-    <script>
-
-      (adsbygoogle = window.adsbygoogle || []).push({});
-
-    </script>
-
-  </div>
-
-  <!-- MAIN -->
 
   <main class="wrapper">
 
-    <div class="container">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-content">
+          <span class="badge-ia">Educación financiera con IA</span>
 
-      <section class="intro">
+          <h1>Aprende Bitcoin, acciones, ETFs y criptomonedas con Inteligencia Artificial</h1>
 
-        <h1>
+          <p>
+            Plataforma educativa creada por Freimel Jerez para aprender inversiones,
+            análisis técnico, Google Finance y simulación de cartera antes de invertir dinero real.
+          </p>
 
-          Predicción de Precios de Bitcoin
+          <div class="hero-actions">
+            <a href="#bitcoin-ia" class="btn-primary">Ver Bitcoin IA</a>
+            <a href="#academia" class="btn-secondary">Entrar a la Academia</a>
+          </div>
 
-        </h1>
+          <p class="aviso-riesgo">
+            ⚠️ Contenido educativo. No es asesoría financiera. Practica primero con simulación.
+          </p>
+        </div>
 
+        <div class="hero-card">
+          <h2>Panel IA</h2>
+          <p>Predicción educativa</p>
+          <strong id="future-price">Cargando...</strong>
+          <span id="trend-indicator">IA: Tendencia: Cargando...</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="container panel-predicciones" id="bitcoin-ia">
+      <div class="section-header">
+        <span class="badge-ia">Bitcoin en tiempo real</span>
+        <h2>Predicción educativa de Bitcoin con IA</h2>
         <p>
-
-          Bienvenido a
-          <strong>freimeljerezcom.online</strong>,
-          una aplicación educativa que utiliza
-          inteligencia artificial para mostrarte
-          predicciones en tiempo real sobre el
-          comportamiento del precio del Bitcoin.
-
+          Consulta precios, tendencia, estimación educativa y comportamiento del mercado cripto.
         </p>
-
-      </section>
-
-      <!-- ADS -->
-
-      <div class="ads-container">
-
-        <ins class="adsbygoogle"
-             style="display:block; text-align:center;"
-             data-ad-layout="in-article"
-             data-ad-format="fluid"
-             data-ad-client="ca-pub-4933331274738462"
-             data-ad-slot="7799323022">
-
-        </ins>
-
-        <script>
-
-          (adsbygoogle = window.adsbygoogle || []).push({});
-
-        </script>
-
       </div>
 
-      <!-- PANEL -->
-
-      <section class="panel-predicciones">
-
-        <h2>
-
-          Panel en Tiempo Real
-
-        </h2>
-
-        <p id="future-price">
-
-          IA: Precio Futuro (estimado):
-          Cargando...
-
+      <div class="market-status">
+        <p>
+          Activo:
+          <span id="token-label">BTCUSDT</span>
         </p>
 
         <p>
-
-          Precio
-          <span id="token-label">
-
-            BTCUSDT
-
-          </span>:
-
-          <span id="btc-price">
-
-            Cargando...
-
-          </span>
-
+          Precio actual:
+          <span id="btc-price">Cargando...</span>
         </p>
 
         <p id="btc-price-timer">
-
           IA: Última actualización de BTC: 0s
-
-        </p>
-
-        <p id="trend-indicator">
-
-          IA: Tendencia: Cargando...
-
         </p>
 
         <p id="timer">
-
           IA: Tiempo desde actualización: 0s
-
         </p>
+      </div>
 
-        <!-- GRÁFICO -->
-
-        <canvas id="btcChart"
-                width="600"
-                height="300">
-
-        </canvas>
-
-      </section>
-
-      <!-- CONTROLES -->
+      <div class="chart-card">
+        <canvas id="btcChart" width="600" height="300"></canvas>
+      </div>
 
       <div class="controles">
-
-        <select id="token">
-
+        <select id="token" aria-label="Seleccionar criptomoneda">
           <option value="BTCUSDT">BTCUSDT</option>
           <option value="ETHUSDT">ETHUSDT</option>
           <option value="BNBUSDT">BNBUSDT</option>
@@ -307,162 +143,154 @@
           <option value="ADAUSDT">ADAUSDT</option>
           <option value="DOGEUSDT">DOGEUSDT</option>
           <option value="SOLUSDT">SOLUSDT</option>
-
         </select>
 
-        <select id="intervalo">
-
-          <option value="1m">1m</option>
-          <option value="5m">5m</option>
-          <option value="15m">15m</option>
-          <option value="1h">1h</option>
-
+        <select id="intervalo" aria-label="Seleccionar intervalo">
+          <option value="1m">1 minuto</option>
+          <option value="5m">5 minutos</option>
+          <option value="15m">15 minutos</option>
+          <option value="1h">1 hora</option>
         </select>
 
-        <button id="updateBtn">
-
+        <button id="updateBtn" type="button">
           🔄 Actualizar
-
         </button>
+      </div>
+    </section>
 
+    <section class="container feature-section" id="google-finance">
+      <div class="section-header">
+        <span class="badge-ia">Herramienta educativa</span>
+        <h2>Google Finance para aprender inversiones</h2>
+        <p>
+          Usa Google Finance como apoyo para estudiar empresas, acciones, ETFs,
+          historial de precios y comportamiento del mercado.
+        </p>
       </div>
 
-      <!-- INSTALAR -->
+      <div class="cards-grid">
+        <article class="info-card">
+          <h3>Acciones</h3>
+          <p>Aprende a investigar empresas, precios, sectores y rendimiento histórico.</p>
+        </article>
 
-      <div class="install-container">
+        <article class="info-card">
+          <h3>ETFs</h3>
+          <p>Comprende fondos diversificados para invertir con menos concentración de riesgo.</p>
+        </article>
 
-        <button id="installBtn"
-                style="display:none;">
+        <article class="info-card">
+          <h3>Criptomonedas</h3>
+          <p>Analiza volatilidad, tendencia, soporte, resistencia y gestión del riesgo.</p>
+        </article>
+      </div>
+    </section>
 
-          📲 Instalar App
-
-        </button>
-
-        <div id="mensajeInstalacion"
-             class="mensaje-exito oculto">
-
-          ¡App instalada!
-
-        </div>
-
+    <section class="container academia-ia" id="academia">
+      <div class="section-header">
+        <span class="badge-ia">Academia de Inversiones IA</span>
+        <h2>Aprende antes de invertir dinero real</h2>
+        <p>
+          Formación paso a paso para entender el mercado desde cero.
+        </p>
       </div>
 
-      <div id="mensajeGracias"
-           class="mensaje-exito oculto">
+      <div class="learning-grid">
+        <article>
+          <h3>1. Fundamentos</h3>
+          <ul>
+            <li>Qué es una acción</li>
+            <li>Qué es un ETF</li>
+            <li>Qué es Bitcoin</li>
+            <li>Qué es una criptomoneda</li>
+          </ul>
+        </article>
 
+        <article>
+          <h3>2. Análisis técnico</h3>
+          <ul>
+            <li>Tendencias</li>
+            <li>Soportes y resistencias</li>
+            <li>Velas japonesas</li>
+            <li>Volumen y volatilidad</li>
+          </ul>
+        </article>
+
+        <article>
+          <h3>3. Riesgo</h3>
+          <ul>
+            <li>Cuándo comprar</li>
+            <li>Cuándo esperar</li>
+            <li>Cómo proteger el capital</li>
+            <li>Cómo evitar decisiones emocionales</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="container feature-section" id="simulador">
+      <div class="section-header">
+        <span class="badge-ia">Entrenamiento</span>
+        <h2>Simulación de cartera de inversión</h2>
+        <p>
+          Practica con dinero ficticio, crea una cartera educativa y aprende a tomar decisiones
+          antes de usar dinero real.
+        </p>
+      </div>
+
+      <div class="simulator-card">
+        <h3>Próximo módulo</h3>
+        <p>
+          Aquí agregaremos el simulador con acciones, ETFs, Bitcoin y criptomonedas.
+        </p>
+        <a href="/interactivos/index.html" class="btn-primary">Ver interactivos</a>
+      </div>
+    </section>
+
+    <section class="container install-container">
+      <button id="installBtn" type="button" class="install-btn">
+        📲 Instalar App
+      </button>
+
+      <div id="mensajeInstalacion" class="mensaje-exito oculto">
+        ¡App instalada!
+      </div>
+
+      <div id="mensajeGracias" class="mensaje-exito oculto">
         🙌 Gracias por instalar la app.
-
       </div>
-
-    </div>
+    </section>
 
   </main>
 
-  <!-- ADS FOOTER -->
-
-  <div class="ads-container">
-
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-4933331274738462"
-         data-ad-slot="4606183476"
-         data-ad-format="auto"
-         data-full-width-responsive="true">
-
-    </ins>
-
-    <script>
-
-      (adsbygoogle = window.adsbygoogle || []).push({});
-
-    </script>
-
-  </div>
-
-  <!-- FOOTER -->
-
   <footer>
+    <p>© 2026 Freimel Jerez IA. Plataforma educativa de inversiones.</p>
 
-    <a href="/privacidad.html"
-       rel="nofollow">
-
-      Política de Privacidad
-
-    </a>
-
-    |
-
-    <a href="/contacto.html"
-       rel="nofollow">
-
-      Contacto
-
-    </a>
-
-    |
-
-    <a href="/terminos-condiciones.html"
-       rel="nofollow">
-
-      Términos y Condiciones
-
-    </a>
-
-    |
-
-    <a href="/acerca.html"
-       rel="nofollow">
-
-      Acerca de
-
-    </a>
-
+    <nav aria-label="Enlaces legales">
+      <a href="/privacidad.html" rel="nofollow">Política de Privacidad</a>
+      <a href="/contacto.html" rel="nofollow">Contacto</a>
+      <a href="/terminos-condiciones.html" rel="nofollow">Términos y Condiciones</a>
+      <a href="/acerca.html" rel="nofollow">Acerca de</a>
+    </nav>
   </footer>
 
-  <!-- COOKIES -->
+  <div class="cookie-banner" id="cookieBanner">
+    <p>Este sitio usa cookies para mejorar la experiencia del usuario.</p>
 
-  <div class="cookie-banner"
-       id="cookieBanner">
-
-    Este sitio usa cookies para mejorar
-    la experiencia del usuario y mostrar
-    anuncios personalizados.
-
-    <div style="margin-top:8px;">
-
-      <button id="acceptCookiesBtn">
-
-        Aceptar
-
-      </button>
-
-      <button id="rejectCookiesBtn"
-              style="background:#ff5555;color:#fff;">
-
-        Rechazar
-
-      </button>
-
+    <div class="cookie-actions">
+      <button id="acceptCookiesBtn" type="button">Aceptar</button>
+      <button id="rejectCookiesBtn" type="button" class="btn-reject">Rechazar</button>
     </div>
-
   </div>
 
-  <!-- SCRIPTS -->
-
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
   <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial"></script>
-
   <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
   <script src="/script/script.js" defer></script>
-
   <script src="/script/descargar.js" defer></script>
-
   <script src="/script/registrar-sw.js" defer></script>
 
-  <script src="/script/service-worker.js" defer></script>
-
 </body>
-
 </html>
